@@ -11,10 +11,10 @@
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
-#include "files/motorGroup.h"
-#include "files/toggleMotor.h"
-#include "files/controllerInput.h"
-#include "files/input.h"
+#include "motorGroup.h"
+#include "toggleMotor.h"
+#include "controllerInput.h"
+#include "input.h"
 #include <vector>
 
 competition Competition;
