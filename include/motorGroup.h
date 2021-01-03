@@ -21,8 +21,9 @@ public:
   void ResetEncoders();
 
   // AUTONOMOUS FUNCTIONS
-  void SpinMotorsFor(double pow, double degrees);
+  void SpinMotorsTo(double pow, double degrees);
   void CorrectMotors(double degrees);
+  void WaitUntilReaches(float degrees);
 
   // USERCONTROL FUNCTIONS
   void SpinMotorsAt(double const motorGroupPower) const;
@@ -32,9 +33,6 @@ public:
 
 
   // STATIC FUNCTIONS
-  
-  // Autonomous - Rework into non-static
-  static void WaitUntilMotorGroupReaches(motorGroup* group, float degrees);
 
   // Usercontrol - Calls update for all motor groups
   static void UpdateAllMotors();

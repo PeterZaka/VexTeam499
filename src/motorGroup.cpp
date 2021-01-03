@@ -39,12 +39,12 @@ void motorGroup::ResetEncoders()
 
 // AUTONOMOUS FUNCTIONS
 
-void motorGroup::SpinMotorsFor(double pow, double degrees)
+void motorGroup::SpinMotorsTo(double pow, double degrees)
 {
   ResetEncoders();
   for (auto m : m_motors)
   {
-    m->startRotateFor(fwd, degrees, deg, pow, velocityUnits::pct);
+    m->startRotateTo(degrees, deg, pow, velocityUnits::pct);
   }
 }
 
@@ -64,6 +64,15 @@ void motorGroup::CorrectMotors(double degrees)
       }
     }
   }
+  ResetEncoders();
+}
+
+void motorGroup::WaitUntilReaches(float degrees)
+{
+  while (fabs(AverageRotation()) < fabs(degrees * 0.95))
+  {
+    wait(100, msec);
+  }
 }
 
 
@@ -82,7 +91,7 @@ void motorGroup::SpinMotorsAt(double const motorGroupPower) const
 
 void motorGroup::PrintRotation()
 {
-  if (fabs(m_motors[0]->velocity(pct)) < 15 && fabs(this->AverageRotation()) > 10)
+  if (fabs(m_motors[0]->velocity(pct)) < 5 && fabs(this->AverageRotation()) > 10)
   {
     printf("%s: %.2lf\n", m_name.c_str(), AverageRotation());
     this->ResetEncoders();
@@ -91,14 +100,6 @@ void motorGroup::PrintRotation()
 
 
 // STATIC FUNCTIONS
-
-void motorGroup::WaitUntilMotorGroupReaches(motorGroup* group, float degrees)
-{
-  while (fabs(group->AverageRotation()) < fabs(degrees * 0.95))
-  {
-    wait(100, msec);
-  }
-}
 
 void motorGroup::UpdateAllMotors()
 {

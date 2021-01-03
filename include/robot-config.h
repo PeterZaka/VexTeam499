@@ -12,6 +12,7 @@ extern motor sideRollerLeft;
 extern motor sideRollerRight;
 
 extern controller Controller1;
+extern controller Controller2;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
