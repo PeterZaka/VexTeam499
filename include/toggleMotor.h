@@ -3,25 +3,28 @@
 #include "motorGroup.h"
 #include "vex.h"
 
-class toggleMotor : public motorGroup
-{
+namespace team499 {
 
-	friend class controllerInput;
+	class toggleMotor : public motorGroup
+	{
 
-public:
+		friend class controllerInput;
 
-  // CONSTRUCTORS
-  toggleMotor(std::string name, double defaultPower, std::vector<vex::motor*> const& motors);
-  toggleMotor(std::string name, double (*powerFunction)(), std::vector<vex::motor*> const& motors);
+	public:
 
+		// CONSTRUCTORS
+		toggleMotor(std::string name, double defaultPower, std::vector<vex::motor*> const& motors);
+		toggleMotor(std::string name, double (*powerFunction)(), std::vector<vex::motor*> const& motors);
 
-private:
+    void Update() override;
+    
 
-  void Update() override;
+	private:
 
-  // toggles during update cycle
-  bool m_isToggled = false;
-  
-  bool m_anyButtonWasTrue = false;
+		// toggles during update cycle
+		bool m_isToggled = false;
 
-};
+		bool m_anyButtonWasTrue = false;
+
+	};
+}

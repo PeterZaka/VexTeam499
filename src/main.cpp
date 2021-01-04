@@ -20,8 +20,7 @@
 competition Competition;
 
 using namespace vex;
-
-std::vector<motorGroup*> motorGroup::s_allMotorGroups;
+using namespace team499;
 
 motorGroup LeftWheel("LeftWheel",[](){return round(Controller1.Axis3.position());},{&driveLeft});
 motorGroup RightWheel("RightWheel",[](){return round(Controller1.Axis2.position() * 0.9);},{&driveRight});
@@ -241,7 +240,9 @@ void usercontrol(void)
     l2.updateButton();
     r2.updateButton();
     x.updateButton();
-    motorGroup::UpdateAllMotors();
+
+    UpdateAllMotors();
+    
     wait(20, msec);
   }
 }

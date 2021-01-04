@@ -2,15 +2,19 @@
 
 #include "vex.h"
 
-extern double gearShiftPower;
-extern bool changedGearShift;
+namespace team499 {
 
-double round(double number);
+	extern double gearShiftPower;
+	extern bool changedGearShift;
 
-double GetGearShiftPower();
+	double roundToDigit(double number);
 
-void updateGearShift();
+	double GetGearShiftPower();
 
-void printGearShift();
+	void updateGearShift();
 
-void printThis(float thing);
+	void printGearShift();
+
+	void printThis(float thing);
+
+}
