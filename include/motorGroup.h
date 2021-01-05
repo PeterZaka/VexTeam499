@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "string.h"
-#include "input.h"
+#include "common.h"
 #include "vex.h"
 
 namespace team499 {
@@ -10,7 +10,7 @@ namespace team499 {
     class motorGroup
     {
 
-        friend class controllerInput;
+        friend class input;
 
     public:
 

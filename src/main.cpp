@@ -13,8 +13,8 @@
 #include "vex.h"
 #include "motorGroup.h"
 #include "toggleMotor.h"
-#include "controllerInput.h"
 #include "input.h"
+#include "common.h"
 #include <vector>
 
 competition Competition;
@@ -28,12 +28,12 @@ motorGroup Intakes("Intakes",127,{&intakeLeft,&intakeRight});
 toggleMotor FlyWheel("FlyWheel",&GetGearShiftPower,{&flywheelLeft,&flywheelRight});
 motorGroup SideRollers("SideRollers",127,{&sideRollerLeft,&sideRollerRight});
 
-controllerInput axis3([](){return abs(Controller1.Axis3.position()) > 10;},{&LeftWheel});
-controllerInput axis2([](){return abs(Controller1.Axis2.position()) > 10;},{&RightWheel});
-controllerInput l1([](){return Controller2.ButtonL1.pressing();},{},{&Intakes,&SideRollers});
-controllerInput l2([](){return Controller2.ButtonL2.pressing();},{&Intakes,&SideRollers});
-controllerInput r2([](){return Controller2.ButtonR2.pressing();},{&FlyWheel});
-controllerInput x([](){return Controller2.ButtonX.pressing();},{&Intakes},{&SideRollers});
+input axis3([](){return abs(Controller1.Axis3.position()) > 10;},{&LeftWheel});
+input axis2([](){return abs(Controller1.Axis2.position()) > 10;},{&RightWheel});
+input l1([](){return Controller2.ButtonL1.pressing();},{},{&Intakes,&SideRollers});
+input l2([](){return Controller2.ButtonL2.pressing();},{&Intakes,&SideRollers});
+input r2([](){return Controller2.ButtonR2.pressing();},{&FlyWheel});
+input x([](){return Controller2.ButtonX.pressing();},{&Intakes},{&SideRollers});
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
@@ -234,12 +234,12 @@ void usercontrol(void)
     updateGearShift();
     printGearShift();
 
-    axis3.updateButton();
-    axis2.updateButton();
-    l1.updateButton();
-    l2.updateButton();
-    r2.updateButton();
-    x.updateButton();
+    axis3.Update();
+    axis2.Update();
+    l1.Update();
+    l2.Update();
+    r2.Update();
+    x.Update();
 
     UpdateAllMotors();
     

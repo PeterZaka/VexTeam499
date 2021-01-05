@@ -1,20 +1,25 @@
 #pragma once
 
-#include "vex.h"
+#include "motorGroup.h"
 
 namespace team499 {
 
-	extern double gearShiftPower;
-	extern bool changedGearShift;
+    class input
+    {
+    public:
 
-	double roundToDigit(double number);
+        input(
+            bool (*inputFunc)(),
+            const std::vector<motorGroup*>& positiveGroups,
+            const std::vector<motorGroup*>& negativeGroups = {});
 
-	double GetGearShiftPower();
+        void Update();
 
-	void updateGearShift();
 
-	void printGearShift();
+    private:
 
-	void printThis(float thing);
-
+        bool (*inputFunc)();
+        std::vector<motorGroup*> positiveGroups;
+        std::vector<motorGroup*> negativeGroups;
+    };
 }
