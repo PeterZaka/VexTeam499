@@ -15,4 +15,10 @@ namespace team499 {
     Controller1.Screen.clearScreen();
     Controller1.Screen.setCursor(0, 0);
   }
+
+  void printOnController(std::string name)
+  {
+    Controller1.Screen.print(name);
+    Controller1.Screen.newLine();
+  }
 }

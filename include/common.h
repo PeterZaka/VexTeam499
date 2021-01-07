@@ -14,4 +14,6 @@ namespace team499 {
     Controller1.Screen.print("%s: %g", name.c_str(), (double)t);
     Controller1.Screen.newLine();
   }
+
+  void printOnController(std::string name);
 }

@@ -41,14 +41,20 @@ void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
 
-  // All activities that occur before the competition starts
-  // Example: clearing encoders, setting servo positions, ...
+  iSensor.calibrate();
+  while(iSensor.isCalibrating())
+  {
+    resetScreen();
+    printOnController("CALIBRATING");
+    wait(50, msec);
+  }
+  resetScreen();
+  printOnController("Finished calibration");
 }
 
 
 void autonomous(void)
 {
-
   //Part 1
   Intakes.SpinMotorsAt(30);
   SideRollers.SpinMotorsAt(100);
