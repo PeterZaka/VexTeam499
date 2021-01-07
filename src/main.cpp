@@ -234,7 +234,9 @@ void usercontrol(void)
   while (1)
   {
     updateGearShift();
-    printGearShift();
+
+    resetScreen();
+    printOnController("Power", gearShiftPower);
 
     axis3.Update();
     axis2.Update();
