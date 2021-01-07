@@ -11,6 +11,7 @@
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
+#include "inertial.h"
 #include "motorGroup.h"
 #include "toggleMotor.h"
 #include "input.h"
@@ -41,15 +42,7 @@ void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
 
-  iSensor.calibrate();
-  while(iSensor.isCalibrating())
-  {
-    resetScreen();
-    printOnController("CALIBRATING");
-    wait(50, msec);
-  }
-  resetScreen();
-  printOnController("Finished calibration");
+  calibrateInertial();
 }
 
 
@@ -242,7 +235,11 @@ void usercontrol(void)
     updateGearShift();
 
     resetScreen();
-    printOnController("Power", gearShiftPower);
+    //printOnController("Power", gearShiftPower);
+    // REMOVE THIS AFTER TESTING
+    printOnController("X", xPos);
+    printOnController("Y", yPos);
+    printOnController("Rotation", rot);
 
     axis3.Update();
     axis2.Update();
