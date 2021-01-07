@@ -11,6 +11,8 @@ extern motor flywheelRight;
 extern motor sideRollerLeft;
 extern motor sideRollerRight;
 
+extern inertial iSensor;
+
 extern controller Controller1;
 extern controller Controller2;
 

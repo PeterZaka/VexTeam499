@@ -22,18 +22,20 @@ competition Competition;
 using namespace vex;
 using namespace team499;
 
-motorGroup LeftWheel("LeftWheel",[](){return round(Controller1.Axis3.position());},{&driveLeft});
-motorGroup RightWheel("RightWheel",[](){return round(Controller1.Axis2.position() * 0.9);},{&driveRight});
-motorGroup Intakes("Intakes",127,{&intakeLeft,&intakeRight});
-toggleMotor FlyWheel("FlyWheel",&GetGearShiftPower,{&flywheelLeft,&flywheelRight});
-motorGroup SideRollers("SideRollers",127,{&sideRollerLeft,&sideRollerRight});
+std::vector<motorGroup*> allMotorGroups;
 
-input axis3([](){return abs(Controller1.Axis3.position()) > 10;},{&LeftWheel});
-input axis2([](){return abs(Controller1.Axis2.position()) > 10;},{&RightWheel});
-input l1([](){return Controller2.ButtonL1.pressing();},{},{&Intakes,&SideRollers});
-input l2([](){return Controller2.ButtonL2.pressing();},{&Intakes,&SideRollers});
-input r2([](){return Controller2.ButtonR2.pressing();},{&FlyWheel});
-input x([](){return Controller2.ButtonX.pressing();},{&Intakes},{&SideRollers});
+motorGroup LeftWheel("LeftWheel", []() {return round(Controller1.Axis3.position()); }, { &driveLeft });
+motorGroup RightWheel("RightWheel", []() {return round(Controller1.Axis2.position() * 0.9); }, { &driveRight });
+motorGroup Intakes("Intakes", 127, { &intakeLeft,&intakeRight });
+toggleMotor FlyWheel("FlyWheel", &GetGearShiftPower, { &flywheelLeft,&flywheelRight });
+motorGroup SideRollers("SideRollers", 127, { &sideRollerLeft,&sideRollerRight });
+
+input axis3([]() {return abs(Controller1.Axis3.position()) > 10; }, { &LeftWheel });
+input axis2([]() {return abs(Controller1.Axis2.position()) > 10; }, { &RightWheel });
+input l1([]() {return Controller2.ButtonL1.pressing(); }, {}, { &Intakes,&SideRollers });
+input l2([]() {return Controller2.ButtonL2.pressing(); }, { &Intakes,&SideRollers });
+input r2([]() {return Controller2.ButtonR2.pressing(); }, { &FlyWheel });
+input x([]() {return Controller2.ButtonX.pressing(); }, { &Intakes }, { &SideRollers });
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
@@ -46,7 +48,7 @@ void pre_auton(void) {
 
 void autonomous(void)
 {
-  
+
   //Part 1
   Intakes.SpinMotorsAt(30);
   SideRollers.SpinMotorsAt(100);
@@ -102,7 +104,7 @@ void autonomous(void)
   Intakes.SpinMotorsAt(100);
   SideRollers.SpinMotorsAt(100);
 
-  wait(1,sec);
+  wait(1, sec);
 
   Intakes.SpinMotorsAt(0);
   SideRollers.SpinMotorsAt(0);
@@ -118,7 +120,7 @@ void autonomous(void)
   SideRollers.SpinMotorsAt(0);
   LeftWheel.WaitUntilReaches(2650);
   RightWheel.WaitUntilReaches(2650);
-  
+
   //Turn Left
   LeftWheel.SpinMotorsTo(-50, -626);
   RightWheel.SpinMotorsTo(50, 626);
@@ -129,7 +131,7 @@ void autonomous(void)
   SideRollers.SpinMotorsAt(150);
   LeftWheel.SpinMotorsAt(50);
   RightWheel.SpinMotorsAt(50);
-  wait(1.5,sec);
+  wait(1.5, sec);
 
   //Drive Backward
   LeftWheel.SpinMotorsTo(-50, -450);
@@ -140,7 +142,7 @@ void autonomous(void)
   //Drive Forward
   LeftWheel.SpinMotorsAt(50);
   RightWheel.SpinMotorsAt(50);
-  wait(1.5,sec);
+  wait(1.5, sec);
 
   //Drive Backward
   LeftWheel.SpinMotorsTo(-50, -450);
@@ -151,8 +153,8 @@ void autonomous(void)
   //Drive Forward
   LeftWheel.SpinMotorsAt(50);
   RightWheel.SpinMotorsAt(50);
-  wait(1.5,sec);
-  
+  wait(1.5, sec);
+
   //Drive Backward
   LeftWheel.SpinMotorsTo(-50, -450);
   RightWheel.SpinMotorsTo(-50, -500);
@@ -162,7 +164,7 @@ void autonomous(void)
   //Drive Forward
   LeftWheel.SpinMotorsAt(50);
   RightWheel.SpinMotorsAt(50);
-  wait(1,sec);
+  wait(1, sec);
 
   //Part 3A
 
@@ -179,11 +181,11 @@ void autonomous(void)
   RightWheel.SpinMotorsTo(50, 290);
   LeftWheel.WaitUntilReaches(-290);
   RightWheel.WaitUntilReaches(290);
-  
+
   // turn right a little
   LeftWheel.SpinMotorsAt(70);
   RightWheel.SpinMotorsAt(48);
-  wait(2,sec);
+  wait(2, sec);
 
   //Drive Forward a Little
   LeftWheel.SpinMotorsTo(50, 450);
@@ -196,7 +198,7 @@ void autonomous(void)
   RightWheel.SpinMotorsTo(50, 260);
   LeftWheel.WaitUntilReaches(-260);
   RightWheel.WaitUntilReaches(260);
-  
+
   //Drive Forward into wall
   SideRollers.SpinMotorsAt(80);
   LeftWheel.SpinMotorsTo(75, 3300);
@@ -213,7 +215,7 @@ void autonomous(void)
   FlyWheel.WaitUntilReaches(2500);
   Intakes.SpinMotorsAt(0);
   SideRollers.SpinMotorsAt(0);
- 
+
   //Descore Goal
   SideRollers.SpinMotorsAt(1000);
   Intakes.SpinMotorsAt(1000);
@@ -229,7 +231,7 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  while(1)
+  while (1)
   {
     updateGearShift();
     printGearShift();
@@ -242,7 +244,7 @@ void usercontrol(void)
     x.Update();
 
     UpdateAllMotors();
-    
+
     wait(20, msec);
   }
 }

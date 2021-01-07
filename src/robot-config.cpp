@@ -15,6 +15,9 @@ motor flywheelRight = motor(PORT13, ratio6_1, true);
 motor sideRollerLeft = motor(PORT11, ratio18_1, false);
 motor sideRollerRight = motor(PORT12, ratio18_1, true);
 
+// Sensors
+inertial iSensor = inertial(PORT8);
+
 // Controllers
 controller Controller1 = controller(primary);
 controller Controller2 = controller(partner);

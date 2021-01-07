@@ -16,8 +16,8 @@ namespace team499 {
 		toggleMotor(std::string name, double defaultPower, std::vector<vex::motor*> const& motors);
 		toggleMotor(std::string name, double (*powerFunction)(), std::vector<vex::motor*> const& motors);
 
-    void Update() override;
-    
+		void Update() override;
+
 
 	private:
 

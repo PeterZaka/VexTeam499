@@ -4,22 +4,22 @@
 
 namespace team499 {
 
-    class input
-    {
-    public:
+  class input
+  {
+  public:
 
-        input(
-            bool (*inputFunc)(),
-            const std::vector<motorGroup*>& positiveGroups,
-            const std::vector<motorGroup*>& negativeGroups = {});
+    input(
+      bool (*inputFunc)(),
+      const std::vector<motorGroup*>& positiveGroups,
+      const std::vector<motorGroup*>& negativeGroups = {});
 
-        void Update();
+    void Update();
 
 
-    private:
+  private:
 
-        bool (*inputFunc)();
-        std::vector<motorGroup*> positiveGroups;
-        std::vector<motorGroup*> negativeGroups;
-    };
+    bool (*inputFunc)();
+    std::vector<motorGroup*> positiveGroups;
+    std::vector<motorGroup*> negativeGroups;
+  };
 }

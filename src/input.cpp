@@ -2,29 +2,29 @@
 
 namespace team499 {
 
-    input::input(
-        bool(*inputFunc)(),
-        const std::vector<motorGroup*>& positiveGroups,
-        const std::vector<motorGroup*>& negativeGroups)
-        :
-        inputFunc(inputFunc),
-        positiveGroups(positiveGroups),
-        negativeGroups(negativeGroups)
-    {}
+  input::input(
+    bool(*inputFunc)(),
+    const std::vector<motorGroup*>& positiveGroups,
+    const std::vector<motorGroup*>& negativeGroups)
+    :
+    inputFunc(inputFunc),
+    positiveGroups(positiveGroups),
+    negativeGroups(negativeGroups)
+  {}
 
-    void input::Update()
+  void input::Update()
+  {
+    //printf("%d\n",inputFunc());
+    if (inputFunc())
     {
-        //printf("%d\n",input());
-        if (inputFunc())
-        {
-            for (auto mg : positiveGroups)
-            {
-                mg->PositiveActivate();
-            }
-            for (auto mg : negativeGroups)
-            {
-                mg->NegativeActivate();
-            }
-        }
+      for (auto mg : positiveGroups)
+      {
+        mg->PositiveActivate();
+      }
+      for (auto mg : negativeGroups)
+      {
+        mg->NegativeActivate();
+      }
     }
+  }
 }
