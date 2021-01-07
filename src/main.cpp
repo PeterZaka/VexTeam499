@@ -22,7 +22,7 @@ competition Competition;
 using namespace vex;
 using namespace team499;
 
-std::vector<motorGroup*> allMotorGroups;
+std::vector<motorGroup*> team499::allMotorGroups;
 
 motorGroup LeftWheel("LeftWheel", []() {return round(Controller1.Axis3.position()); }, { &driveLeft });
 motorGroup RightWheel("RightWheel", []() {return round(Controller1.Axis2.position() * 0.9); }, { &driveRight });

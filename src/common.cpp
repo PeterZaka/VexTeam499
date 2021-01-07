@@ -2,43 +2,12 @@
 
 namespace team499 {
 
-  double gearShiftPower = 30;
-  bool changedGearShift;
-
   double roundToDigit(double number)
   {
     int n = number;
     int a = (n / 10) * 10;
     int b = a + 10;
     return (abs(n - a) > abs(b - n)) ? b : a;
-  }
-
-  double GetGearShiftPower()
-  {
-    return gearShiftPower;
-  }
-
-  void updateGearShift()
-  {
-    if (Controller1.ButtonY.pressing() || Controller1.ButtonRight.pressing())
-    {
-      if (!changedGearShift)
-      {
-        if (Controller1.ButtonY.pressing())
-        {
-          gearShiftPower += 10;
-        }
-        else
-        {
-          gearShiftPower -= 10;
-        }
-        changedGearShift = true;
-      }
-    }
-    else
-    {
-      changedGearShift = false;
-    }
   }
 
   void printGearShift()

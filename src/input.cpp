@@ -27,4 +27,38 @@ namespace team499 {
       }
     }
   }
+
+  // Gearshift
+
+  double gearShiftPower = 30;
+  bool changedGearShift;
+
+  double GetGearShiftPower()
+  {
+    return gearShiftPower;
+  }
+
+  void updateGearShift()
+  {
+    if (Controller1.ButtonY.pressing() || Controller1.ButtonRight.pressing())
+    {
+      if (!changedGearShift)
+      {
+        if (Controller1.ButtonY.pressing())
+        {
+          gearShiftPower += 10;
+        }
+        else
+        {
+          gearShiftPower -= 10;
+        }
+        changedGearShift = true;
+      }
+    }
+    else
+    {
+      changedGearShift = false;
+    }
+  }
+
 }

@@ -22,4 +22,14 @@ namespace team499 {
     std::vector<motorGroup*> positiveGroups;
     std::vector<motorGroup*> negativeGroups;
   };
+
+  // Gearshift
+
+	extern double gearShiftPower;
+	extern bool changedGearShift;
+
+	double GetGearShiftPower();
+
+	void updateGearShift();
+
 }
