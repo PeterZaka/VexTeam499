@@ -1,6 +1,6 @@
 #include "auto.h"
 
-namespace team499{
+namespace team499 {
 
   void driveForwardPID(double amount, unit units)
   {
@@ -19,14 +19,14 @@ namespace team499{
     LeftWheelMotor.resetPosition();
     RightWheelMotor.resetPosition();
 
-    while(timeOnTarget < targetTime)
+    while (timeOnTarget < targetTime)
     {
       // slow down on approach / back up when too far
-      leftMotorPower = std::max(-maxPower , std::min( ( LeftWheelMotor.position(deg) - amount ) * slowDown, maxPower ) );
-      rightMotorPower = std::max(-maxPower , std::min( ( RightWheelMotor.position(deg) - amount ) * slowDown, maxPower ) );
+      leftMotorPower = clamp((LeftWheelMotor.position(deg) - amount) * slowDown, -maxPower, maxPower);
+      rightMotorPower = clamp((RightWheelMotor.position(deg) - amount) * slowDown, -maxPower, maxPower);
 
       // adjust to go straight
-      if(rot - 0.5 > targetRot) // rotated to the right
+      if (rot - 0.5 > targetRot) // rotated to the right
       {
         leftMotorPower -= rot - targetRot;
         rightMotorPower += rot - targetRot;
@@ -42,7 +42,7 @@ namespace team499{
       RightWheelMotor.spin(fwd, rightMotorPower, pct);
 
       // check if close enough for long enough
-      if(std::abs(LeftWheelMotor.position(deg) - amount) < closeEnoughDegrees)
+      if (std::abs(LeftWheelMotor.position(deg) - amount) < closeEnoughDegrees)
       {
         timeOnTarget += 20;
       }
@@ -56,8 +56,10 @@ namespace team499{
     RightWheelMotor.spin(fwd, 0, pct);
   }
 
-  void driveRightInertial(double targetRot)
+  void turnToInertial(double targetRot)
   {
+    targetRot = quickestRotation(rot, targetRot);
+
     double timeOnTarget = 0;
     double leftMotorPower;
     double rightMotorPower;
@@ -65,18 +67,21 @@ namespace team499{
     LeftWheelMotor.resetPosition();
     RightWheelMotor.resetPosition();
 
-    while(timeOnTarget < targetTime)
+    while (timeOnTarget < targetTime)
     {
+      // DELETE AFTER TESTING
+      targetRot = quickestRotation(rot, targetRot);
+
       // slow down on approach / back up when too far
-      leftMotorPower = std::max(-maxPower , std::min( ( targetRot - rot ) * slowDownRot, maxPower ) );
-      rightMotorPower = std::max(-maxPower , std::min( ( rot - targetRot ) * slowDownRot, maxPower ) );
+      leftMotorPower = clamp((targetRot - rot) * slowDownRot, -maxPower, maxPower);
+      rightMotorPower = clamp((rot - targetRot) * slowDownRot, -maxPower, maxPower);
 
       // update wheel power
       LeftWheelMotor.spin(fwd, leftMotorPower, pct);
       RightWheelMotor.spin(fwd, rightMotorPower, pct);
 
       // check if close enough for long enough
-      if(std::abs(rot - targetRot) < closeEnoughDegreesRot)
+      if (std::abs(rot - targetRot) < closeEnoughDegreesRot)
       {
         timeOnTarget += 20;
       }

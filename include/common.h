@@ -4,8 +4,6 @@
 
 namespace team499 {
 
-	double roundToDigit(double number);
-
   void resetScreen();
 
   template<typename T>
@@ -16,4 +14,15 @@ namespace team499 {
   }
 
   void printOnController(std::string name);
+
+  double quickestRotation(double currentRot, double target);
+
+
+  // MATH
+
+  double posMod(double n, double M);
+
+  double roundToMultiple(double num, double multiple);
+
+  double clamp(double num, double min, double max);
 }

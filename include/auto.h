@@ -21,11 +21,13 @@ namespace team499{
   const double slowDownRot = 3;
 
   extern vex::motor LeftWheelMotor;
-  extern vex::motor RightWheelMotor; 
+  extern vex::motor RightWheelMotor;
+
+  // auto functions
 
   void driveForwardPID(double amount, unit units);
 
   void driveForwardInertial(double amount, unit units);
 
-  void turnRightInertial(double amount, unit units);
+  void turnToInertial(double amount);
 }

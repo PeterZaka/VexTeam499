@@ -27,7 +27,7 @@ namespace team499{
 
   void updateRotation()
   {
-    rot = iSensor.heading();
+    rot = iSensor.rotation();
   }
 
   void updateInertialForever()

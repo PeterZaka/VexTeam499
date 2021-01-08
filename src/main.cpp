@@ -56,6 +56,10 @@ void autonomous(void)
 
   driveForwardInertial(500, team499::degrees);
 
+  wait(1, sec);
+
+  turnToInertial(90);
+
   inertialThread.interrupt();
 }
 
