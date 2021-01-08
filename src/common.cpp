@@ -18,7 +18,7 @@ namespace team499 {
 
   void printOnController(std::string name)
   {
-    Controller1.Screen.print(name);
+    Controller1.Screen.print(name.c_str());
     Controller1.Screen.newLine();
   }
 }

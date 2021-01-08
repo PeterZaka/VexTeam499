@@ -1,7 +1,7 @@
 #pragma once
 
-#include "motorGroup.h"
 #include "vex.h"
+#include "motorGroup.h"
 
 namespace team499 {
 

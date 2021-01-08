@@ -1,9 +1,8 @@
 #pragma once
 
 #include <vector>
-#include "string.h"
-#include "common.h"
 #include "vex.h"
+#include "common.h"
 
 namespace team499 {
 
