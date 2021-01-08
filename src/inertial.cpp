@@ -25,9 +25,19 @@ namespace team499{
     yPos += iSensor.acceleration(yaxis);
   }
 
-  void updateRoation()
+  void updateRotation()
   {
     rot = iSensor.heading();
+  }
+
+  void updateInertialForever()
+  {
+    while(true)
+    {
+      updatePosition();
+      updateRotation();
+      wait(20, msec);
+    }
   }
 
 }

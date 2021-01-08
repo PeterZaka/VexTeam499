@@ -11,11 +11,12 @@
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
-#include "inertial.h"
 #include "motorGroup.h"
 #include "toggleMotor.h"
 #include "input.h"
 #include "common.h"
+#include "inertial.h"
+#include "auto.h"
 #include <vector>
 
 competition Competition;
@@ -38,6 +39,9 @@ input l2([]() {return Controller2.ButtonL2.pressing(); }, { &Intakes,&SideRoller
 input r2([]() {return Controller2.ButtonR2.pressing(); }, { &FlyWheel });
 input x([]() {return Controller2.ButtonX.pressing(); }, { &Intakes }, { &SideRollers });
 
+motor team499::LeftWheelMotor = driveLeft;
+motor team499::RightWheelMotor = driveRight;
+
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
@@ -48,184 +52,11 @@ void pre_auton(void) {
 
 void autonomous(void)
 {
-  //Part 1
-  Intakes.SpinMotorsAt(30);
-  SideRollers.SpinMotorsAt(100);
-  wait(3, sec);
-  Intakes.SpinMotorsAt(0);
-  SideRollers.SpinMotorsAt(0);
+  vex::thread inertialThread(updateInertialForever);
 
-  // forward
-  Intakes.SpinMotorsAt(-60);
-  LeftWheel.SpinMotorsTo(50, 700);
-  RightWheel.SpinMotorsTo(50, 700);
-  LeftWheel.WaitUntilReaches(700);
-  RightWheel.WaitUntilReaches(700);
-  Intakes.SpinMotorsAt(0);
+  driveForwardInertial(500, team499::degrees);
 
-  // turn left
-  LeftWheel.SpinMotorsTo(-50, -470);
-  RightWheel.SpinMotorsTo(50, 470);
-  LeftWheel.WaitUntilReaches(-470);
-  RightWheel.WaitUntilReaches(470);
-
-  // drive forward
-  SideRollers.SpinMotorsAt(100);
-  Intakes.SpinMotorsAt(70);
-  LeftWheel.SpinMotorsTo(50, 1675);
-  RightWheel.SpinMotorsTo(50, 1675);
-  LeftWheel.WaitUntilReaches(1675);
-  RightWheel.WaitUntilReaches(1675);
-  SideRollers.SpinMotorsAt(0);
-  Intakes.SpinMotorsAt(0);
-
-  // turn left
-  Intakes.SpinMotorsAt(-65);
-  LeftWheel.SpinMotorsTo(-50, -225);
-  RightWheel.SpinMotorsTo(50, 225);
-  LeftWheel.WaitUntilReaches(-225);
-  RightWheel.WaitUntilReaches(225);
-  Intakes.SpinMotorsAt(0);
-
-  // drive forward
-  LeftWheel.SpinMotorsAt(50);
-  RightWheel.SpinMotorsAt(50);
-  wait(1, sec);
-  LeftWheel.SpinMotorsAt(0);
-  RightWheel.SpinMotorsAt(0);
-
-  //Score ball at first tower
-  FlyWheel.SpinMotorsTo(50, 1500);
-  wait(.40, sec);
-  SideRollers.SpinMotorsAt(100);
-  Intakes.SpinMotorsAt(100);
-  FlyWheel.WaitUntilReaches(1500);
-  Intakes.SpinMotorsAt(100);
-  SideRollers.SpinMotorsAt(100);
-
-  wait(1, sec);
-
-  Intakes.SpinMotorsAt(0);
-  SideRollers.SpinMotorsAt(0);
-
-  //Part 2
-
-  // drive backward
-  Intakes.SpinMotorsAt(-50);
-  SideRollers.SpinMotorsAt(-50);
-  LeftWheel.SpinMotorsTo(-50, -2650);
-  RightWheel.SpinMotorsTo(-50, -2650);
-  Intakes.SpinMotorsAt(0);
-  SideRollers.SpinMotorsAt(0);
-  LeftWheel.WaitUntilReaches(2650);
-  RightWheel.WaitUntilReaches(2650);
-
-  //Turn Left
-  LeftWheel.SpinMotorsTo(-50, -626);
-  RightWheel.SpinMotorsTo(50, 626);
-  LeftWheel.WaitUntilReaches(-626);
-  RightWheel.WaitUntilReaches(626);
-
-  //Drive Forward
-  SideRollers.SpinMotorsAt(150);
-  LeftWheel.SpinMotorsAt(50);
-  RightWheel.SpinMotorsAt(50);
-  wait(1.5, sec);
-
-  //Drive Backward
-  LeftWheel.SpinMotorsTo(-50, -450);
-  RightWheel.SpinMotorsTo(-50, -500);
-  LeftWheel.WaitUntilReaches(-450);
-  RightWheel.WaitUntilReaches(-500);
-
-  //Drive Forward
-  LeftWheel.SpinMotorsAt(50);
-  RightWheel.SpinMotorsAt(50);
-  wait(1.5, sec);
-
-  //Drive Backward
-  LeftWheel.SpinMotorsTo(-50, -450);
-  RightWheel.SpinMotorsTo(-50, -500);
-  LeftWheel.WaitUntilReaches(-450);
-  RightWheel.WaitUntilReaches(-500);
-
-  //Drive Forward
-  LeftWheel.SpinMotorsAt(50);
-  RightWheel.SpinMotorsAt(50);
-  wait(1.5, sec);
-
-  //Drive Backward
-  LeftWheel.SpinMotorsTo(-50, -450);
-  RightWheel.SpinMotorsTo(-50, -500);
-  LeftWheel.WaitUntilReaches(-450);
-  RightWheel.WaitUntilReaches(-500);
-
-  //Drive Forward
-  LeftWheel.SpinMotorsAt(50);
-  RightWheel.SpinMotorsAt(50);
-  wait(1, sec);
-
-  //Part 3A
-
-  //Drive Backward
-  LeftWheel.SpinMotorsTo(50, -900);
-  RightWheel.SpinMotorsTo(50, -900);
-  SideRollers.SpinMotorsTo(50, -50);
-  LeftWheel.WaitUntilReaches(-900);
-  RightWheel.WaitUntilReaches(-900);
-  SideRollers.WaitUntilReaches(-50);
-
-  //Turn Left
-  LeftWheel.SpinMotorsTo(50, -290);
-  RightWheel.SpinMotorsTo(50, 290);
-  LeftWheel.WaitUntilReaches(-290);
-  RightWheel.WaitUntilReaches(290);
-
-  // turn right a little
-  LeftWheel.SpinMotorsAt(70);
-  RightWheel.SpinMotorsAt(48);
-  wait(2, sec);
-
-  //Drive Forward a Little
-  LeftWheel.SpinMotorsTo(50, 450);
-  RightWheel.SpinMotorsTo(50, 450);
-  LeftWheel.WaitUntilReaches(450);
-  RightWheel.WaitUntilReaches(450);
-
-  //Turn Left
-  LeftWheel.SpinMotorsTo(-50, -260);
-  RightWheel.SpinMotorsTo(50, 260);
-  LeftWheel.WaitUntilReaches(-260);
-  RightWheel.WaitUntilReaches(260);
-
-  //Drive Forward into wall
-  SideRollers.SpinMotorsAt(80);
-  LeftWheel.SpinMotorsTo(75, 3300);
-  RightWheel.SpinMotorsTo(73, 3300);
-  wait(6, sec);
-  SideRollers.SpinMotorsAt(0);
-
-  //Score Ball
-  wait(1.5, sec);
-  FlyWheel.SpinMotorsTo(50, 2500);
-  wait(1, sec);
-  SideRollers.SpinMotorsAt(1600);
-  Intakes.SpinMotorsAt(1600);
-  FlyWheel.WaitUntilReaches(2500);
-  Intakes.SpinMotorsAt(0);
-  SideRollers.SpinMotorsAt(0);
-
-  //Descore Goal
-  SideRollers.SpinMotorsAt(1000);
-  Intakes.SpinMotorsAt(1000);
-  wait(3, sec);
-  Intakes.SpinMotorsAt(0);
-  SideRollers.SpinMotorsAt(0);
-
-  // final backout
-  LeftWheel.SpinMotorsTo(-50, -200);
-  RightWheel.SpinMotorsTo(-50, -200);
-
+  inertialThread.interrupt();
 }
 
 void usercontrol(void)
@@ -237,9 +68,12 @@ void usercontrol(void)
     resetScreen();
     //printOnController("Power", gearShiftPower);
     // REMOVE THIS AFTER TESTING
+    updatePosition();
+    updateRotation();
     printOnController("X", xPos);
     printOnController("Y", yPos);
     printOnController("Rotation", rot);
+    // REMOVE THIS AFTER TESTING
 
     axis3.Update();
     axis2.Update();

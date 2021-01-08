@@ -15,4 +15,6 @@ namespace team499 {
 
   void updateRotation();
 
+  void updateInertialForever();
+
 }
