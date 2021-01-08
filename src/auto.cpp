@@ -5,6 +5,38 @@ namespace team499 {
   void driveForwardPID(double amount, unit units)
   {
     amount *= units;
+
+    int timeOnTarget = 0;
+    double leftMotorPower = 50;
+    double rightMotorPower = 50;
+
+    LeftPID.reset();
+    RightPID.reset();
+
+    LeftWheelMotor.resetPosition();
+    RightWheelMotor.resetPosition();
+
+    while(timeOnTarget < targetTime)
+    {
+      leftMotorPower = LeftPID.update(LeftWheelMotor.position(deg), amount);
+      rightMotorPower = RightPID.update(RightWheelMotor.position(deg), LeftWheelMotor.position(deg));
+
+      LeftWheelMotor.spin(fwd, leftMotorPower, pct);
+      RightWheelMotor.spin(fwd, rightMotorPower, pct);
+
+      // check if close enough for long enough
+      if (std::abs(LeftWheelMotor.position(deg) - amount) < closeEnoughDegrees)
+      {
+        timeOnTarget += 20;
+      }
+      else
+      {
+        timeOnTarget = 0;
+      }
+      wait(20, msec);
+    }
+    LeftWheelMotor.spin(fwd, 0, pct);
+    RightWheelMotor.spin(fwd, 0, pct);
   }
 
   void driveForwardInertial(double amount, unit units)
@@ -13,29 +45,40 @@ namespace team499 {
 
     double targetRot = rot;
     double timeOnTarget = 0;
-    double leftMotorPower;
-    double rightMotorPower;
+    double leftMotorPower = 50;
+    double rightMotorPower = 50;
+
+    double leftMotorError = 0;
+    double rightMotorError = 0;
+
+    LeftPID.reset();
+    RightPID.reset();
 
     LeftWheelMotor.resetPosition();
     RightWheelMotor.resetPosition();
 
     while (timeOnTarget < targetTime)
     {
-      // slow down on approach / back up when too far
-      leftMotorPower = clamp((LeftWheelMotor.position(deg) - amount) * slowDown, -maxPower, maxPower);
-      rightMotorPower = clamp((RightWheelMotor.position(deg) - amount) * slowDown, -maxPower, maxPower);
-
       // adjust to go straight
       if (rot - 0.5 > targetRot) // rotated to the right
       {
-        leftMotorPower -= rot - targetRot;
-        rightMotorPower += rot - targetRot;
+        leftMotorError = targetRot - rot;
+        rightMotorError = rot - targetRot;
       }
       else if (rot + 0.5 < targetRot) // rotated to the left
       {
-        leftMotorPower -= rot - targetRot;
-        rightMotorPower += rot - targetRot;
+        leftMotorError = rot - targetRot;
+        rightMotorError = targetRot - rot;
       }
+      else
+      {
+        leftMotorError = 0;
+        rightMotorError = 0;
+      }
+
+      // PID
+      leftMotorPower = LeftPID.update(LeftWheelMotor.position(deg), amount, leftMotorError);
+      rightMotorPower = RightPID.update(RightWheelMotor.position(deg), amount, leftMotorError);
 
       // update wheel power
       LeftWheelMotor.spin(fwd, leftMotorPower, pct);
@@ -64,6 +107,9 @@ namespace team499 {
     double leftMotorPower;
     double rightMotorPower;
 
+    LeftPID.reset();
+    RightPID.reset();
+
     LeftWheelMotor.resetPosition();
     RightWheelMotor.resetPosition();
 
@@ -72,9 +118,8 @@ namespace team499 {
       // DELETE AFTER TESTING
       targetRot = quickestRotation(rot, targetRot);
 
-      // slow down on approach / back up when too far
-      leftMotorPower = clamp((targetRot - rot) * slowDownRot, -maxPower, maxPower);
-      rightMotorPower = clamp((rot - targetRot) * slowDownRot, -maxPower, maxPower);
+      leftMotorPower = LeftPID.update(rot * 10, targetRot * 10);
+      rightMotorPower = -RightPID.update(rot * 10, targetRot * 10);
 
       // update wheel power
       LeftWheelMotor.spin(fwd, leftMotorPower, pct);
@@ -94,5 +139,4 @@ namespace team499 {
     LeftWheelMotor.spin(fwd, 0, pct);
     RightWheelMotor.spin(fwd, 0, pct);
   }
-
 }

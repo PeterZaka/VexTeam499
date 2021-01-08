@@ -3,6 +3,7 @@
 #include <cmath> // std::abs
 #include "vex.h"
 #include "inertial.h"
+#include "pid.h"
 
 namespace team499{
 
@@ -12,13 +13,11 @@ namespace team499{
     boxes = 500
   };
 
-  const int targetTime = 100;
+  const int targetTime = 100; // in msec
   const int closeEnoughDegrees = 10;
-  const int closeEnoughDegreesRot = 2;
+  const int closeEnoughDegreesRot = 3;
 
   const double maxPower = 80;
-  const double slowDown = 0.2;
-  const double slowDownRot = 3;
 
   extern vex::motor LeftWheelMotor;
   extern vex::motor RightWheelMotor;

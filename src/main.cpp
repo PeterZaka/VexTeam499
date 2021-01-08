@@ -42,6 +42,9 @@ input x([]() {return Controller2.ButtonX.pressing(); }, { &Intakes }, { &SideRol
 motor team499::LeftWheelMotor = driveLeft;
 motor team499::RightWheelMotor = driveRight;
 
+PID team499::LeftPID = PID(1,1,1);
+PID team499::RightPID = PID(1,1,1);
+
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
