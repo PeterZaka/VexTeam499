@@ -6,17 +6,29 @@ namespace team499{
   double yPos = 0;
   double rot = 0;
 
+  bool isCalibrated = false;
+  bool canceledCalibration = false;
+
   void calibrateInertial()
   {
     iSensor.calibrate();
     while(iSensor.isCalibrating())
     {
+      if(Controller1.ButtonA.pressing())
+      {
+        canceledCalibration = true;
+        return;
+      }
       resetScreen();
       printOnController("CALIBRATING");
       wait(50, msec);
     }
+    wait(20, msec);
+
     resetScreen();
     printOnController("Finished calibration");
+
+    isCalibrated = true;
   }
 
   void updatePosition()
@@ -30,12 +42,24 @@ namespace team499{
     rot = iSensor.rotation();
   }
 
-  void updateInertialForever()
+  void updateInertial()
   {
-    while(true)
+    if(isCalibrated)
     {
       updatePosition();
       updateRotation();
+    }
+  }
+
+  void updateInertialForever()
+  {
+    if(!isCalibrated)
+    {
+      return;
+    }
+    while(true)
+    {
+      updateInertial();
       wait(20, msec);
     }
   }

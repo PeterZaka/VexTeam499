@@ -48,21 +48,21 @@ PID team499::RightPID = PID(0.45,0,0);
 PID team499::LeftTurnPID = PID(0.8, 0.1,0.2);
 PID team499::RightTurnPID = PID(0.8,0.1,0.2);
 
-bool isCalibrating = false;
-
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
 
-  isCalibrating = true;
   calibrateInertial();
-  isCalibrating = false;
 }
 
 
 void autonomous(void)
 {
-  waitUntil(!isCalibrating);
+  waitUntil(isCalibrated || canceledCalibration);
+  if(canceledCalibration)
+  {
+    return;
+  }
 
   vex::thread inertialThread(updateInertialForever);
 
@@ -73,7 +73,7 @@ void autonomous(void)
 
 void usercontrol(void)
 {
-  waitUntil(!isCalibrating);
+  waitUntil(isCalibrated || canceledCalibration);
   while (1)
   {
     updateGearShift();
@@ -81,8 +81,7 @@ void usercontrol(void)
     resetScreen();
     //printOnController("Power", gearShiftPower);
     // REMOVE THIS AFTER TESTING
-    updatePosition();
-    updateRotation();
+    updateInertial();
     printOnController("X", xPos);
     printOnController("Y", yPos);
     printOnController("Rotation", rot);
@@ -117,23 +116,3 @@ int main()
     wait(100, msec);
   }
 }
-
-/*
-int main()
-{
-  vexcodeInit();
-  while(1)
-  {
-    updateGearShift();
-    printGearShift();
-
-    axis3.updateButton();
-    axis2.updateButton();
-    l1.updateButton();
-    l2.updateButton();
-    r2.updateButton();
-    motorGroup::updateAllMotors();
-    wait(20, msec);
-  }
-}
-*/
