@@ -17,6 +17,7 @@
 #include "common.h"
 #include "inertial.h"
 #include "auto.h"
+#include "autoruns.h"
 #include <vector>
 
 competition Competition;
@@ -42,8 +43,8 @@ input x([]() {return Controller2.ButtonX.pressing(); }, { &Intakes }, { &SideRol
 motor team499::LeftWheelMotor = driveLeft;
 motor team499::RightWheelMotor = driveRight;
 
-PID team499::LeftPID = PID(1,1,1);
-PID team499::RightPID = PID(1,1,1);
+PID team499::LeftPID = PID(1,0,0);
+PID team499::RightPID = PID(1,0,0);
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
@@ -57,11 +58,7 @@ void autonomous(void)
 {
   vex::thread inertialThread(updateInertialForever);
 
-  driveForwardInertial(500, team499::degrees);
-
-  wait(1, sec);
-
-  turnToInertial(90);
+  autoSkills();
 
   inertialThread.interrupt();
 }

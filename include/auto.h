@@ -26,7 +26,7 @@ namespace team499{
 
   void driveForwardPID(double amount, unit units);
 
-  void driveForwardInertial(double amount, unit units);
+  void driveForward(double amount, unit units);
 
-  void turnToInertial(double amount);
+  void turnTo(double amount);
 }

@@ -39,7 +39,7 @@ namespace team499 {
     RightWheelMotor.spin(fwd, 0, pct);
   }
 
-  void driveForwardInertial(double amount, unit units)
+  void driveForward(double amount, unit units)
   {
     amount *= units;
 
@@ -99,7 +99,7 @@ namespace team499 {
     RightWheelMotor.spin(fwd, 0, pct);
   }
 
-  void turnToInertial(double targetRot)
+  void turnTo(double targetRot)
   {
     targetRot = quickestRotation(rot, targetRot);
 
