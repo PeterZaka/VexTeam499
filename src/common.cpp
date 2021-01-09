@@ -12,6 +12,7 @@ namespace team499 {
   {
     Controller1.Screen.print(name.c_str());
     Controller1.Screen.newLine();
+    wait(5, msec);
   }
 
   double quickestRotation(double start, double target)

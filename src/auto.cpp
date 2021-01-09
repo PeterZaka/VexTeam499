@@ -13,19 +13,19 @@ namespace team499 {
     LeftPID.reset();
     RightPID.reset();
 
-    LeftWheelMotor.resetPosition();
-    RightWheelMotor.resetPosition();
+    LeftWheelMotor->resetPosition();
+    RightWheelMotor->resetPosition();
 
     while(timeOnTarget < targetTime)
     {
-      leftMotorPower = LeftPID.update(LeftWheelMotor.position(deg), amount);
-      rightMotorPower = RightPID.update(RightWheelMotor.position(deg), LeftWheelMotor.position(deg));
+      leftMotorPower = LeftPID.update(LeftWheelMotor->position(deg), amount);
+      rightMotorPower = RightPID.update(LeftWheelMotor->position(deg), amount);
 
-      LeftWheelMotor.spin(fwd, leftMotorPower, pct);
-      RightWheelMotor.spin(fwd, rightMotorPower, pct);
+      LeftWheelMotor->spin(fwd, leftMotorPower, pct);
+      RightWheelMotor->spin(fwd, leftMotorPower, pct);
 
       // check if close enough for long enough
-      if (std::abs(LeftWheelMotor.position(deg) - amount) < closeEnoughDegrees)
+      if (std::abs(LeftWheelMotor->position(deg) - amount) < closeEnoughDegrees)
       {
         timeOnTarget += 20;
       }
@@ -35,8 +35,8 @@ namespace team499 {
       }
       wait(20, msec);
     }
-    LeftWheelMotor.spin(fwd, 0, pct);
-    RightWheelMotor.spin(fwd, 0, pct);
+    LeftWheelMotor->spin(fwd, 0, pct);
+    RightWheelMotor->spin(fwd, 0, pct);
   }
 
   void driveForward(double amount, unit units)
@@ -54,18 +54,18 @@ namespace team499 {
     LeftPID.reset();
     RightPID.reset();
 
-    LeftWheelMotor.resetPosition();
-    RightWheelMotor.resetPosition();
+    LeftWheelMotor->resetPosition();
+    RightWheelMotor->resetPosition();
 
     while (timeOnTarget < targetTime)
     {
       // adjust to go straight
-      if (rot - 0.5 > targetRot) // rotated to the right
+      if (rot - 0.2 > targetRot) // rotated to the right
       {
         leftMotorError = targetRot - rot;
         rightMotorError = rot - targetRot;
       }
-      else if (rot + 0.5 < targetRot) // rotated to the left
+      else if (rot + 0.2 < targetRot) // rotated to the left
       {
         leftMotorError = rot - targetRot;
         rightMotorError = targetRot - rot;
@@ -77,15 +77,15 @@ namespace team499 {
       }
 
       // PID
-      leftMotorPower = LeftPID.update(LeftWheelMotor.position(deg), amount, leftMotorError);
-      rightMotorPower = RightPID.update(RightWheelMotor.position(deg), amount, leftMotorError);
+      leftMotorPower = LeftPID.update(LeftWheelMotor->position(deg), amount, leftMotorError);
+      rightMotorPower = RightPID.update(RightWheelMotor->position(deg), amount, rightMotorError);
 
       // update wheel power
-      LeftWheelMotor.spin(fwd, leftMotorPower, pct);
-      RightWheelMotor.spin(fwd, rightMotorPower, pct);
+      LeftWheelMotor->spin(fwd, leftMotorPower, pct);
+      RightWheelMotor->spin(fwd, rightMotorPower, pct);
 
       // check if close enough for long enough
-      if (std::abs(LeftWheelMotor.position(deg) - amount) < closeEnoughDegrees)
+      if (std::abs(LeftWheelMotor->position(deg) - amount) < closeEnoughDegrees)
       {
         timeOnTarget += 20;
       }
@@ -95,8 +95,8 @@ namespace team499 {
       }
       wait(20, msec);
     }
-    LeftWheelMotor.spin(fwd, 0, pct);
-    RightWheelMotor.spin(fwd, 0, pct);
+    LeftWheelMotor->spin(fwd, 0, pct);
+    RightWheelMotor->spin(fwd, 0, pct);
   }
 
   void turnTo(double targetRot)
@@ -107,23 +107,23 @@ namespace team499 {
     double leftMotorPower;
     double rightMotorPower;
 
-    LeftPID.reset();
-    RightPID.reset();
+    LeftTurnPID.reset();
+    RightTurnPID.reset();
 
-    LeftWheelMotor.resetPosition();
-    RightWheelMotor.resetPosition();
+    LeftWheelMotor->resetPosition();
+    RightWheelMotor->resetPosition();
 
     while (timeOnTarget < targetTime)
     {
-      // DELETE AFTER TESTING
-      targetRot = quickestRotation(rot, targetRot);
+      resetScreen();
+      printOnController("Rotation", rot);
 
-      leftMotorPower = LeftPID.update(rot * 10, targetRot * 10);
-      rightMotorPower = -RightPID.update(rot * 10, targetRot * 10);
+      leftMotorPower = LeftTurnPID.update(rot, targetRot);
+      rightMotorPower = -RightTurnPID.update(rot , targetRot);
 
       // update wheel power
-      LeftWheelMotor.spin(fwd, leftMotorPower, pct);
-      RightWheelMotor.spin(fwd, rightMotorPower, pct);
+      LeftWheelMotor->spin(fwd, leftMotorPower, pct);
+      RightWheelMotor->spin(fwd, rightMotorPower, pct);
 
       // check if close enough for long enough
       if (std::abs(rot - targetRot) < closeEnoughDegreesRot)
@@ -136,7 +136,7 @@ namespace team499 {
       }
       wait(20, msec);
     }
-    LeftWheelMotor.spin(fwd, 0, pct);
-    RightWheelMotor.spin(fwd, 0, pct);
+    LeftWheelMotor->spin(fwd, 0, pct);
+    RightWheelMotor->spin(fwd, 0, pct);
   }
 }

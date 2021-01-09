@@ -40,22 +40,30 @@ input l2([]() {return Controller2.ButtonL2.pressing(); }, { &Intakes,&SideRoller
 input r2([]() {return Controller2.ButtonR2.pressing(); }, { &FlyWheel });
 input x([]() {return Controller2.ButtonX.pressing(); }, { &Intakes }, { &SideRollers });
 
-motor team499::LeftWheelMotor = driveLeft;
-motor team499::RightWheelMotor = driveRight;
+motor* team499::LeftWheelMotor = &driveLeft;
+motor* team499::RightWheelMotor = &driveRight;
 
-PID team499::LeftPID = PID(1,0,0);
-PID team499::RightPID = PID(1,0,0);
+PID team499::LeftPID = PID(0.45,0,0);
+PID team499::RightPID = PID(0.45,0,0);
+PID team499::LeftTurnPID = PID(0.8, 0.1,0.2);
+PID team499::RightTurnPID = PID(0.8,0.1,0.2);
+
+bool isCalibrating = false;
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
 
+  isCalibrating = true;
   calibrateInertial();
+  isCalibrating = false;
 }
 
 
 void autonomous(void)
 {
+  waitUntil(!isCalibrating);
+
   vex::thread inertialThread(updateInertialForever);
 
   autoSkills();
@@ -65,6 +73,7 @@ void autonomous(void)
 
 void usercontrol(void)
 {
+  waitUntil(!isCalibrating);
   while (1)
   {
     updateGearShift();

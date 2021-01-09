@@ -15,12 +15,12 @@ namespace team499{
 
   const int targetTime = 100; // in msec
   const int closeEnoughDegrees = 10;
-  const int closeEnoughDegreesRot = 3;
+  const int closeEnoughDegreesRot = 1;
 
   const double maxPower = 80;
 
-  extern vex::motor LeftWheelMotor;
-  extern vex::motor RightWheelMotor;
+  extern vex::motor* LeftWheelMotor;
+  extern vex::motor* RightWheelMotor;
 
   // auto functions
 
