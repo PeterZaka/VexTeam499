@@ -18,6 +18,7 @@
 #include "inertial.h"
 #include "auto.h"
 #include "autoruns.h"
+#include "drivehelp.h"
 #include <vector>
 
 competition Competition;
@@ -95,6 +96,7 @@ void usercontrol(void)
     x.Update();
 
     UpdateAllMotors();
+    driveStraight(&LeftWheel, &RightWheel);
 
     wait(20, msec);
   }

@@ -46,13 +46,12 @@ namespace team499 {
       m_anyButtonPressed = false;
     }
 
+    double m_currentPower;
 
   protected:
 
     // true if button pressed during cycle
     bool m_anyButtonPressed;
-
-    double m_currentPower;
 
 
   private:
