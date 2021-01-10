@@ -96,7 +96,10 @@ void usercontrol(void)
     x.Update();
 
     UpdateAllMotors();
+
+    // using inertial sensor
     driveStraight(&LeftWheel, &RightWheel);
+    turnToButton();
 
     wait(20, msec);
   }

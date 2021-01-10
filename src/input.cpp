@@ -40,11 +40,11 @@ namespace team499 {
 
   void updateGearShift()
   {
-    if (Controller1.ButtonY.pressing() || Controller1.ButtonRight.pressing())
+    if (Controller1.ButtonY.pressing() || Controller1.ButtonA.pressing())
     {
       if (!changedGearShift)
       {
-        if (Controller1.ButtonY.pressing())
+        if (Controller1.ButtonA.pressing())
         {
           gearShiftPower += 10;
         }

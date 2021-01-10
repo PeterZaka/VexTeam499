@@ -4,6 +4,7 @@ namespace team499{
 
   double straightRot = 0;
   bool isDrivingStraight = false;
+  bool isTurning = false;
 
   void driveStraight(motorGroup* left, motorGroup* right)
   {
@@ -44,4 +45,67 @@ namespace team499{
     }
   }
 
+  void turnToButton()
+  {
+    if(!isCalibrated)
+    {
+      return;
+    }
+
+    // if no buttons are pressed
+    if(!(Controller1.ButtonUp.pressing() || Controller1.ButtonRight.pressing() || Controller1.ButtonDown.pressing() || Controller1.ButtonLeft.pressing()))
+    {
+      isTurning = false;
+      return;
+    }
+    
+    if(!isTurning)
+    {
+      isTurning = true;
+      LeftTurnPID.reset();
+      RightTurnPID.reset();
+    }
+
+    if(Controller1.ButtonUp.pressing() && Controller1.ButtonLeft.pressing())
+    {
+      turnDirection = 315;
+    }
+    else if(Controller1.ButtonUp.pressing() && Controller1.ButtonRight.pressing())
+    {
+      turnDirection = 45;
+    }
+    else if(Controller1.ButtonDown.pressing() && Controller1.ButtonLeft.pressing())
+    {
+      turnDirection = 225;
+    }
+    else if(Controller1.ButtonDown.pressing() && Controller1.ButtonRight.pressing())
+    {
+      turnDirection = 135;
+    }
+    else if(Controller1.ButtonUp.pressing())
+    {
+      turnDirection = 0;
+    }
+    else if(Controller1.ButtonRight.pressing())
+    {
+      turnDirection = 90;
+    }
+    else if(Controller1.ButtonDown.pressing())
+    {
+      turnDirection = 180;
+    }
+    else if(Controller1.ButtonLeft.pressing())
+    {
+      turnDirection = 270;
+    }
+
+    turnDirection = quickestRotation(rot, turnDirection);
+
+    double leftMotorPower = LeftTurnPID.update(rot, turnDirection);
+    double rightMotorPower = -RightTurnPID.update(rot , turnDirection);
+
+    // update wheel power
+    LeftWheelMotor->spin(fwd, leftMotorPower, pct);
+    RightWheelMotor->spin(fwd, rightMotorPower, pct);
+  }
 }
