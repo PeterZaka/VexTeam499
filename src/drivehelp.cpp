@@ -4,6 +4,8 @@ namespace team499{
 
   double straightRot = 0;
   bool isDrivingStraight = false;
+
+  double turnDirection = 0;
   bool isTurning = false;
 
   void driveStraight(motorGroup* left, motorGroup* right)

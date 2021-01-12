@@ -2,6 +2,9 @@
 
 namespace team499 {
 
+  double xPos = 0;
+  double yPos = 0;
+
   void driveForwardPID(double amount, unit units)
   {
     amount *= units;
@@ -16,7 +19,7 @@ namespace team499 {
     LeftWheelMotor->resetPosition();
     RightWheelMotor->resetPosition();
 
-    while(timeOnTarget < targetTime)
+    while (timeOnTarget < targetTime)
     {
       leftMotorPower = LeftPID.update(LeftWheelMotor->position(deg), amount);
       rightMotorPower = RightPID.update(LeftWheelMotor->position(deg), amount);
@@ -48,6 +51,13 @@ namespace team499 {
     double leftMotorPower = 50;
     double rightMotorPower = 50;
 
+    double leftEncoder = 0;
+    double rightEncoder = 0;
+    double prevLeftEncoder = 0;
+    double prevRightEncoder = 0;
+    double averageEncoder;
+    double distanceTraveled;
+
     double leftMotorError = 0;
     double rightMotorError = 0;
 
@@ -59,6 +69,23 @@ namespace team499 {
 
     while (timeOnTarget < targetTime)
     {
+      resetScreen();
+      printOnController("x", xPos);
+      printOnController("y", yPos);
+
+      // calculate position
+      leftEncoder = LeftWheelMotor->position(rev) - prevLeftEncoder;
+      rightEncoder = RightWheelMotor->position(rev) - prevRightEncoder;
+      averageEncoder = (leftEncoder + rightEncoder) / 2;
+      distanceTraveled = averageEncoder / inches * circumference;
+
+      xPos += cos(rot * degreesToRadians) * distanceTraveled;
+      yPos += sin(rot * degreesToRadians) * distanceTraveled;
+
+      prevLeftEncoder = LeftWheelMotor->position(rev);
+      prevRightEncoder = RightWheelMotor->position(rev);
+
+
       // adjust to go straight
       if (rot - 0.2 > targetRot) // rotated to the right
       {
@@ -115,11 +142,8 @@ namespace team499 {
 
     while (timeOnTarget < targetTime)
     {
-      resetScreen();
-      printOnController("Rotation", rot);
-
       leftMotorPower = LeftTurnPID.update(rot, targetRot);
-      rightMotorPower = -RightTurnPID.update(rot , targetRot);
+      rightMotorPower = -RightTurnPID.update(rot, targetRot);
 
       // update wheel power
       LeftWheelMotor->spin(fwd, leftMotorPower, pct);
@@ -138,5 +162,14 @@ namespace team499 {
     }
     LeftWheelMotor->spin(fwd, 0, pct);
     RightWheelMotor->spin(fwd, 0, pct);
+  }
+
+  void goTo(double x, double y)
+  {
+    // tan^-1(o/a)
+    turnTo(atan2((y - yPos), (x - xPos)) * 180 / PI);
+
+    double wantedDistance = pow(pow(x - xPos, 2) + pow(y - yPos, 2), 0.5);
+    driveForward(wantedDistance, degrees);
   }
 }

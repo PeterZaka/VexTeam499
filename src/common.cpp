@@ -50,4 +50,9 @@ namespace team499 {
   {
     return std::max(min, std::min(num, max));
   }
+
+  double limitDecimal(double num, double decimalPlace)
+  {
+    return (int)(num * pow(10,decimalPlace)) / pow(10,decimalPlace);
+  }
 }

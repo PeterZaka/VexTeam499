@@ -2,8 +2,8 @@
 
 namespace team499{
 
-  double xPos = 0;
-  double yPos = 0;
+  double xAcc = 0;
+  double yAcc = 0;
   double rot = 0;
 
   bool isCalibrated = false;
@@ -33,8 +33,8 @@ namespace team499{
 
   void updatePosition()
   {
-    xPos += iSensor.acceleration(xaxis);
-    yPos += iSensor.acceleration(yaxis);
+    xAcc += iSensor.acceleration(xaxis);
+    yAcc += iSensor.acceleration(yaxis);
   }
 
   void updateRotation()

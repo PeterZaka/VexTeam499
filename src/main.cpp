@@ -83,8 +83,8 @@ void usercontrol(void)
     //printOnController("Power", gearShiftPower);
     // REMOVE THIS AFTER TESTING
     updateInertial();
-    printOnController("X", xPos);
-    printOnController("Y", yPos);
+    printOnController("X", xAcc);
+    printOnController("Y", yAcc);
     printOnController("Rotation", rot);
     // REMOVE THIS AFTER TESTING
 

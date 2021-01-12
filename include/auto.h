@@ -5,12 +5,21 @@
 #include "inertial.h"
 #include "pid.h"
 
-namespace team499{
+#define PI 3.14159265
 
-  enum unit{
+namespace team499 {
+
+  extern double xPos;
+  extern double yPos;
+
+  const double wheelDiameter = 1;
+  const double circumference = wheelDiameter * PI;
+  const double degreesToRadians = PI / 180;
+
+  enum unit {
     degrees = 1,
-    inches = 12,
-    boxes = 500
+    inches = (int)(circumference * 360),
+    boxes = inches * 5
   };
 
   const int targetTime = 100; // in msec
@@ -29,4 +38,7 @@ namespace team499{
   void driveForward(double amount, unit units);
 
   void turnTo(double amount);
+
+  // only in inches
+  void goTo(double x, double y, unit units);
 }

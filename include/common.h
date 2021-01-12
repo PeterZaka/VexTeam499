@@ -25,4 +25,6 @@ namespace team499 {
   double roundToMultiple(double num, double multiple);
 
   double clamp(double num, double min, double max);
+
+  double limitDecimal(double num, double decimalPlace);
 }

@@ -5,8 +5,8 @@
 
 namespace team499 {
 
-  extern double xPos;
-  extern double yPos;
+  extern double xAcc;
+  extern double yAcc;
   extern double rot;
   
   extern bool isCalibrated;
