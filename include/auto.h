@@ -22,8 +22,8 @@ namespace team499 {
     boxes = inches * 5
   };
 
-  const int targetTime = 100; // in msec
-  const int closeEnoughDegrees = 10;
+  const int targetTime = 70; // in msec
+  const int closeEnoughDegrees = 30;
   const int closeEnoughDegreesRot = 1;
 
   const double maxPower = 80;

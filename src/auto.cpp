@@ -70,8 +70,7 @@ namespace team499 {
     while (timeOnTarget < targetTime)
     {
       resetScreen();
-      printOnController("x", xPos);
-      printOnController("y", yPos);
+      printOnController("encoder", LeftWheelMotor->position(deg));
 
       // calculate position
       leftEncoder = LeftWheelMotor->position(rev) - prevLeftEncoder;
@@ -142,6 +141,9 @@ namespace team499 {
 
     while (timeOnTarget < targetTime)
     {
+      resetScreen();
+      printOnController("rot", rot);
+
       leftMotorPower = LeftTurnPID.update(rot, targetRot);
       rightMotorPower = -RightTurnPID.update(rot, targetRot);
 
