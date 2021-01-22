@@ -1,21 +1,22 @@
 #include "autoruns.h"
 
+#define add(x) tasks.push_back([](){x;})
+
 void autoSkills()
 {
   using namespace team499;
   using team499::degrees;
 
- //Part 1
-  Intakes.SpinMotorsAt(30);
-  SideRollers.SpinMotorsAt(100);
-  wait(3, sec);
-  Intakes.SpinMotorsAt(0);
-  SideRollers.SpinMotorsAt(0);
+  vex::thread taskThread(runTasks);
+
+  // Set up robot
+  add(Intakes.SpinMotorsAt(30));
+  add(SideRollers.SpinMotorsAt(100));
+  add(Intakes.WaitUntilReaches(600));
+  add(Intakes.SpinMotorsTo(-60,600));
 
   // forward
-  Intakes.SpinMotorsAt(-60);
   driveForward(600, degrees);
-  Intakes.SpinMotorsAt(0);
 
   // turn left
   turnTo(-90);
@@ -93,5 +94,7 @@ void autoSkills()
   FlyWheel.WaitUntilReaches(1500);
   Intakes.SpinMotorsAt(100);
   SideRollers.SpinMotorsAt(100);
+
+  taskThread.interrupt();
 
 }
