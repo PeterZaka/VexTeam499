@@ -27,6 +27,7 @@ namespace team499 {
 
     // AUTONOMOUS FUNCTIONS
     void SpinMotorsTo(double pow, double degrees);
+    void Stop();
     void CorrectMotors(double degrees);
     void WaitUntilReaches(float degrees);
 

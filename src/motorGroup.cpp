@@ -50,6 +50,14 @@ namespace team499 {
     }
   }
 
+  void motorGroup::Stop()
+  {
+    for (auto m: m_motors)
+    {
+      m->stop();
+    }
+  }
+
   void motorGroup::CorrectMotors(double degrees)
   {
     if (AverageRotation() < degrees)
