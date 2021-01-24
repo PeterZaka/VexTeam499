@@ -10,7 +10,7 @@ namespace team499{
 
   void driveStraight(motorGroup* left, motorGroup* right)
   {
-    if(!isCalibrated || left->m_currentPower == 0)
+    if(!isCalibrated || left->m_currentPower < 40)
     {
       return;
     }
@@ -38,8 +38,8 @@ namespace team499{
         rightMotorError = straightRot - rot;
       }
 
-      left->SpinMotorsAt(left->m_currentPower + leftMotorError);
-      right->SpinMotorsAt(right->m_currentPower + rightMotorError);
+      left->SpinMotorsAt(left->m_currentPower + leftMotorError * rotCorrection);
+      right->SpinMotorsAt(right->m_currentPower + rightMotorError * rotCorrection);
     }
     else
     {
