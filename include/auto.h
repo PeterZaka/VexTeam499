@@ -22,11 +22,11 @@ namespace team499 {
     boxes = inches * 5
   };
 
-  const int targetTime = 70; // in msec
-  const int closeEnoughDegrees = 30;
-  const int closeEnoughDegreesRot = 1;
+  extern int targetTime;
+  extern int closeEnoughDegrees;
+  extern int closeEnoughDegreesRot;
 
-  const double maxPower = 80;
+  const double maxPower = 90;
 
   extern vex::motor* LeftWheelMotor;
   extern vex::motor* RightWheelMotor;

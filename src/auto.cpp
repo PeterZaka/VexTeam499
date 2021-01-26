@@ -5,6 +5,10 @@ namespace team499 {
   double xPos = 0;
   double yPos = 0;
 
+  int targetTime = 70; // in msec
+  int closeEnoughDegrees = 30;
+  int closeEnoughDegreesRot = 1;
+
   void driveForwardPID(double amount, unit units)
   {
     amount *= units;
@@ -103,12 +107,12 @@ namespace team499 {
       }
 
       // PID
-      leftMotorPower = LeftPID.update(LeftWheelMotor->position(deg), amount, leftMotorError);
-      rightMotorPower = RightPID.update(RightWheelMotor->position(deg), amount, rightMotorError);
+      leftMotorPower = LeftPID.update(LeftWheelMotor->position(deg), amount);
+      rightMotorPower = RightPID.update(RightWheelMotor->position(deg), amount);
 
       // update wheel power
-      LeftWheelMotor->spin(fwd, leftMotorPower, pct);
-      RightWheelMotor->spin(fwd, rightMotorPower, pct);
+      LeftWheelMotor->spin(fwd, leftMotorPower + leftMotorError * rotCorrection, pct);
+      RightWheelMotor->spin(fwd, rightMotorPower + rightMotorError * rotCorrection, pct);
 
       // check if close enough for long enough
       if (std::abs(LeftWheelMotor->position(deg) - amount) < closeEnoughDegrees)

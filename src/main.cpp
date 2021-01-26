@@ -39,10 +39,10 @@ input x([]() {return Controller2.ButtonX.pressing(); }, { &Intakes }, { &SideRol
 motor* team499::LeftWheelMotor = &driveLeft;
 motor* team499::RightWheelMotor = &driveRight;
 
-PID team499::LeftPID = PID(0.55,0,0);
-PID team499::RightPID = PID(0.55,0,0);
-PID team499::LeftTurnPID = PID(0.85, 0,0.2);
-PID team499::RightTurnPID = PID(0.85, 0,0.2);
+PID team499::LeftPID = PID(0.4,0,0);
+PID team499::RightPID = PID(0.4,0,0);
+PID team499::LeftTurnPID = PID(1.1, 0,0);
+PID team499::RightTurnPID = PID(1.1, 0,0);
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
@@ -75,13 +75,8 @@ void usercontrol(void)
     updateGearShift();
 
     resetScreen();
-    //printOnController("Power", gearShiftPower);
-    // REMOVE THIS AFTER TESTING
-    updateInertial();
-    printOnController("X", xAcc);
-    printOnController("Y", yAcc);
-    printOnController("Rotation", rot);
-    // REMOVE THIS AFTER TESTING
+    
+    printOnController("intake",intakeLeft.position(deg));
 
     axis3.Update();
     axis2.Update();
