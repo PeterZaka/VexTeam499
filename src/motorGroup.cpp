@@ -81,7 +81,7 @@ namespace team499 {
   {
     while (fabs(AverageRotation()) < fabs(degrees * 0.95))
     {
-      wait(100, msec);
+      wait(20, msec);
     }
   }
 

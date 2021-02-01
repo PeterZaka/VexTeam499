@@ -75,8 +75,7 @@ void usercontrol(void)
     updateGearShift();
 
     resetScreen();
-    
-    printOnController("intake",intakeLeft.position(deg));
+    printOnController("Gearshift power", gearShiftPower);
 
     axis3.Update();
     axis2.Update();

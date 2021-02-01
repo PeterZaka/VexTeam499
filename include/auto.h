@@ -9,9 +9,6 @@
 
 namespace team499 {
 
-  extern double xPos;
-  extern double yPos;
-
   const double wheelDiameter = 1;
   const double circumference = wheelDiameter * PI;
   const double degreesToRadians = PI / 180;
@@ -23,8 +20,13 @@ namespace team499 {
   };
 
   extern int targetTime;
-  extern int closeEnoughDegrees;
-  extern int closeEnoughDegreesRot;
+  extern int timeOnTarget;
+  extern int closeEnoughDeg;
+  extern int closeEnoughRot;
+
+  const int defaultTargetTime = targetTime;
+  const int defaultCloseEnoughDeg = closeEnoughDeg;
+  const int defaultCloseEnoughRot = closeEnoughRot;
 
   const double maxPower = 90;
 
@@ -33,12 +35,15 @@ namespace team499 {
 
   // auto functions
 
-  void driveForwardPID(double amount, unit units);
-
   void driveForward(double amount, unit units);
 
   void turnTo(double amount);
 
   // only in inches
   void goTo(double x, double y, unit units);
+
+  // definitely need better name
+  void resetCloseEnoughs();
+  void updateCloseEnoughDeg(const double& target);
+  void updateCloseEnoughRot(const double& target);
 }
