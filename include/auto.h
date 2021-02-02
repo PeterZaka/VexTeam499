@@ -24,11 +24,13 @@ namespace team499 {
   extern int closeEnoughDeg;
   extern int closeEnoughRot;
 
+  extern double prevLeft;
+
   const int defaultTargetTime = targetTime;
   const int defaultCloseEnoughDeg = closeEnoughDeg;
   const int defaultCloseEnoughRot = closeEnoughRot;
 
-  const double maxPower = 90;
+  const double maxPower = 100;
 
   extern vex::motor* LeftWheelMotor;
   extern vex::motor* RightWheelMotor;

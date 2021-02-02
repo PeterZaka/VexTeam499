@@ -2,9 +2,11 @@
 
 namespace team499 {
 
-  int targetTime = 70; // in msec
+  int targetTime = 40; // in msec
   int closeEnoughDeg = 30;
-  int closeEnoughRot = 1;
+  int closeEnoughRot = 2;
+
+  double prevLeft = 0;
 
   int timeOnTarget = 0;
 
@@ -109,7 +111,7 @@ namespace team499 {
 
   void updateCloseEnoughDeg(const double& target)
   {
-    if (fabs(LeftWheelMotor->position(deg) - target) <= closeEnoughDeg)
+    if (fabs(LeftWheelMotor->position(deg) - target) <= closeEnoughDeg || LeftWheelMotor->position(deg) == prevLeft)
     {
       timeOnTarget += 20;
     }
@@ -117,11 +119,12 @@ namespace team499 {
     {
       timeOnTarget = 0;
     }
+    prevLeft = LeftWheelMotor->position(deg);
   }
 
   void updateCloseEnoughRot(const double& target)
   {
-    if (fabs(rot - target) <= closeEnoughRot)
+    if (fabs(rot - target) <= closeEnoughRot || LeftWheelMotor->position(deg) == prevLeft)
     {
       timeOnTarget += 20;
     }
@@ -129,6 +132,7 @@ namespace team499 {
     {
       timeOnTarget = 0;
     }
+    prevLeft = LeftWheelMotor->position(deg);
   }
 
   /*

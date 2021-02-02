@@ -28,7 +28,7 @@ void autoSkills()
       - Collect ball 1
       - Score at ball 0 bottom left tower
   */
-
+  
   // Set up robot and put ball 0 near bottom
   add(Intakes.SpinMotorsTo(30,400));
   add(SideRollers.SpinMotorsAt(100));
@@ -43,15 +43,15 @@ void autoSkills()
   turnTo(-90);
 
   // pick up ball 1
-  add(LeftWheel.WaitUntilReaches(300));
+  add(LeftWheel.WaitUntilReaches(150));
   add(SideRollers.SpinMotorsAt(100));
   // move ball 0 and ball 1 to top
-  add(wait(2,sec));
-  add(Intakes.SpinMotorsTo(60, 1200));
+  add(wait(1.5,sec));
+  add(Intakes.SpinMotorsTo(100, 1200));
   add(SideRollers.Stop());
   add(Intakes.WaitUntilReaches(1200));
   // move ball 0 and ball 1 back and get flywheel ready
-  add(Intakes.SpinMotorsTo(-60, -400));
+  add(Intakes.SpinMotorsTo(-100, -400));
   add(Intakes.WaitUntilReaches(-400));
   add(FlyWheel.SpinMotorsAt(30));
 
@@ -91,15 +91,16 @@ void autoSkills()
   turnTo(90);
 
   // move ball 1 to top
-  add(Intakes.SpinMotorsTo(60, 1400));
+  add(Intakes.SpinMotorsTo(100, 1400));
   add(Intakes.WaitUntilReaches(1400));
-  add(Intakes.SpinMotorsTo(-60, -400));
+  add(Intakes.SpinMotorsTo(-100, -400));
 
   // descore 3 times in middle tower
   driveForward(700, degrees);
   driveForward(-300, degrees);
 
   driveForward(325, degrees);
+  turnTo(90);
   driveForward(-300, degrees);
 
   // descore and prepare to score
@@ -117,7 +118,7 @@ void autoSkills()
   FlyWheel.Stop();
 
   // "reset" robot
-  //turnTo(90);
+  turnTo(90);
   driveForward(500, degrees);
   turnTo(90);
   resetCloseEnoughs();
@@ -134,7 +135,7 @@ void autoSkills()
   */
 
   // turn to ball 2
-  turnTo(40);
+  turnTo(39);
 
   // drive to ball 2
   SideRollers.SpinMotorsAt(100);
@@ -144,14 +145,14 @@ void autoSkills()
   Intakes.SpinMotorsTo(60, 400);
 
   // point to ball 3 / top right tower
-  turnTo(53);
+  turnTo(55);
 
   // move ball 2 and ball 3 to top
   add(LeftWheel.WaitUntilReaches(1600));
   add(Intakes.SpinMotorsTo(80, 1000));
   add(Intakes.WaitUntilReaches(1000));
-  add(Intakes.SpinMotorsTo(-80, -500));
-  add(Intakes.WaitUntilReaches(-500));
+  add(Intakes.SpinMotorsTo(-80, -400));
+  add(Intakes.WaitUntilReaches(-400));
   add(FlyWheel.SpinMotorsAt(30));
   add(wait(1, sec));
 
@@ -159,8 +160,8 @@ void autoSkills()
   driveForward(2950, degrees);
 
   // score ball 2 at top right tower
-  add(Intakes.SpinMotorsTo(60, 1200));
-  Intakes.WaitUntilReaches(1200);
+  add(Intakes.SpinMotorsTo(60, 600));
+  Intakes.WaitUntilReaches(600);
   FlyWheel.Stop();
 
   // ---------- TOP RIGHT TOWER SCORED ----------
@@ -171,7 +172,7 @@ void autoSkills()
   */
 
   // back up to x-axis of ball 4
-  driveForward(-1000, degrees);
+  driveForward(-500, degrees);
 
   // get rid of blue ball
   Intakes.SpinMotorsTo(-60, -600);
@@ -186,7 +187,7 @@ void autoSkills()
   add(Intakes.SpinMotorsTo(-60, -800));
 
   // drive to ball 4 / x-axis of middle right tower
-  driveForward(2000, degrees);
+  driveForward(2400, degrees);
   
   // move ball 3 and ball 4 to top
   Intakes.SpinMotorsTo(60, 1500);
@@ -199,7 +200,7 @@ void autoSkills()
   turnTo(90);
 
   // drive to middle right tower
-  driveForward(800, degrees);
+  driveForward(600, degrees);
 
   // score ball 3 at middle right tower
   Intakes.SpinMotorsTo(60, 400);
