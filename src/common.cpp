@@ -15,6 +15,18 @@ namespace team499 {
     wait(5, msec);
   }
 
+  void runPrints()
+  {
+    while(1)
+    {
+      resetScreen();
+
+      printOnController("time", timer::system() / 1000);
+
+      wait(20, msec);
+    }
+  }
+
   double quickestRotation(double start, double target)
   {
     target = posMod(target, 360);
@@ -22,7 +34,6 @@ namespace team499 {
     double rightTurn = roundToMultiple(start, 360) + target;
     return fabs(start - leftTurn) < fabs(start - rightTurn) ? leftTurn : rightTurn;
   }
-
 
   // MATH
 

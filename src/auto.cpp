@@ -9,6 +9,7 @@ namespace team499 {
   double prevLeft = 0;
 
   int timeOnTarget = 0;
+  int prevTime = 0;
 
   void driveForward(double amount, unit units)
   {
@@ -29,10 +30,12 @@ namespace team499 {
     LeftWheelMotor->resetPosition();
     RightWheelMotor->resetPosition();
 
+    prevTime = timer::system();
+
     while (timeOnTarget < targetTime)
     {
-      resetScreen();
-      printOnController("encoder", LeftWheelMotor->position(deg));
+      //resetScreen();
+      //printOnController("encoder", LeftWheelMotor->position(deg));
 
       // adjust to go straight
       if (rot - 0.2 > targetRot) // rotated to the right
@@ -61,6 +64,7 @@ namespace team499 {
 
       updateCloseEnoughDeg(amount);
 
+      prevTime = timer::system();
       wait(20, msec);
     }
     LeftWheelMotor->spin(fwd, 0, pct);
@@ -81,10 +85,12 @@ namespace team499 {
     LeftWheelMotor->resetPosition();
     RightWheelMotor->resetPosition();
 
+    prevTime = timer::system();
+
     while (timeOnTarget < targetTime)
     {
-      resetScreen();
-      printOnController("rot", rot);
+      //resetScreen();
+      //printOnController("rot", rot);
 
       // calculate PID
       leftMotorPower = LeftTurnPID.update(rot, targetRot);
@@ -96,6 +102,7 @@ namespace team499 {
 
       updateCloseEnoughRot(targetRot);
 
+      prevTime = timer::system();
       wait(20, msec);
     }
     LeftWheelMotor->spin(fwd, 0, pct);
@@ -113,7 +120,7 @@ namespace team499 {
   {
     if (fabs(LeftWheelMotor->position(deg) - target) <= closeEnoughDeg || LeftWheelMotor->position(deg) == prevLeft)
     {
-      timeOnTarget += 20;
+      timeOnTarget += timer::system() - prevTime;
     }
     else
     {
@@ -126,7 +133,7 @@ namespace team499 {
   {
     if (fabs(rot - target) <= closeEnoughRot || LeftWheelMotor->position(deg) == prevLeft)
     {
-      timeOnTarget += 20;
+      timeOnTarget += timer::system() - prevTime;
     }
     else
     {

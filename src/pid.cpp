@@ -2,7 +2,7 @@
 
 namespace team499{
 
-  PID::PID(double Kp, double Ki, double Kd) : Kp(Kp), Ki(Ki), Kd(Kd) {}
+  PID::PID(double Kp, double Ki, double Kd) : Kp(Kp * 20), Ki(Ki * 20), Kd(Kd * 20) {}
 
   void PID::reset()
   {
@@ -10,9 +10,9 @@ namespace team499{
     prevError = 0;
   }
 
-  double PID::update(double pos, double target, double rotError)
+  double PID::update(double pos, double target)
   {
-    error = target - pos + rotError;
+    error = (target - pos) / (timer::system() - prevTime);
     integral += error;
     if (pos > target || fabs(error) > 200)
     {

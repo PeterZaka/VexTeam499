@@ -70,12 +70,12 @@ void autonomous(void)
 void usercontrol(void)
 {
   waitUntil(isCalibrated || canceledCalibration);
+
+  vex::thread printThread(runPrints);
+
   while (1)
   {
     updateGearShift();
-
-    resetScreen();
-    printOnController("Gearshift power", gearShiftPower);
 
     axis3.Update();
     axis2.Update();

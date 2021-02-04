@@ -15,6 +15,8 @@ namespace team499 {
 
   void printOnController(std::string name);
 
+  void runPrints();
+
   double quickestRotation(double currentRot, double target);
 
 

@@ -21,6 +21,8 @@ namespace team499 {
 
   extern int targetTime;
   extern int timeOnTarget;
+  extern int prevTime;
+
   extern int closeEnoughDeg;
   extern int closeEnoughRot;
 
