@@ -23,6 +23,12 @@ namespace team499 {
 
       printOnController("time", timer::system() / 1000);
 
+      if(Controller1.ButtonB.pressing())
+      {
+        printOnController("left", driveLeft.temperature(fahrenheit));
+        printOnController("right", driveRight.temperature(fahrenheit));
+      }
+
       wait(20, msec);
     }
   }
