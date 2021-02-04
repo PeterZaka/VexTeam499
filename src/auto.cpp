@@ -11,6 +11,57 @@ namespace team499 {
   int timeOnTarget = 0;
   int prevTime = 0;
 
+  void colHit(vex::axisType a, double b, double c, double d)
+  {
+    timeOnTarget = targetTime;
+  }
+
+  void driveForward()
+  {
+    double targetRot = rot;
+
+    double leftMotorError;
+    double rightMotorError;
+
+    while(timeOnTarget < targetTime)
+    {
+      // adjust to go straight
+      if (rot - 0.2 > targetRot) // rotated to the right
+      {
+        leftMotorError = targetRot - rot;
+        rightMotorError = rot - targetRot;
+      }
+      else if (rot + 0.2 < targetRot) // rotated to the left
+      {
+        leftMotorError = rot - targetRot;
+        rightMotorError = targetRot - rot;
+      }
+      else
+      {
+        leftMotorError = 0;
+        rightMotorError = 0;
+      }
+
+      LeftWheelMotor->spin(fwd, maxPower + leftMotorError * rotCorrection, pct);
+      RightWheelMotor->spin(fwd, maxPower + rightMotorError * rotCorrection, pct);
+
+      if (LeftWheelMotor->position(deg) == prevLeft)
+      {
+        timeOnTarget += timer::system() - prevTime;
+      }
+      else
+      {
+        timeOnTarget = 0;
+      }
+      iSensor.collision(colHit);
+
+      prevTime = timer::system();
+      wait(20, msec);
+    }
+    LeftWheelMotor->spin(fwd, 0, pct);
+    RightWheelMotor->spin(fwd, 0, pct);
+  }
+
   void driveForward(double amount, unit units)
   {
     amount *= units;

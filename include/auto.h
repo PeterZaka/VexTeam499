@@ -39,6 +39,7 @@ namespace team499 {
 
   // auto functions
 
+  void driveForward();
   void driveForward(double amount, unit units);
 
   void turnTo(double amount);
