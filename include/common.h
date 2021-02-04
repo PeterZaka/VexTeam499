@@ -1,6 +1,7 @@
 #pragma once
 
 #include "vex.h"
+#include "auto.h"
 
 namespace team499 {
 

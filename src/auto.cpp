@@ -23,6 +23,8 @@ namespace team499 {
     double leftMotorError;
     double rightMotorError;
 
+    timeOnTarget = 0;
+
     while(timeOnTarget < targetTime)
     {
       // adjust to go straight
@@ -47,7 +49,7 @@ namespace team499 {
 
       if (LeftWheelMotor->position(deg) == prevLeft)
       {
-        timeOnTarget += timer::system() - prevTime;
+        timeOnTarget += 10;
       }
       else
       {
@@ -169,9 +171,13 @@ namespace team499 {
 
   void updateCloseEnoughDeg(const double& target)
   {
-    if (fabs(LeftWheelMotor->position(deg) - target) <= closeEnoughDeg || LeftWheelMotor->position(deg) == prevLeft)
+    if (fabs(LeftWheelMotor->position(deg) - target) <= closeEnoughDeg)
     {
       timeOnTarget += timer::system() - prevTime;
+    }
+    else if(LeftWheelMotor->position(deg) == prevLeft)
+    {
+      timeOnTarget += 10;
     }
     else
     {
@@ -182,9 +188,13 @@ namespace team499 {
 
   void updateCloseEnoughRot(const double& target)
   {
-    if (fabs(rot - target) <= closeEnoughRot || LeftWheelMotor->position(deg) == prevLeft)
+    if (fabs(rot - target) <= closeEnoughRot)
     {
       timeOnTarget += timer::system() - prevTime;
+    }
+    else if(LeftWheelMotor->position(deg) == prevLeft)
+    {
+      timeOnTarget += 10;
     }
     else
     {

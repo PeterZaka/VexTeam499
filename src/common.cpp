@@ -21,7 +21,7 @@ namespace team499 {
     {
       resetScreen();
 
-      printOnController("time", timer::system() / 1000);
+      printOnController("time", timer::system() - prevTime);
 
       if(Controller1.ButtonB.pressing())
       {
