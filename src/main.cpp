@@ -70,6 +70,10 @@ void autonomous(void)
 void usercontrol(void)
 {
   waitUntil(isCalibrated || canceledCalibration);
+  if(isCalibrated && !canceledCalibration)
+  {
+    vex::thread inertailThread(updateInertialForever);
+  }
 
   vex::thread printThread(runPrints);
 
