@@ -4,9 +4,9 @@ namespace team499 {
 
   double maxPower = 100;
 
-  int targetTime = 40; // in msec
-  int closeEnoughDeg = 30;
-  int closeEnoughRot = 2;
+  int targetTime = 100; // in msec
+  double closeEnoughDeg = 30;
+  double closeEnoughRot = 2;
 
   int timeOnTarget = 0;
   int prevTime = 0;
@@ -35,9 +35,9 @@ namespace team499 {
       averageEncoder = (LeftWheelMotor->position(deg) + RightWheelMotor->position(deg)) / 2;
 
       // check if close stopped or collided
-      if (fabs(averageEncoder - prevEncoder) <= 10)
+      if (fabs(averageEncoder - prevEncoder) <= 0.1)
       {
-        timeOnTarget += 10;
+        timeOnTarget += 5;
       }
       else
       {
@@ -137,9 +137,9 @@ namespace team499 {
     {
       timeOnTarget += timer::system() - prevTime;
     }
-    else if(fabs(averageEncoder - prevEncoder) <= 10)
+    else if(fabs(averageEncoder - prevEncoder) <= 0.1)
     {
-      timeOnTarget += 10;
+      timeOnTarget += 5;
     }
     else
     {
@@ -153,9 +153,9 @@ namespace team499 {
     {
       timeOnTarget += timer::system() - prevTime;
     }
-    else if(fabs(averageEncoder - prevEncoder) <= 10)
+    else if(fabs(averageEncoder - prevEncoder) <= 0.1)
     {
-      timeOnTarget += 10;
+      timeOnTarget += 5;
     }
     else
     {

@@ -24,13 +24,13 @@ namespace team499 {
   extern double maxPower;
 
   extern int targetTime;
-  extern int closeEnoughDeg;
-  extern int closeEnoughRot;
+  extern double closeEnoughDeg;
+  extern double closeEnoughRot;
 
 
   const int defaultTargetTime = targetTime;
-  const int defaultCloseEnoughDeg = closeEnoughDeg;
-  const int defaultCloseEnoughRot = closeEnoughRot;
+  const double defaultCloseEnoughDeg = closeEnoughDeg;
+  const double defaultCloseEnoughRot = closeEnoughRot;
 
   extern int timeOnTarget;
   extern int prevTime;
