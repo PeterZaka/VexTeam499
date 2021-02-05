@@ -39,10 +39,10 @@ input x([]() {return Controller2.ButtonX.pressing(); }, { &Intakes }, { &SideRol
 motor* team499::LeftWheelMotor = &driveLeft;
 motor* team499::RightWheelMotor = &driveRight;
 
-PID team499::LeftPID = PID(0.31,0,0);
-PID team499::RightPID = PID(0.31,0,0);
-PID team499::LeftTurnPID = PID(0.98, 0,0.1);
-PID team499::RightTurnPID = PID(0.98, 0,0.1);
+PID team499::LeftPID = PID(0.31, 0, 0);
+PID team499::RightPID = PID(0.31, 0, 0);
+PID team499::LeftTurnPID = PID(1.2, 0, 0);
+PID team499::RightTurnPID = PID(1.2, 0, 0);
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!

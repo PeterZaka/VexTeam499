@@ -2,14 +2,19 @@
 
 namespace team499 {
 
+  double maxPower = 100;
+
   int targetTime = 40; // in msec
   int closeEnoughDeg = 30;
   int closeEnoughRot = 2;
 
-  double prevLeft = 0;
-
   int timeOnTarget = 0;
   int prevTime = 0;
+  double prevEncoder;
+  double averageEncoder;
+  double leftMotorError;
+  double rightMotorError;
+  double targetRot;
 
   void colHit(vex::axisType a, double b, double c, double d)
   {
@@ -18,36 +23,19 @@ namespace team499 {
 
   void driveForward()
   {
-    double targetRot = rot;
-
-    double leftMotorError;
-    double rightMotorError;
-
-    timeOnTarget = 0;
+    resetAuto();
 
     while(timeOnTarget < targetTime)
     {
-      // adjust to go straight
-      if (rot - 0.2 > targetRot) // rotated to the right
-      {
-        leftMotorError = targetRot - rot;
-        rightMotorError = rot - targetRot;
-      }
-      else if (rot + 0.2 < targetRot) // rotated to the left
-      {
-        leftMotorError = rot - targetRot;
-        rightMotorError = targetRot - rot;
-      }
-      else
-      {
-        leftMotorError = 0;
-        rightMotorError = 0;
-      }
+      correctRobot();
 
       LeftWheelMotor->spin(fwd, maxPower + leftMotorError * rotCorrection, pct);
       RightWheelMotor->spin(fwd, maxPower + rightMotorError * rotCorrection, pct);
 
-      if (LeftWheelMotor->position(deg) == prevLeft)
+      averageEncoder = (LeftWheelMotor->position(deg) + RightWheelMotor->position(deg)) / 2;
+
+      // check if close stopped or collided
+      if (fabs(averageEncoder - prevEncoder) <= 10)
       {
         timeOnTarget += 10;
       }
@@ -57,6 +45,7 @@ namespace team499 {
       }
       iSensor.collision(colHit);
 
+      prevEncoder = averageEncoder;
       prevTime = timer::system();
       wait(20, msec);
     }
@@ -68,44 +57,17 @@ namespace team499 {
   {
     amount *= units;
 
-    timeOnTarget = 0;
-    double targetRot = rot;
+    resetAuto();
 
     double leftMotorPower;
     double rightMotorPower;
-
-    double leftMotorError;
-    double rightMotorError;
-
-    LeftPID.reset();
-    RightPID.reset();
-
-    LeftWheelMotor->resetPosition();
-    RightWheelMotor->resetPosition();
-
-    prevTime = timer::system();
 
     while (timeOnTarget < targetTime)
     {
       //resetScreen();
       //printOnController("encoder", LeftWheelMotor->position(deg));
 
-      // adjust to go straight
-      if (rot - 0.2 > targetRot) // rotated to the right
-      {
-        leftMotorError = targetRot - rot;
-        rightMotorError = rot - targetRot;
-      }
-      else if (rot + 0.2 < targetRot) // rotated to the left
-      {
-        leftMotorError = rot - targetRot;
-        rightMotorError = targetRot - rot;
-      }
-      else
-      {
-        leftMotorError = 0;
-        rightMotorError = 0;
-      }
+      correctRobot();
 
       // calculate PID
       leftMotorPower = LeftPID.update(LeftWheelMotor->position(deg), amount);
@@ -115,8 +77,11 @@ namespace team499 {
       LeftWheelMotor->spin(fwd, leftMotorPower + leftMotorError * rotCorrection, pct);
       RightWheelMotor->spin(fwd, rightMotorPower + rightMotorError * rotCorrection, pct);
 
+      // check if close enough to target
+      averageEncoder = (LeftWheelMotor->position(deg) + RightWheelMotor->position(deg)) / 2;
       updateCloseEnoughDeg(amount);
 
+      prevEncoder = averageEncoder;
       prevTime = timer::system();
       wait(20, msec);
     }
@@ -126,19 +91,12 @@ namespace team499 {
 
   void turnTo(double targetRot)
   {
-    timeOnTarget = 0;
+    resetAuto();
+
     targetRot = quickestRotation(rot, targetRot);
 
     double leftMotorPower;
     double rightMotorPower;
-
-    LeftTurnPID.reset();
-    RightTurnPID.reset();
-
-    LeftWheelMotor->resetPosition();
-    RightWheelMotor->resetPosition();
-
-    prevTime = timer::system();
 
     while (timeOnTarget < targetTime)
     {
@@ -153,8 +111,12 @@ namespace team499 {
       LeftWheelMotor->spin(fwd, leftMotorPower, pct);
       RightWheelMotor->spin(fwd, rightMotorPower, pct);
 
+      // check if close enough to target
+      // average is left only because average of both will always be 0
+      averageEncoder = LeftWheelMotor->position(deg);
       updateCloseEnoughRot(targetRot);
 
+      prevEncoder = averageEncoder;
       prevTime = timer::system();
       wait(20, msec);
     }
@@ -171,11 +133,11 @@ namespace team499 {
 
   void updateCloseEnoughDeg(const double& target)
   {
-    if (fabs(LeftWheelMotor->position(deg) - target) <= closeEnoughDeg)
+    if (fabs(averageEncoder - target) <= closeEnoughDeg)
     {
       timeOnTarget += timer::system() - prevTime;
     }
-    else if(LeftWheelMotor->position(deg) == prevLeft)
+    else if(fabs(averageEncoder - prevEncoder) <= 10)
     {
       timeOnTarget += 10;
     }
@@ -183,7 +145,6 @@ namespace team499 {
     {
       timeOnTarget = 0;
     }
-    prevLeft = LeftWheelMotor->position(deg);
   }
 
   void updateCloseEnoughRot(const double& target)
@@ -192,7 +153,7 @@ namespace team499 {
     {
       timeOnTarget += timer::system() - prevTime;
     }
-    else if(LeftWheelMotor->position(deg) == prevLeft)
+    else if(fabs(averageEncoder - prevEncoder) <= 10)
     {
       timeOnTarget += 10;
     }
@@ -200,7 +161,44 @@ namespace team499 {
     {
       timeOnTarget = 0;
     }
-    prevLeft = LeftWheelMotor->position(deg);
+  }
+
+  void resetAuto()
+  {
+    timeOnTarget = 0;
+    averageEncoder = 0;
+    targetRot = rot;
+
+    leftMotorError = 0;
+    rightMotorError = 0;
+
+    LeftPID.reset();
+    RightPID.reset();
+
+    LeftWheelMotor->resetPosition();
+    RightWheelMotor->resetPosition();
+
+    prevTime = timer::system();
+  }
+
+  void correctRobot()
+  {
+    // adjust to go straight
+    if (rot - 0.2 > targetRot) // rotated to the right
+    {
+      leftMotorError = targetRot - rot;
+      rightMotorError = rot - targetRot;
+    }
+    else if (rot + 0.2 < targetRot) // rotated to the left
+    {
+      leftMotorError = rot - targetRot;
+      rightMotorError = targetRot - rot;
+    }
+    else
+    {
+      leftMotorError = 0;
+      rightMotorError = 0;
+    }
   }
 
   /*

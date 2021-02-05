@@ -19,26 +19,31 @@ namespace team499 {
     boxes = inches * 5
   };
 
-  extern int targetTime;
-  extern int timeOnTarget;
-  extern int prevTime;
+  // editable
 
+  extern double maxPower;
+
+  extern int targetTime;
   extern int closeEnoughDeg;
   extern int closeEnoughRot;
 
-  extern double prevLeft;
 
   const int defaultTargetTime = targetTime;
   const int defaultCloseEnoughDeg = closeEnoughDeg;
   const int defaultCloseEnoughRot = closeEnoughRot;
 
-  const double maxPower = 100;
+  extern int timeOnTarget;
+  extern int prevTime;
+  extern double averageEncoder;
+  extern double prevEncoder;
+  extern double leftMotorError;
+  extern double rightMotorError;
+  extern double targetRot;
 
   extern vex::motor* LeftWheelMotor;
   extern vex::motor* RightWheelMotor;
 
   // auto functions
-
   void driveForward();
   void driveForward(double amount, unit units);
 
@@ -51,4 +56,12 @@ namespace team499 {
   void resetCloseEnoughs();
   void updateCloseEnoughDeg(const double& target);
   void updateCloseEnoughRot(const double& target);
+
+
+  // helper functions
+  // beginning of all auto functions
+  void resetAuto();
+
+  // used to go straight
+  void correctRobot();
 }
