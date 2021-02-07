@@ -25,9 +25,7 @@ namespace team499{
   };
 
   // PID
-  extern PID LeftPID;
-  extern PID RightPID;
-  extern PID LeftTurnPID;
-  extern PID RightTurnPID;
+  extern PID DrivePID;
+  extern PID TurnPID;
 
 }

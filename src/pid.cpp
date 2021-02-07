@@ -14,7 +14,7 @@ namespace team499{
   {
     error = (target - pos) / (timer::system() - prevTime);
     integral += error;
-    if (pos > target || fabs(error) > 200)
+    if (fabs(pos) > fabs(target) || fabs(LeftWheelMotor->power()) > maxPower - 10)
     {
       integral = 0;
     }

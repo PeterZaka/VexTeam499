@@ -38,8 +38,8 @@ namespace team499{
         rightMotorError = straightRot - rot;
       }
 
-      left->SpinMotorsAt(left->m_currentPower + leftMotorError * rotCorrection);
-      right->SpinMotorsAt(right->m_currentPower + rightMotorError * rotCorrection);
+      left->SpinMotorsAt(left->m_currentPower + (leftMotorError * rotCorrection * (fabs(left->m_currentPower) / 100)));
+      left->SpinMotorsAt(right->m_currentPower + (rightMotorError * rotCorrection * (fabs(right->m_currentPower) / 100)));
     }
     else
     {
@@ -64,8 +64,7 @@ namespace team499{
     if(!isTurning)
     {
       isTurning = true;
-      LeftTurnPID.reset();
-      RightTurnPID.reset();
+      TurnPID.reset();
     }
 
     if(Controller1.ButtonUp.pressing() && Controller1.ButtonLeft.pressing())
@@ -103,8 +102,8 @@ namespace team499{
 
     turnDirection = quickestRotation(rot, turnDirection);
 
-    double leftMotorPower = LeftTurnPID.update(rot, turnDirection);
-    double rightMotorPower = -RightTurnPID.update(rot , turnDirection);
+    double leftMotorPower = TurnPID.update(rot, turnDirection);
+    double rightMotorPower = -leftMotorPower;
 
     // update wheel power
     LeftWheelMotor->spin(fwd, leftMotorPower, pct);

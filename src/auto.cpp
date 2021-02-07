@@ -29,8 +29,12 @@ namespace team499 {
     {
       correctRobot();
 
-      LeftWheelMotor->spin(fwd, maxPower + leftMotorError * rotCorrection, pct);
-      RightWheelMotor->spin(fwd, maxPower + rightMotorError * rotCorrection, pct);
+      LeftWheelMotor->spin(fwd,
+      maxPower + (leftMotorError * rotCorrection * (fabs(LeftWheelMotor->power()) / maxPower)),
+      pct);
+      RightWheelMotor->spin(fwd,
+      maxPower + (leftMotorError * rotCorrection * (fabs(RightWheelMotor->power()) / maxPower)),
+      pct);
 
       averageEncoder = (LeftWheelMotor->position(deg) + RightWheelMotor->position(deg)) / 2;
 
@@ -70,12 +74,16 @@ namespace team499 {
       correctRobot();
 
       // calculate PID
-      leftMotorPower = LeftPID.update(LeftWheelMotor->position(deg), amount);
-      rightMotorPower = RightPID.update(RightWheelMotor->position(deg), amount);
+      leftMotorPower = DrivePID.update(LeftWheelMotor->position(deg), amount);
+      rightMotorPower = leftMotorPower;
 
       // update wheel power
-      LeftWheelMotor->spin(fwd, leftMotorPower + leftMotorError * rotCorrection, pct);
-      RightWheelMotor->spin(fwd, rightMotorPower + rightMotorError * rotCorrection, pct);
+      LeftWheelMotor->spin(fwd,
+      leftMotorPower + (leftMotorError * rotCorrection * (fabs(LeftWheelMotor->power()) / maxPower)),
+      pct);
+      RightWheelMotor->spin(fwd,
+      rightMotorPower + (leftMotorError * rotCorrection * (fabs(RightWheelMotor->power()) / maxPower)),
+      pct);
 
       // check if close enough to target
       averageEncoder = (LeftWheelMotor->position(deg) + RightWheelMotor->position(deg)) / 2;
@@ -104,8 +112,8 @@ namespace team499 {
       //printOnController("rot", rot);
 
       // calculate PID
-      leftMotorPower = LeftTurnPID.update(rot, targetRot);
-      rightMotorPower = -RightTurnPID.update(rot, targetRot);
+      leftMotorPower = TurnPID.update(rot, targetRot);
+      rightMotorPower = -leftMotorPower;
 
       // update wheel power
       LeftWheelMotor->spin(fwd, leftMotorPower, pct);
@@ -172,8 +180,8 @@ namespace team499 {
     leftMotorError = 0;
     rightMotorError = 0;
 
-    LeftPID.reset();
-    RightPID.reset();
+    DrivePID.reset();
+    TurnPID.reset();
 
     LeftWheelMotor->resetPosition();
     RightWheelMotor->resetPosition();
