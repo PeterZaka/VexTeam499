@@ -40,6 +40,9 @@ namespace team499 {
   extern double rightMotorError;
   extern double targetRot;
 
+  extern double leftMotorPower;
+  extern double rightMotorPower;
+
   extern vex::motor* LeftWheelMotor;
   extern vex::motor* RightWheelMotor;
 

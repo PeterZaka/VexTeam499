@@ -16,6 +16,9 @@ namespace team499 {
   double rightMotorError;
   double targetRot;
 
+  double leftMotorPower = 50;
+  double rightMotorPower = 50;
+
   void colHit(vex::axisType a, double b, double c, double d)
   {
     timeOnTarget = targetTime;
@@ -30,10 +33,10 @@ namespace team499 {
       correctRobot();
 
       LeftWheelMotor->spin(fwd,
-      maxPower + (leftMotorError * rotCorrection * (fabs(LeftWheelMotor->power()) / maxPower)),
+      maxPower + (leftMotorError * rotCorrection),
       pct);
       RightWheelMotor->spin(fwd,
-      maxPower + (leftMotorError * rotCorrection * (fabs(RightWheelMotor->power()) / maxPower)),
+      maxPower + (rightMotorError * rotCorrection),
       pct);
 
       averageEncoder = (LeftWheelMotor->position(deg) + RightWheelMotor->position(deg)) / 2;
@@ -63,9 +66,6 @@ namespace team499 {
 
     resetAuto();
 
-    double leftMotorPower;
-    double rightMotorPower;
-
     while (timeOnTarget < targetTime)
     {
       //resetScreen();
@@ -79,10 +79,10 @@ namespace team499 {
 
       // update wheel power
       LeftWheelMotor->spin(fwd,
-      leftMotorPower + (leftMotorError * rotCorrection * (fabs(LeftWheelMotor->power()) / maxPower)),
+      leftMotorPower + (leftMotorError * rotCorrection * (fabs(leftMotorPower) / maxPower)),
       pct);
       RightWheelMotor->spin(fwd,
-      rightMotorPower + (leftMotorError * rotCorrection * (fabs(RightWheelMotor->power()) / maxPower)),
+      rightMotorPower + (rightMotorError * rotCorrection * (fabs(rightMotorPower) / maxPower)),
       pct);
 
       // check if close enough to target
@@ -102,9 +102,6 @@ namespace team499 {
     resetAuto();
 
     targetRot = quickestRotation(rot, targetRot);
-
-    double leftMotorPower;
-    double rightMotorPower;
 
     while (timeOnTarget < targetTime)
     {
@@ -179,6 +176,9 @@ namespace team499 {
 
     leftMotorError = 0;
     rightMotorError = 0;
+
+    leftMotorPower = 0;
+    rightMotorPower = 0;
 
     DrivePID.reset();
     TurnPID.reset();

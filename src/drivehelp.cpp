@@ -64,6 +64,7 @@ namespace team499{
     if(!isTurning)
     {
       isTurning = true;
+      resetAuto();
       TurnPID.reset();
     }
 
@@ -102,8 +103,8 @@ namespace team499{
 
     turnDirection = quickestRotation(rot, turnDirection);
 
-    double leftMotorPower = TurnPID.update(rot, turnDirection);
-    double rightMotorPower = -leftMotorPower;
+    leftMotorPower = TurnPID.update(rot, turnDirection);
+    rightMotorPower = -leftMotorPower;
 
     // update wheel power
     LeftWheelMotor->spin(fwd, leftMotorPower, pct);

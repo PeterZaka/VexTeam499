@@ -14,7 +14,8 @@ namespace team499{
   {
     error = (target - pos) / (timer::system() - prevTime);
     integral += error;
-    if (fabs(pos) > fabs(target) || fabs(LeftWheelMotor->power()) > maxPower - 10)
+    integral = clamp(integral, -100000, 100000);
+    if (fabs(pos) > fabs(target) || fabs(leftMotorPower) > maxPower - 10)
     {
       integral = 0;
     }
