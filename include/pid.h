@@ -11,7 +11,7 @@ namespace team499{
     PID(double Kp, double Ki, double Kd);
 
     void reset();
-    double update(double pos, double target);
+    double update(double pos, double target, bool under=true);
 
     double Kp = 0; // Proportional adjustment to error, error * Kp
     double Ki = 0; // Integral component (adjusts bunch of errors), Integral * Ki

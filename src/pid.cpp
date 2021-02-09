@@ -10,12 +10,16 @@ namespace team499{
     prevError = 0;
   }
 
-  double PID::update(double pos, double target)
+  double PID::update(double pos, double target, bool under)
   {
     error = (target - pos) / (timer::system() - prevTime);
     integral += error;
     integral = clamp(integral, -100000, 100000);
-    if (fabs(pos) > fabs(target) || fabs(leftMotorPower) > maxPower - 10)
+    if((fabs(pos) > fabs(target) && under) || (fabs(pos) < fabs(target) && !under))
+    {
+      integral = 0;
+    }
+    if (fabs(leftMotorPower) > maxPower - 10)
     {
       integral = 0;
     }

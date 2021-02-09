@@ -103,13 +103,19 @@ namespace team499 {
 
     targetRot = quickestRotation(rot, targetRot);
 
+    double under = true;
+    if(rot > targetRot)
+    {
+      under = false;
+    }
+
     while (timeOnTarget < targetTime)
     {
       //resetScreen();
       //printOnController("rot", rot);
 
       // calculate PID
-      leftMotorPower = TurnPID.update(rot, targetRot);
+      leftMotorPower = TurnPID.update(rot, targetRot, under);
       rightMotorPower = -leftMotorPower;
 
       // update wheel power
