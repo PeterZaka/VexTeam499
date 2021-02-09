@@ -1,8 +1,5 @@
 #include "autoruns.h"
- 
-#define add(x) tasks.push_back([](){x;})
-#include "autoruns.h"
- 
+
 #define add(x) tasks.push_back([](){x;})
  
 bool isReady = false;
@@ -30,6 +27,8 @@ void autoSkills()
  
   //vex::thread printThread(runPrints);
  
+  // ---------- BOTTOM MIDDLE TOWER ----------
+
   /*
       - Set up robot
       - Score at ball 0 bottom middle tower
@@ -57,7 +56,7 @@ void autoSkills()
   shoot();
   turnTo(225);
  
-  // ---------- BOTTOM MIDDLE TOWER SCORED ----------
+  // ---------- BOTTOM LEFT TOWER ----------
  
   /*
       - Collect ball 1
@@ -98,7 +97,7 @@ void autoSkills()
   shoot();
   turnTo(225);
  
-  // ---------- BOTTOM LEFT TOWER SCORED ----------
+  // ---------- MIDDLE LEFT TOWER ----------
  
   /*
       - Collect ball 2
@@ -127,8 +126,9 @@ void autoSkills()
   // point to middle left tower
   Intakes.SpinMotorsAt(100);
   turnTo(270);
-  add(SideRollers.SpinMotorsAt(0));
-  // move ball 1 to top and ready
+  // don't descore because it accidentally descores red
+  SideRollers.SpinMotorsAt(0);
+  // ready
   FlyWheel.SpinMotorsAt(30);
   add(ready());
  
@@ -139,7 +139,7 @@ void autoSkills()
   shoot();
   turnTo(270);
  
-  // ---------- MIDDLE LEFT TOWER SCORED ----------
+  // ---------- TOP LEFT TOWER ----------
  
   /*
       - Collect ball 3
@@ -180,7 +180,7 @@ void autoSkills()
   shoot();
   turnTo(305);
  
-  // ---------- TOP LEFT TOWER SCORED ----------
+  // ---------- TOP MIDDLE TOWER ----------
  
   /*
       - Collect ball 4
@@ -203,7 +203,7 @@ void autoSkills()
   add(SideRollers.WaitUntilReaches(-2000));
   add(SideRollers.SpinMotorsAt(100));
  
-  // drive to ball 4 / x-axis of top middle tower
+  // drive to ball 4 / y-axis of top middle tower
   driveForward(1500, degrees);
   
   // point to top middle tower
@@ -221,7 +221,7 @@ void autoSkills()
   shoot();
   turnTo(0);
  
-  // ---------- TOP MIDDLE TOWER SCORED ----------
+  // ---------- TOP RIGHT TOWER ----------
  
   // TOP RIGHT TOWER IS THE SAME AS BOTTOM LEFT TOWER
  
@@ -264,7 +264,7 @@ void autoSkills()
   shoot();
   turnTo(45);
  
-  // ---------- TOP RIGHT TOWER SCORED ----------
+  // ---------- MIDDLE RIGHT TOWER ----------
  
   // MIDDLE RIGHT TOWER IS THE SAME AS MIDDLE LEFT TOWER
  
@@ -295,18 +295,20 @@ void autoSkills()
   // point to middle right tower
   Intakes.SpinMotorsAt(100);
   turnTo(90);
-  // move ball 6 to top and ready
+  // don't descore because it accidentally descores red
+  SideRollers.SpinMotorsAt(0);
+  // ready
   FlyWheel.SpinMotorsAt(30);
   add(ready());
  
   // drive to middle right tower
-  driveForward(450, degrees);
+  driveForward(500, degrees);
  
   // score ball 6 at middle right tower
   shoot();
   turnTo(90);
  
-  // ---------- MIDDLE RIGHT TOWER SCORED ----------
+  // ---------- BOTTOM RIGHT TOWER ----------
  
   // BOTTOM RIGHT TOWER IS THE SAME AS TOP LEFT TOWER
  
@@ -322,7 +324,7 @@ void autoSkills()
   add(SideRollers.SpinMotorsTo(-70, -2000));
  
   // drive out of middle right tower / y-axis of ball 7
-  driveForward(-1000, degrees);
+  driveForward(-800, degrees);
  
   // turn to ball 7
   turnTo(180);
@@ -343,7 +345,7 @@ void autoSkills()
   add(ready());
  
   // drive to bottom right tower
-  driveForward(950, degrees);
+  driveForward(1200, degrees);
  
   // score ball 7 at bottom right tower
   shoot();
