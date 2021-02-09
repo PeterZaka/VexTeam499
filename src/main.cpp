@@ -40,7 +40,7 @@ motor* team499::LeftWheelMotor = &driveLeft;
 motor* team499::RightWheelMotor = &driveRight;
 
 PID team499::DrivePID = PID(0.31, 0, 0);
-PID team499::TurnPID = PID(1.05, 0, 0);
+PID team499::TurnPID = PID(1.075, 0, 0.1);
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!

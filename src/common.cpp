@@ -21,12 +21,15 @@ namespace team499 {
     {
       resetScreen();
 
-      printOnController("time", timer::system() - prevTime);
-
       if(Controller1.ButtonB.pressing())
       {
         printOnController("left", driveLeft.temperature(fahrenheit));
         printOnController("right", driveRight.temperature(fahrenheit));
+      }
+      else
+      {
+        printOnController("rot", rot);
+        printOnController("target",targetRot);
       }
 
       wait(20, msec);
@@ -36,9 +39,25 @@ namespace team499 {
   double quickestRotation(double start, double target)
   {
     target = posMod(target, 360);
-    double leftTurn = roundToMultiple(start, 360) + (target - 360);
-    double rightTurn = roundToMultiple(start, 360) + target;
-    return fabs(start - leftTurn) < fabs(start - rightTurn) ? leftTurn : rightTurn;
+    //printf("\n\n\n\n\nstart: %.2lf\n", start);
+    //printf("target: %.2lf\n", target);
+    double roundedStart = roundToMultiple(start, 360);
+    double val1 = roundedStart + target;
+    double val2 = roundedStart - (360 - target);
+    double val3 = val1 + 360;
+    //printf("%.2lf, %.2lf, %.2lf\n", val1, val2, val3);
+    if(fabs(val1 - start) < fabs(val2 - start) && fabs(val1 - start) < fabs(val3 - start))
+    {
+      //printf("val1: %.2lf\n\n", val1);
+      return val1;
+    }
+    else if(fabs(val2 - start) < fabs(val3 - start))
+    {
+      //printf("val2: %.2lf\n\n", val2);
+      return val2;
+    }
+    //printf("val3: %.2lf\n\n", val3);
+    return val3;
   }
 
   // MATH
@@ -55,10 +74,6 @@ namespace team499 {
     {
       isPositive = -1;
       num *= -1;
-    }
-    if(fmod(num, multiple) /multiple > 0.5)
-    {
-      return ceil(num / multiple) * multiple * isPositive;
     }
     return floor(num / multiple) * multiple * isPositive;
   }

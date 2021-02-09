@@ -22,7 +22,15 @@ namespace team499{
     derivative = error - prevError;
     prevError = error;
 
+    //printf("\npos: %.2lf tar: %.2lf\n", pos, target);
+    //printf("error: %.2lf\n", (error * Kp));
+    //printf("int: %.2lf\n", (integral* Ki));
+    //printf("der: %.2lf\n", (derivative * Kd));
+
     double PIDvalue = (error * Kp) + (integral * Ki) + (derivative * Kd);
+
+    //printf("pid: %.2lf\n", PIDvalue);
+    
     return clamp(PIDvalue, -maxPower, maxPower);
   }
 }
