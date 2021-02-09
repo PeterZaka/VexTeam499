@@ -1,6 +1,6 @@
 #include "autoruns.h"
 
-#define add(x) tasks.push_back([](){x;})
+#define add(x) team499::tasks.push_back([](){x;})
  
 bool isReady = false;
  
@@ -50,7 +50,7 @@ void autoSkills()
   add(ready());
  
   // drive to bottom middle tower
-  driveForward(700, degrees);
+  driveForward(650, degrees);
  
   // score ball 0 at bottom middle tower
   shoot();
@@ -124,12 +124,13 @@ void autoSkills()
   driveForward(2150, degrees);
   
   // point to middle left tower
-  Intakes.SpinMotorsAt(100);
+  Intakes.SpinMotorsTo(100, 1200);
   turnTo(270);
   // don't descore because it accidentally descores red
   SideRollers.SpinMotorsAt(0);
   // ready
   FlyWheel.SpinMotorsAt(30);
+  add(Intakes.WaitUntilReaches(1200));
   add(ready());
  
   // drive to middle left tower
@@ -197,14 +198,14 @@ void autoSkills()
   driveForward(-1500, degrees);
  
   // turn to ball 4
-  turnTo(120);
+  turnTo(125);
  
   // pick up ball 4
   add(SideRollers.WaitUntilReaches(-2000));
   add(SideRollers.SpinMotorsAt(100));
  
   // drive to ball 4 / y-axis of top middle tower
-  driveForward(1500, degrees);
+  driveForward(1400, degrees);
   
   // point to top middle tower
   turnTo(0);
@@ -280,7 +281,7 @@ void autoSkills()
   add(SideRollers.SpinMotorsTo(-70, -2000));
  
   // drive out of top right tower / y-axis of ball 6
-  driveForward(-650, degrees);
+  driveForward(-800, degrees);
  
   // turn to ball 6
   turnTo(180);
@@ -290,15 +291,16 @@ void autoSkills()
   add(SideRollers.SpinMotorsAt(100));
  
   // drive to ball 6 / x-axis of middle right tower
-  driveForward(2150, degrees);
+  driveForward(2100, degrees);
   
   // point to middle right tower
-  Intakes.SpinMotorsAt(100);
+  Intakes.SpinMotorsTo(100,1200);
   turnTo(90);
   // don't descore because it accidentally descores red
   SideRollers.SpinMotorsAt(0);
   // ready
   FlyWheel.SpinMotorsAt(30);
+  add(Intakes.WaitUntilReaches(1200));
   add(ready());
  
   // drive to middle right tower
@@ -364,7 +366,8 @@ void shoot()
   waitUntil(isReady);
   Intakes.SpinMotorsTo(100, 250);
   Intakes.WaitUntilReaches(250);
-  FlyWheel.Stop();
+  add(wait(0.5, sec));
+  add(FlyWheel.Stop());
   isReady = false;
 }
  

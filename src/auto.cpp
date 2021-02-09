@@ -4,7 +4,7 @@ namespace team499 {
 
   double maxPower = 100;
 
-  int targetTime = 100; // in msec
+  int targetTime = 60; // in msec
   double closeEnoughDeg = 30;
   double closeEnoughRot = 2;
 
@@ -77,12 +77,18 @@ namespace team499 {
       leftMotorPower = DrivePID.update(LeftWheelMotor->position(deg), amount);
       rightMotorPower = leftMotorPower;
 
+      printf("\nrot: %.2lf\n", rot);
+      printf("targetRot: %.2lf\n", targetRot);
+      printf("lerror: %.2lf\n", leftMotorError);
+      printf("Power: %.2lf\n",leftMotorPower + leftMotorError);
+      printf("RightPower: %.2lf\n",rightMotorPower + rightMotorError);
+
       // update wheel power
       LeftWheelMotor->spin(fwd,
-      leftMotorPower + (leftMotorError * rotCorrection * (fabs(leftMotorPower) / maxPower)),
+      leftMotorPower + leftMotorError,
       pct);
       RightWheelMotor->spin(fwd,
-      rightMotorPower + (rightMotorError * rotCorrection * (fabs(rightMotorPower) / maxPower)),
+      rightMotorPower + rightMotorError,
       pct);
 
       // check if close enough to target
@@ -146,11 +152,11 @@ namespace team499 {
   {
     if (fabs(averageEncoder - target) <= closeEnoughDeg)
     {
-      timeOnTarget += timer::system() - prevTime;
+      timeOnTarget += 20;
     }
-    else if(fabs(averageEncoder - prevEncoder) <= 0.1)
+    else if(fabs(averageEncoder - prevEncoder) <= 1 && fabs(averageEncoder) > 30)
     {
-      timeOnTarget += 5;
+      timeOnTarget += 20;
     }
     else
     {
@@ -162,11 +168,11 @@ namespace team499 {
   {
     if (fabs(rot - target) <= closeEnoughRot)
     {
-      timeOnTarget += timer::system() - prevTime;
+      timeOnTarget += 20;
     }
-    else if(fabs(averageEncoder - prevEncoder) <= 0.1)
+    else if(fabs(averageEncoder - prevEncoder) <= 1 && fabs(averageEncoder) > 30)
     {
-      timeOnTarget += 5;
+      timeOnTarget += 20;
     }
     else
     {
@@ -213,6 +219,8 @@ namespace team499 {
       leftMotorError = 0;
       rightMotorError = 0;
     }
+    leftMotorError *= rotCorrection * (fabs(LeftWheelMotor->power()) / 100);
+    rightMotorError *= rotCorrection * (fabs(RightWheelMotor->power()) / 100);
   }
 
   /*
