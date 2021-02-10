@@ -4,84 +4,45 @@ namespace team499 {
 
   double maxPower = 100;
 
-  int targetTime = 60; // in msec
+  int targetTime = 100; // in msec
   double closeEnoughDeg = 30;
   double closeEnoughRot = 2;
 
   int timeOnTarget = 0;
-  int prevTime = 0;
-  double prevEncoder;
-  double averageEncoder;
+  double target;
   double leftMotorError;
   double rightMotorError;
   double targetRot;
 
-  double leftMotorPower = 50;
-  double rightMotorPower = 50;
+  double leftMotorPower = 0;
+  double rightMotorPower = 0;
 
   void colHit(vex::axisType a, double b, double c, double d)
   {
     timeOnTarget = targetTime;
   }
 
-  void driveForward()
-  {
-    resetAuto();
-
-    while(timeOnTarget < targetTime)
-    {
-      correctRobot();
-
-      LeftWheelMotor->spin(fwd,
-      maxPower + (leftMotorError * rotCorrection),
-      pct);
-      RightWheelMotor->spin(fwd,
-      maxPower + (rightMotorError * rotCorrection),
-      pct);
-
-      averageEncoder = (LeftWheelMotor->position(deg) + RightWheelMotor->position(deg)) / 2;
-
-      // check if close stopped or collided
-      if (fabs(averageEncoder - prevEncoder) <= 0.1)
-      {
-        timeOnTarget += 5;
-      }
-      else
-      {
-        timeOnTarget = 0;
-      }
-      iSensor.collision(colHit);
-
-      prevEncoder = averageEncoder;
-      prevTime = timer::system();
-      wait(20, msec);
-    }
-    LeftWheelMotor->spin(fwd, 0, pct);
-    RightWheelMotor->spin(fwd, 0, pct);
-  }
-
   void driveForward(double amount, unit units)
   {
-    amount *= units;
-
     resetAuto();
+
+    double under = true;
+    if(amount < 0)
+    {
+      under = false;
+    }
+
+    amount *= units;
+    target = amount;
+    vex::thread targetThread(updateCloseEnoughDeg);
 
     while (timeOnTarget < targetTime)
     {
-      //resetScreen();
-      //printOnController("encoder", LeftWheelMotor->position(deg));
-
       correctRobot();
 
       // calculate PID
-      leftMotorPower = DrivePID.update(LeftWheelMotor->position(deg), amount);
+      leftMotorPower = DrivePID.update(LeftWheelMotor->position(deg), amount, under);
       rightMotorPower = leftMotorPower;
-
-      printf("\nrot: %.2lf\n", rot);
-      printf("targetRot: %.2lf\n", targetRot);
-      printf("lerror: %.2lf\n", leftMotorError);
-      printf("Power: %.2lf\n",leftMotorPower + leftMotorError);
-      printf("RightPower: %.2lf\n",rightMotorPower + rightMotorError);
 
       // update wheel power
       LeftWheelMotor->spin(fwd,
@@ -91,14 +52,10 @@ namespace team499 {
       rightMotorPower + rightMotorError,
       pct);
 
-      // check if close enough to target
-      averageEncoder = (LeftWheelMotor->position(deg) + RightWheelMotor->position(deg)) / 2;
-      updateCloseEnoughDeg(amount);
-
-      prevEncoder = averageEncoder;
-      prevTime = timer::system();
       wait(20, msec);
     }
+    targetThread.interrupt();
+
     LeftWheelMotor->spin(fwd, 0, pct);
     RightWheelMotor->spin(fwd, 0, pct);
   }
@@ -108,6 +65,8 @@ namespace team499 {
     resetAuto();
 
     targetRot = quickestRotation(rot, targetRot);
+    target = targetRot;
+    vex::thread targetThread(updateCloseEnoughRot);
 
     double under = true;
     if(rot > targetRot)
@@ -117,9 +76,6 @@ namespace team499 {
 
     while (timeOnTarget < targetTime)
     {
-      //resetScreen();
-      //printOnController("rot", rot);
-
       // calculate PID
       leftMotorPower = TurnPID.update(rot, targetRot, under);
       rightMotorPower = -leftMotorPower;
@@ -128,15 +84,10 @@ namespace team499 {
       LeftWheelMotor->spin(fwd, leftMotorPower, pct);
       RightWheelMotor->spin(fwd, rightMotorPower, pct);
 
-      // check if close enough to target
-      // average is left only because average of both will always be 0
-      averageEncoder = LeftWheelMotor->position(deg);
-      updateCloseEnoughRot(targetRot);
-
-      prevEncoder = averageEncoder;
-      prevTime = timer::system();
       wait(20, msec);
     }
+    targetThread.interrupt();
+
     LeftWheelMotor->spin(fwd, 0, pct);
     RightWheelMotor->spin(fwd, 0, pct);
   }
@@ -148,42 +99,60 @@ namespace team499 {
     closeEnoughRot = defaultCloseEnoughRot;
   }
 
-  void updateCloseEnoughDeg(const double& target)
+  void updateCloseEnoughDeg()
   {
-    if (fabs(averageEncoder - target) <= closeEnoughDeg)
+    int prevTime = timer::system();
+    double averageEncoder;
+    while(timeOnTarget < targetTime)
     {
-      timeOnTarget += 20;
-    }
-    else if(fabs(averageEncoder - prevEncoder) <= 1 && fabs(averageEncoder) > 30)
-    {
-      timeOnTarget += 20;
-    }
-    else
-    {
-      timeOnTarget = 0;
+      averageEncoder = (LeftWheelMotor->position(deg) + RightWheelMotor->position(deg)) / 2;
+      // check if on target
+      if (fabs(averageEncoder - target) <= closeEnoughDeg)
+      {
+        timeOnTarget += timer::system() - prevTime;
+      }
+      // check if stopped
+      else if(fabs(LeftWheelMotor->power()) <= 1 && fabs(averageEncoder) > 30)
+      {
+        timeOnTarget += timer::system() - prevTime;
+      }
+      else
+      {
+        timeOnTarget = 0;
+      }
+      prevTime = timer::system();
+      wait(5, msec);
     }
   }
 
-  void updateCloseEnoughRot(const double& target)
+  void updateCloseEnoughRot()
   {
-    if (fabs(rot - target) <= closeEnoughRot)
+    int prevTime = timer::system();
+    double startingRot = rot;
+    while(timeOnTarget < targetTime)
     {
-      timeOnTarget += 20;
-    }
-    else if(fabs(averageEncoder - prevEncoder) <= 1 && fabs(averageEncoder) > 30)
-    {
-      timeOnTarget += 20;
-    }
-    else
-    {
-      timeOnTarget = 0;
+      // check if on target
+      if (fabs(rot - target) <= closeEnoughRot)
+      {
+        timeOnTarget += timer::system() - prevTime;
+      }
+      // check if stopped
+      else if(fabs(LeftWheelMotor->power()) <= 1 && fabs(rot - startingRot) > 0.5)
+      {
+        timeOnTarget += timer::system() - prevTime;
+      }
+      else
+      {
+        timeOnTarget = 0;
+      }
+      prevTime = timer::system();
+      wait(5, msec);
     }
   }
 
   void resetAuto()
   {
     timeOnTarget = 0;
-    averageEncoder = 0;
     targetRot = rot;
 
     leftMotorError = 0;
@@ -197,8 +166,6 @@ namespace team499 {
 
     LeftWheelMotor->resetPosition();
     RightWheelMotor->resetPosition();
-
-    prevTime = timer::system();
   }
 
   void correctRobot()
@@ -222,15 +189,4 @@ namespace team499 {
     leftMotorError *= rotCorrection * (fabs(LeftWheelMotor->power()) / 100);
     rightMotorError *= rotCorrection * (fabs(RightWheelMotor->power()) / 100);
   }
-
-  /*
-  void goTo(double x, double y)
-  {
-    // tan^-1(o/a)
-    turnTo(atan2((y - yPos), (x - xPos)) * 180 / PI);
-
-    double wantedDistance = pow(pow(x - xPos, 2) + pow(y - yPos, 2), 0.5);
-    driveForward(wantedDistance, degrees);
-  }
-  */
 }

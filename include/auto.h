@@ -33,9 +33,7 @@ namespace team499 {
   const double defaultCloseEnoughRot = closeEnoughRot;
 
   extern int timeOnTarget;
-  extern int prevTime;
-  extern double averageEncoder;
-  extern double prevEncoder;
+  extern double target;
   extern double leftMotorError;
   extern double rightMotorError;
   extern double targetRot;
@@ -47,18 +45,17 @@ namespace team499 {
   extern vex::motor* RightWheelMotor;
 
   // auto functions
-  void driveForward();
   void driveForward(double amount, unit units);
 
   void turnTo(double amount);
 
   // only in inches
-  void goTo(double x, double y, unit units);
+  void goTo(double x, double y, unit units=team499::degrees);
 
   // definitely need better name
   void resetCloseEnoughs();
-  void updateCloseEnoughDeg(const double& target);
-  void updateCloseEnoughRot(const double& target);
+  void updateCloseEnoughDeg();
+  void updateCloseEnoughRot();
 
 
   // helper functions
