@@ -186,7 +186,7 @@ namespace team499 {
       leftMotorError = 0;
       rightMotorError = 0;
     }
-    leftMotorError *= rotCorrection * (fabs(LeftWheelMotor->power()) / 100);
-    rightMotorError *= rotCorrection * (fabs(RightWheelMotor->power()) / 100);
+    leftMotorError = clamp(leftMotorError * rotCorrection, -50, 50) * (fabs(LeftWheelMotor->power()) / 100);
+    rightMotorError = clamp(rightMotorError * rotCorrection, -50, 50) * (fabs(RightWheelMotor->power()) / 100);
   }
 }

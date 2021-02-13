@@ -265,11 +265,13 @@ void autoSkills()
   shoot();
   turnTo(45);
  
-  // ---------- BOTTOM RIGHT TOWER ----------
+  // ---------- MIDDLE RIGHT TOWER ----------
+ 
+  // MIDDLE RIGHT TOWER IS THE SAME AS MIDDLE LEFT TOWER
  
   /*
       - Collect ball 6
-      - Score ball 6 at bottom right tower
+      - Score ball 6 at middle right tower
   */
  
   // get rid of blue ball
@@ -288,12 +290,57 @@ void autoSkills()
   add(SideRollers.WaitUntilReaches(-2000));
   add(SideRollers.SpinMotorsAt(100));
  
-  // drive to ball 6 / near bottom right tower
-  driveForward(4100, degrees);
-
+  // drive to ball 6 / x-axis of middle right tower
+  driveForward(2050, degrees);
+  
+  // point to middle right tower
+  Intakes.SpinMotorsTo(100,1200);
+  turnTo(90);
+  // don't descore because it accidentally descores red
+  SideRollers.SpinMotorsAt(0);
+  // ready
+  FlyWheel.SpinMotorsAt(30);
+  add(Intakes.WaitUntilReaches(1200));
+  add(ready());
+ 
+  // drive to middle right tower
+  driveForward(500, degrees);
+ 
+  // score ball 6 at middle right tower
+  shoot();
+  turnTo(90);
+ 
+  // ---------- BOTTOM RIGHT TOWER ----------
+ 
+  // BOTTOM RIGHT TOWER IS THE SAME AS TOP LEFT TOWER
+ 
+  /*
+      - Collect ball 7
+      - Score ball 7 at bottom right tower
+  */
+ 
+  // get rid of blue ball
+  LeftWheel.ResetEncoders();
+  add(LeftWheel.WaitUntilReaches(-300));
+  add(Intakes.SpinMotorsTo(-100, -600));
+  add(SideRollers.SpinMotorsTo(-70, -2000));
+ 
+  // drive out of middle right tower / y-axis of ball 7
+  driveForward(-800, degrees);
+ 
+  // turn to ball 7
+  turnTo(180);
+ 
+  // pick up ball 7
+  add(SideRollers.WaitUntilReaches(-2000));
+  add(SideRollers.SpinMotorsAt(100));
+ 
+  // drive to ball 7
+  driveForward(2000, degrees);
+  
   // point to bottom right tower
-  turnTo(135);
-  // move ball 6 to top and ready
+  turnTo(125);
+  // move ball 7 to top and ready
   FlyWheel.SpinMotorsAt(30);
   add(Intakes.SpinMotorsTo(100, 1200));
   add(Intakes.WaitUntilReaches(1200));
@@ -302,7 +349,7 @@ void autoSkills()
   // drive to bottom right tower
   driveForward(1200, degrees);
  
-  // score ball 6 at bottom right tower
+  // score ball 7 at bottom right tower
   shoot();
  
   // drive out and get rid of all
