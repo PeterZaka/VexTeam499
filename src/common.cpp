@@ -26,11 +26,10 @@ namespace team499 {
         printOnController("left", driveLeft.temperature(fahrenheit));
         printOnController("right", driveRight.temperature(fahrenheit));
       }
-      // else
-      // {
-      //   printOnController("rot", rot);
-      //   printOnController("target",targetRot);
-      // }
+      else
+      {
+        printOnController("left velocity", LeftWheelMotor->velocity(pct));
+      }
 
       wait(20, msec);
     }

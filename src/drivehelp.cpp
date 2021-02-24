@@ -20,27 +20,32 @@ namespace team499{
 
     if(fabs(left->m_currentPower - right->m_currentPower) < 5)
     {
-      printOnController("Straight");
+      // resetScreen();
+      // printOnController("Driving straight");
       if(!isDrivingStraight)
       {
         isDrivingStraight = true;
         straightRot = rot;
       }
 
-      // adjust to go straight
-      if (rot - 0.2 > straightRot) // rotated to the right
+      if (rot > targetRot) // rotated to the right
       {
-        leftMotorError = straightRot - rot;
-        rightMotorError = rot - straightRot;
+        leftMotorError = -fabs(rot - targetRot);
+        rightMotorError = fabs(rot - targetRot);
       }
-      else if (rot + 0.2 < straightRot) // rotated to the left
+      else if (rot < targetRot) // rotated to the left
       {
-        leftMotorError = rot - straightRot;
-        rightMotorError = straightRot - rot;
+        leftMotorError = fabs(rot - targetRot);
+        rightMotorError = -fabs(rot - targetRot);
+      }
+      else
+      {
+        leftMotorError = 0;
+        rightMotorError = 0;
       }
 
-      left->SpinMotorsAt(left->m_currentPower + (leftMotorError * rotCorrection * (fabs(left->m_currentPower) / 100)));
-      left->SpinMotorsAt(right->m_currentPower + (rightMotorError * rotCorrection * (fabs(right->m_currentPower) / 100)));
+      left->SpinMotorsAt(left->m_currentPower + (clamp(leftMotorError * rotCorrection, -30, 30) * clamp(fabs(left->m_currentPower) / 100, 0, 1)));
+      right->SpinMotorsAt(left->m_currentPower + (clamp(rightMotorError * rotCorrection, -30, 30) * clamp(fabs(left->m_currentPower) / 100, 0, 1)));
     }
     else
     {

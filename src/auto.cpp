@@ -24,6 +24,8 @@ namespace team499 {
 
   void driveForward(double amount, unit units)
   {
+    printf("rotation: %.2lf\n", targetRot);
+    printf("driving: %.2lf\n\n", amount);
     resetAuto();
 
     double under = true;
@@ -112,7 +114,7 @@ namespace team499 {
         timeOnTarget += timer::system() - prevTime;
       }
       // check if stopped
-      else if(fabs(LeftWheelMotor->power()) <= 0.2 && fabs(averageEncoder) > 30)
+      else if(fabs(LeftWheelMotor->velocity(pct)) <= 0.5 && fabs(averageEncoder) > closeEnoughDeg)
       {
         timeOnTarget += timer::system() - prevTime;
       }
@@ -137,7 +139,7 @@ namespace team499 {
         timeOnTarget += timer::system() - prevTime;
       }
       // check if stopped
-      else if(fabs(LeftWheelMotor->power()) <= 0.2 && fabs(rot - startingRot) > 0.5)
+      else if(fabs(LeftWheelMotor->velocity(pct)) <= 0.5 && fabs(rot - startingRot) > closeEnoughRot)
       {
         timeOnTarget += timer::system() - prevTime;
       }
@@ -186,7 +188,7 @@ namespace team499 {
       rightMotorError = 0;
     }
 
-    leftMotorError = clamp(leftMotorError * rotCorrection, -30, 30) * clamp(leftMotorPower / 100, -1, 1);
-    rightMotorError = clamp(rightMotorError * rotCorrection, -30, 30) * clamp(rightMotorPower / 100, -1 , 1);
+    leftMotorError = clamp(leftMotorError * rotCorrection, -30, 30) * clamp(fabs(leftMotorPower) / 100, 0, 1);
+    rightMotorError = clamp(rightMotorError * rotCorrection, -30, 30) * clamp(fabs(rightMotorPower) / 100, 0, 1);
   }
 }
