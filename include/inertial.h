@@ -5,7 +5,7 @@
 
 namespace team499 {
 
-  const double rotCorrection = 50;
+  const double rotCorrection = 5;
 
   extern double xAcc;
   extern double yAcc;

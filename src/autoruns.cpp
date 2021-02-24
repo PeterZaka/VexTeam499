@@ -33,7 +33,7 @@ void autoSkills()
       - Set up robot
       - Score at ball 0 bottom middle tower
   */
- 
+
   // Set up robot and put ball 0 to top
   add(Intakes.SpinMotorsTo(30, 400));
   add(SideRollers.SpinMotorsAt(100));
@@ -111,7 +111,7 @@ void autoSkills()
   add(SideRollers.SpinMotorsTo(-70, -2000));
  
   // drive out of bottom left tower / y-axis of ball 2
-  driveForward(-650, degrees);
+  driveForward(-600, degrees);
  
   // turn to ball 2
   turnTo(0);
@@ -366,7 +366,7 @@ void shoot()
   waitUntil(isReady);
   Intakes.SpinMotorsTo(100, 250);
   Intakes.WaitUntilReaches(250);
-  add(wait(0.5, sec));
+  wait(0.5, sec);
   add(FlyWheel.Stop());
   isReady = false;
 }

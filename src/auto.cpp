@@ -112,7 +112,7 @@ namespace team499 {
         timeOnTarget += timer::system() - prevTime;
       }
       // check if stopped
-      else if(fabs(LeftWheelMotor->power()) <= 1 && fabs(averageEncoder) > 30)
+      else if(fabs(LeftWheelMotor->power()) <= 0.2 && fabs(averageEncoder) > 30)
       {
         timeOnTarget += timer::system() - prevTime;
       }
@@ -137,7 +137,7 @@ namespace team499 {
         timeOnTarget += timer::system() - prevTime;
       }
       // check if stopped
-      else if(fabs(LeftWheelMotor->power()) <= 1 && fabs(rot - startingRot) > 0.5)
+      else if(fabs(LeftWheelMotor->power()) <= 0.2 && fabs(rot - startingRot) > 0.5)
       {
         timeOnTarget += timer::system() - prevTime;
       }
@@ -167,26 +167,26 @@ namespace team499 {
     LeftWheelMotor->resetPosition();
     RightWheelMotor->resetPosition();
   }
-
   void correctRobot()
   {
     // adjust to go straight
-    if (rot - 0.2 > targetRot) // rotated to the right
+    if (rot > targetRot) // rotated to the right
     {
-      leftMotorError = targetRot - rot;
-      rightMotorError = rot - targetRot;
+      leftMotorError = -fabs(rot - targetRot);
+      rightMotorError = fabs(rot - targetRot);
     }
-    else if (rot + 0.2 < targetRot) // rotated to the left
+    else if (rot < targetRot) // rotated to the left
     {
-      leftMotorError = rot - targetRot;
-      rightMotorError = targetRot - rot;
+      leftMotorError = fabs(rot - targetRot);
+      rightMotorError = -fabs(rot - targetRot);
     }
     else
     {
       leftMotorError = 0;
       rightMotorError = 0;
     }
-    leftMotorError = clamp(leftMotorError * rotCorrection, -50, 50) * (fabs(LeftWheelMotor->power()) / 100);
-    rightMotorError = clamp(rightMotorError * rotCorrection, -50, 50) * (fabs(RightWheelMotor->power()) / 100);
+
+    leftMotorError = clamp(leftMotorError * rotCorrection, -30, 30) * clamp(leftMotorPower / 100, -1, 1);
+    rightMotorError = clamp(rightMotorError * rotCorrection, -30, 30) * clamp(rightMotorPower / 100, -1 , 1);
   }
 }

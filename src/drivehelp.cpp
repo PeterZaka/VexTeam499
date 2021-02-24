@@ -20,6 +20,7 @@ namespace team499{
 
     if(fabs(left->m_currentPower - right->m_currentPower) < 5)
     {
+      printOnController("Straight");
       if(!isDrivingStraight)
       {
         isDrivingStraight = true;
