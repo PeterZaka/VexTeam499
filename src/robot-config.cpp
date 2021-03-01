@@ -13,7 +13,7 @@ motor intakeRight = motor(PORT6, ratio18_1, false);
 motor flywheelLeft = motor(PORT10, ratio6_1, false);
 motor flywheelRight = motor(PORT13, ratio6_1, true);
 motor sideRollerLeft = motor(PORT11, ratio18_1, false);
-motor sideRollerRight = motor(PORT12, ratio18_1, true);
+motor sideRollerRight = motor(PORT14, ratio18_1, true);
 
 // Sensors
 inertial iSensor = inertial(PORT8);

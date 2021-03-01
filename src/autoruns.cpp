@@ -366,7 +366,7 @@ void shoot()
   waitUntil(isReady);
   Intakes.SpinMotorsTo(100, 250);
   Intakes.WaitUntilReaches(250);
-  wait(0.5, sec);
+  add(wait(0.5, sec));
   add(FlyWheel.Stop());
   isReady = false;
 }

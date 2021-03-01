@@ -14,7 +14,7 @@ namespace team499{
     iSensor.calibrate();
     while(iSensor.isCalibrating())
     {
-      if(Controller1.ButtonA.pressing())
+      if(Controller1.ButtonA.pressing() || canceledCalibration)
       {
         canceledCalibration = true;
         return;

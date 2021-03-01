@@ -31,10 +31,12 @@ std::vector<motorGroup*> team499::allMotorGroups;
 
 input axis3([]() {return abs(Controller1.Axis3.position()) > 10; }, { &LeftWheel });
 input axis2([]() {return abs(Controller1.Axis2.position()) > 10; }, { &RightWheel });
-input l1([]() {return Controller2.ButtonL1.pressing(); }, {}, { &Intakes,&SideRollers });
-input l2([]() {return Controller2.ButtonL2.pressing(); }, { &Intakes,&SideRollers });
-input r2([]() {return Controller2.ButtonR2.pressing(); }, { &FlyWheel });
-input x([]() {return Controller2.ButtonX.pressing(); }, { &Intakes }, { &SideRollers });
+
+input l1([]() {return Controller2.ButtonL1.pressing(); }, {}, { &Intakes,&SideRollers }); // move down and descore
+input l2([]() {return Controller2.ButtonL2.pressing(); }, { &Intakes,&SideRollers }); // move up and intake
+input r2([]() {return Controller2.ButtonR2.pressing(); }, { &FlyWheel }); // turn on/off flywheel
+input x([]() {return Controller2.ButtonX.pressing(); }, { &Intakes }, { &SideRollers }); // move up and descore
+input a([]() {return Controller2.ButtonA.pressing(); }, {}, { &Intakes }); // only move down
 
 motor* team499::LeftWheelMotor = &driveLeft;
 motor* team499::RightWheelMotor = &driveRight;
@@ -67,6 +69,8 @@ void autonomous(void)
 
 void usercontrol(void)
 {
+  canceledCalibration = true; // do not callibrate in usercontrol
+
   waitUntil(isCalibrated || canceledCalibration);
   if(isCalibrated && !canceledCalibration)
   {
@@ -85,6 +89,7 @@ void usercontrol(void)
     l2.Update();
     r2.Update();
     x.Update();
+    a.Update();
 
     UpdateAllMotors();
 
