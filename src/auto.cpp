@@ -27,7 +27,7 @@ namespace team499 {
     printf("rotation: %.2lf\n", targetRot);
     printf("driving: %.2lf\n\n", amount);
     resetAuto();
-
+    printf("updaterotation: %.2lf\n", targetRot);
     double under = true;
     if(amount < 0)
     {
@@ -62,11 +62,11 @@ namespace team499 {
     RightWheelMotor->spin(fwd, 0, pct);
   }
 
-  void turnTo(double targetRot)
+  void turnTo(double amount)
   {
     resetAuto();
 
-    targetRot = quickestRotation(rot, targetRot);
+    targetRot = quickestRotation(rot, amount);
     target = targetRot;
     vex::thread targetThread(updateCloseEnoughRot);
 
@@ -155,7 +155,7 @@ namespace team499 {
   void resetAuto()
   {
     timeOnTarget = 0;
-    targetRot = rot;
+    //targetRot = rot;
 
     leftMotorError = 0;
     rightMotorError = 0;
