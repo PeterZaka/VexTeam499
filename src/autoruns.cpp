@@ -78,17 +78,13 @@ void autoSkills()
   // pick up ball 1
   add(SideRollers.WaitUntilReaches(-2000));
   add(SideRollers.SpinMotorsAt(100));
+  pickUpBall();
  
   // drive to ball 1
   driveForward(2675, degrees);
  
   // point to bottom left tower
   turnTo(225);
-  // move ball 1 to top and ready
-  FlyWheel.SpinMotorsAt(30);
-  add(Intakes.SpinMotorsTo(100, 1200));
-  add(Intakes.WaitUntilReaches(1200));
-  add(ready());
  
   // drive to bottom left tower
   driveForward(900, degrees);
@@ -119,19 +115,15 @@ void autoSkills()
   // pick up ball 2
   add(SideRollers.WaitUntilReaches(-2000));
   add(SideRollers.SpinMotorsAt(100));
+  pickUpBall();
+  // don't descore because it accidentally descores red
+  add(SideRollers.SpinMotorsAt(0));
  
   // drive to ball 2 / x-axis of middle left tower
   driveForward(2150, degrees);
   
   // point to middle left tower
-  Intakes.SpinMotorsTo(100, 1200);
   turnTo(270);
-  // don't descore because it accidentally descores red
-  SideRollers.SpinMotorsAt(0);
-  // ready
-  FlyWheel.SpinMotorsAt(30);
-  add(Intakes.WaitUntilReaches(1200));
-  add(ready());
  
   // drive to middle left tower
   driveForward(500, degrees);
@@ -162,18 +154,14 @@ void autoSkills()
   // pick up ball 3
   add(SideRollers.WaitUntilReaches(-2000));
   add(SideRollers.SpinMotorsAt(100));
+  pickUpBall();
  
   // drive to ball 3
   driveForward(2000, degrees);
   
   // point to top left tower
   turnTo(305);
-  // move ball 3 to top and ready
-  FlyWheel.SpinMotorsAt(30);
-  add(Intakes.SpinMotorsTo(100, 1200));
-  add(Intakes.WaitUntilReaches(1200));
-  add(ready());
- 
+
   // drive to top left tower
   driveForward(1200, degrees);
  
@@ -203,17 +191,13 @@ void autoSkills()
   // pick up ball 4
   add(SideRollers.WaitUntilReaches(-2000));
   add(SideRollers.SpinMotorsAt(100));
+  pickUpBall();
  
   // drive to ball 4 / y-axis of top middle tower
   driveForward(1400, degrees);
   
   // point to top middle tower
   turnTo(0);
-  // move ball 4 to top and ready
-  FlyWheel.SpinMotorsAt(30);
-  add(Intakes.SpinMotorsTo(100, 1200));
-  add(Intakes.WaitUntilReaches(1200));
-  add(ready());
  
   // drive to top middle tower
   driveForward(1550, degrees);
@@ -246,17 +230,13 @@ void autoSkills()
   // pick up ball 5
   add(SideRollers.WaitUntilReaches(-2000));
   add(SideRollers.SpinMotorsAt(100));
+  pickUpBall();
  
   // drive to ball 5
   driveForward(2150, degrees);
  
   // point to top right tower
   turnTo(45);
-  // move ball 5 to top and ready
-  FlyWheel.SpinMotorsAt(30);
-  add(Intakes.SpinMotorsTo(100, 1200));
-  add(Intakes.WaitUntilReaches(1200));
-  add(ready());
  
   // drive to top right tower
   driveForward(950, degrees);
@@ -289,19 +269,15 @@ void autoSkills()
   // pick up ball 6
   add(SideRollers.WaitUntilReaches(-2000));
   add(SideRollers.SpinMotorsAt(100));
+  pickUpBall();
+  // don't descore because it accidentally descores red
+  add(SideRollers.SpinMotorsAt(0));
  
   // drive to ball 6 / x-axis of middle right tower
   driveForward(2050, degrees);
   
   // point to middle right tower
-  Intakes.SpinMotorsTo(100,1200);
   turnTo(90);
-  // don't descore because it accidentally descores red
-  SideRollers.SpinMotorsAt(0);
-  // ready
-  FlyWheel.SpinMotorsAt(30);
-  add(Intakes.WaitUntilReaches(1200));
-  add(ready());
  
   // drive to middle right tower
   driveForward(500, degrees);
@@ -334,17 +310,13 @@ void autoSkills()
   // pick up ball 7
   add(SideRollers.WaitUntilReaches(-2000));
   add(SideRollers.SpinMotorsAt(100));
+  pickUpBall();
  
   // drive to ball 7
   driveForward(2000, degrees);
   
   // point to bottom right tower
   turnTo(125);
-  // move ball 7 to top and ready
-  FlyWheel.SpinMotorsAt(30);
-  add(Intakes.SpinMotorsTo(100, 1200));
-  add(Intakes.WaitUntilReaches(1200));
-  add(ready());
  
   // drive to bottom right tower
   driveForward(1200, degrees);
@@ -369,6 +341,15 @@ void shoot()
   add(wait(0.5, sec));
   add(FlyWheel.Stop());
   isReady = false;
+}
+
+void pickUpBall()
+{
+  add(waitUntilRed());
+  add(FlyWheel.SpinMotorsAt(30));
+  add(Intakes.SpinMotorsTo(100, 1200));
+  add(Intakes.WaitUntilReaches(1200));
+  add(ready());
 }
  
 void ready()
