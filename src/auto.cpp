@@ -4,9 +4,9 @@ namespace team499 {
 
   double maxPower = 100;
 
-  int targetTime = 100; // in msec
-  double closeEnoughDeg = 30;
-  double closeEnoughRot = 2;
+  int targetTime = 70; // in msec
+  double closeEnoughDeg = 50;
+  double closeEnoughRot = 3;
 
   int timeOnTarget = 0;
   double target;
@@ -114,7 +114,7 @@ namespace team499 {
         timeOnTarget += timer::system() - prevTime;
       }
       // check if stopped
-      else if(fabs(LeftWheelMotor->velocity(pct)) <= 0.5 && fabs(averageEncoder) > closeEnoughDeg)
+      else if(fabs(LeftWheelMotor->velocity(pct)) <= 1 && fabs(averageEncoder) > closeEnoughDeg)
       {
         timeOnTarget += timer::system() - prevTime;
       }
@@ -139,7 +139,7 @@ namespace team499 {
         timeOnTarget += timer::system() - prevTime;
       }
       // check if stopped
-      else if(fabs(LeftWheelMotor->velocity(pct)) <= 0.5 && fabs(rot - startingRot) > closeEnoughRot)
+      else if(fabs(LeftWheelMotor->velocity(pct)) <= 1 && fabs(rot - startingRot) > closeEnoughRot)
       {
         timeOnTarget += timer::system() - prevTime;
       }

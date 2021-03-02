@@ -2,6 +2,7 @@
 
 #include "vex.h"
 #include "auto.h"
+#include "vision.h"
 
 namespace team499 {
 

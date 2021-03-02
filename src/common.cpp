@@ -28,7 +28,15 @@ namespace team499 {
       }
       else
       {
-        printOnController("left velocity", LeftWheelMotor->velocity(pct));
+        Vision1.takeSnapshot(SIG_RED);
+        if((Vision1.largestObject.width + Vision1.largestObject.height > 200) || isGuaranteed)
+        {
+          printOnController("yes");
+        }
+        else
+        {
+          printOnController("no", Vision1.objectCount);
+        }
       }
 
       wait(20, msec);

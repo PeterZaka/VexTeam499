@@ -45,7 +45,7 @@ void autoSkills()
  
   // point towards bottom middle tower
   turnTo(225);
-  add(FlyWheel.SpinMotorsAt(30));
+  add(FlyWheel.SpinMotorsAt(50));
   add(Intakes.WaitUntilReaches(800));
   add(ready());
  
@@ -120,7 +120,7 @@ void autoSkills()
   add(SideRollers.SpinMotorsAt(0));
  
   // drive to ball 2 / x-axis of middle left tower
-  driveForward(2150, degrees);
+  driveForward(2100, degrees);
   
   // point to middle left tower
   turnTo(270);
@@ -157,13 +157,13 @@ void autoSkills()
   pickUpBall();
  
   // drive to ball 3
-  driveForward(2000, degrees);
+  driveForward(1900, degrees);
   
   // point to top left tower
   turnTo(305);
 
   // drive to top left tower
-  driveForward(1200, degrees);
+  driveForward(1300, degrees);
  
   // score ball 3 at top left tower
   shoot();
@@ -338,8 +338,8 @@ void shoot()
   waitUntil(isReady);
   Intakes.SpinMotorsTo(100, 250);
   Intakes.WaitUntilReaches(250);
-  add(wait(0.5, sec));
-  add(FlyWheel.Stop());
+  wait(0.5, sec);
+  FlyWheel.Stop();
   isReady = false;
   isGuaranteed = false;
 }

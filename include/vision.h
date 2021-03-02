@@ -2,8 +2,8 @@
 
 #include "vex.h"
 
-extern vex::vision::signature SIG_BLUE;
 extern vex::vision::signature SIG_RED;
+extern vex::vision::signature SIG_2;
 extern vex::vision::signature SIG_3;
 extern vex::vision::signature SIG_4;
 extern vex::vision::signature SIG_5;
