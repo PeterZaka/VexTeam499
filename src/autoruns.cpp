@@ -341,6 +341,7 @@ void shoot()
   add(wait(0.5, sec));
   add(FlyWheel.Stop());
   isReady = false;
+  isGuaranteed = false;
 }
 
 void pickUpBall()
@@ -351,7 +352,7 @@ void pickUpBall()
   add(Intakes.WaitUntilReaches(1200));
   add(ready());
 }
- 
+
 void ready()
 {
   isReady = true;

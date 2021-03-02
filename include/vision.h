@@ -11,4 +11,6 @@ extern vex::vision::signature SIG_6;
 extern vex::vision::signature SIG_7;
 extern vex::vision Vision1;
 
+extern bool isGuaranteed;
+
 void waitUntilRed();
