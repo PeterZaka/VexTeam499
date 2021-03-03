@@ -54,7 +54,6 @@ void autoSkills()
  
   // score ball 0 at bottom middle tower
   shoot();
-  turnTo(225);
  
   // ---------- BOTTOM LEFT TOWER ----------
  
@@ -64,10 +63,7 @@ void autoSkills()
   */
  
   // get rid of blue ball
-  LeftWheel.ResetEncoders();
-  add(LeftWheel.WaitUntilReaches(-300));
-  add(Intakes.SpinMotorsTo(-100, -600));
-  add(SideRollers.SpinMotorsTo(-70, -2000));
+  emptyOut();
  
   // drive out of bottom middle tower / x-axis of ball 1
   driveForward(-600, degrees);
@@ -76,22 +72,20 @@ void autoSkills()
   turnTo(270);
  
   // pick up ball 1
-  add(SideRollers.WaitUntilReaches(-2000));
-  add(SideRollers.SpinMotorsAt(100));
   pickUpBall();
  
   // drive to ball 1
-  driveForward(2675, degrees);
+  driveForward(2600, degrees); // was 2675
  
   // point to bottom left tower
-  turnTo(225);
+  turnTo(315); // was 225
+  isGuaranteed = true;
  
   // drive to bottom left tower
   driveForward(900, degrees);
  
   // score ball 1 at bottom left tower
   shoot();
-  turnTo(225);
  
   // ---------- MIDDLE LEFT TOWER ----------
  
@@ -101,36 +95,31 @@ void autoSkills()
   */
  
   // get rid of blue ball
-  LeftWheel.ResetEncoders();
-  add(LeftWheel.WaitUntilReaches(-300));
-  add(Intakes.SpinMotorsTo(-100, -600));
-  add(SideRollers.SpinMotorsTo(-70, -2000));
+  emptyOut();
  
   // drive out of bottom left tower / y-axis of ball 2
-  driveForward(-600, degrees);
+  driveForward(-800, degrees); // was -600
  
   // turn to ball 2
   turnTo(0);
  
   // pick up ball 2
-  add(SideRollers.WaitUntilReaches(-2000));
-  add(SideRollers.SpinMotorsAt(100));
   pickUpBall();
   // don't descore because it accidentally descores red
   add(SideRollers.SpinMotorsAt(0));
  
   // drive to ball 2 / x-axis of middle left tower
-  driveForward(2100, degrees);
+  driveForward(2000, degrees); // was 2100
   
   // point to middle left tower
   turnTo(270);
+  isGuaranteed = true;
  
   // drive to middle left tower
   driveForward(500, degrees);
  
   // score ball 2 at middle left tower
   shoot();
-  turnTo(270);
  
   // ---------- TOP LEFT TOWER ----------
  
@@ -140,10 +129,7 @@ void autoSkills()
   */
  
   // get rid of blue ball
-  LeftWheel.ResetEncoders();
-  add(LeftWheel.WaitUntilReaches(-300));
-  add(Intakes.SpinMotorsTo(-100, -600));
-  add(SideRollers.SpinMotorsTo(-70, -2000));
+  emptyOut();
  
   // drive out of middle left tower / y-axis of ball 3
   driveForward(-800, degrees);
@@ -152,8 +138,6 @@ void autoSkills()
   turnTo(0);
  
   // pick up ball 3
-  add(SideRollers.WaitUntilReaches(-2000));
-  add(SideRollers.SpinMotorsAt(100));
   pickUpBall();
  
   // drive to ball 3
@@ -161,13 +145,13 @@ void autoSkills()
   
   // point to top left tower
   turnTo(305);
+  isGuaranteed = true;
 
   // drive to top left tower
   driveForward(1300, degrees);
  
   // score ball 3 at top left tower
   shoot();
-  turnTo(305);
  
   // ---------- TOP MIDDLE TOWER ----------
  
@@ -177,10 +161,7 @@ void autoSkills()
   */
  
   // get rid of blue ball
-  LeftWheel.ResetEncoders();
-  add(LeftWheel.WaitUntilReaches(-300));
-  add(Intakes.SpinMotorsTo(-100, -600));
-  add(SideRollers.SpinMotorsTo(-70, -2000));
+  emptyOut();
  
   // drive out of top left tower
   driveForward(-1500, degrees);
@@ -189,8 +170,6 @@ void autoSkills()
   turnTo(125);
  
   // pick up ball 4
-  add(SideRollers.WaitUntilReaches(-2000));
-  add(SideRollers.SpinMotorsAt(100));
   pickUpBall();
  
   // drive to ball 4 / y-axis of top middle tower
@@ -198,13 +177,13 @@ void autoSkills()
   
   // point to top middle tower
   turnTo(0);
+  isGuaranteed = true;
  
   // drive to top middle tower
   driveForward(1550, degrees);
  
   // score ball 4 at top middle tower
   shoot();
-  turnTo(0);
  
   // ---------- TOP RIGHT TOWER ----------
  
@@ -216,10 +195,7 @@ void autoSkills()
   */
  
   // get rid of blue ball
-  LeftWheel.ResetEncoders();
-  add(LeftWheel.WaitUntilReaches(-300));
-  add(Intakes.SpinMotorsTo(-100, -600));
-  add(SideRollers.SpinMotorsTo(-70, -2000));
+  emptyOut();
  
   // drive out of top middle tower / x-axis of ball 5
   driveForward(-500, degrees);
@@ -228,8 +204,6 @@ void autoSkills()
   turnTo(90);
  
   // pick up ball 5
-  add(SideRollers.WaitUntilReaches(-2000));
-  add(SideRollers.SpinMotorsAt(100));
   pickUpBall();
  
   // drive to ball 5
@@ -237,13 +211,13 @@ void autoSkills()
  
   // point to top right tower
   turnTo(45);
+  isGuaranteed = true;
  
   // drive to top right tower
   driveForward(950, degrees);
  
   // score ball 5 at top right tower
   shoot();
-  turnTo(45);
  
   // ---------- MIDDLE RIGHT TOWER ----------
  
@@ -255,10 +229,7 @@ void autoSkills()
   */
  
   // get rid of blue ball
-  LeftWheel.ResetEncoders();
-  add(LeftWheel.WaitUntilReaches(-300));
-  add(Intakes.SpinMotorsTo(-100, -600));
-  add(SideRollers.SpinMotorsTo(-70, -2000));
+  emptyOut();
  
   // drive out of top right tower / y-axis of ball 6
   driveForward(-800, degrees);
@@ -267,24 +238,22 @@ void autoSkills()
   turnTo(180);
  
   // pick up ball 6
-  add(SideRollers.WaitUntilReaches(-2000));
-  add(SideRollers.SpinMotorsAt(100));
   pickUpBall();
   // don't descore because it accidentally descores red
   add(SideRollers.SpinMotorsAt(0));
  
   // drive to ball 6 / x-axis of middle right tower
-  driveForward(2050, degrees);
+  driveForward(2000, degrees);
   
   // point to middle right tower
   turnTo(90);
+  isGuaranteed = true;
  
   // drive to middle right tower
   driveForward(500, degrees);
  
   // score ball 6 at middle right tower
   shoot();
-  turnTo(90);
  
   // ---------- BOTTOM RIGHT TOWER ----------
  
@@ -296,10 +265,7 @@ void autoSkills()
   */
  
   // get rid of blue ball
-  LeftWheel.ResetEncoders();
-  add(LeftWheel.WaitUntilReaches(-300));
-  add(Intakes.SpinMotorsTo(-100, -600));
-  add(SideRollers.SpinMotorsTo(-70, -2000));
+  emptyOut();
  
   // drive out of middle right tower / y-axis of ball 7
   driveForward(-800, degrees);
@@ -308,18 +274,17 @@ void autoSkills()
   turnTo(180);
  
   // pick up ball 7
-  add(SideRollers.WaitUntilReaches(-2000));
-  add(SideRollers.SpinMotorsAt(100));
   pickUpBall();
  
   // drive to ball 7
-  driveForward(2000, degrees);
+  driveForward(1900, degrees);
   
   // point to bottom right tower
   turnTo(125);
+  isGuaranteed = true;
  
   // drive to bottom right tower
-  driveForward(1200, degrees);
+  driveForward(1300, degrees);
  
   // score ball 7 at bottom right tower
   shoot();
@@ -335,10 +300,21 @@ void autoSkills()
  
 void shoot()
 {
+  // wait until intakes are ready
   waitUntil(isReady);
+  isReady = false; 
+
+  // shoot ball
   Intakes.SpinMotorsTo(100, 250);
   Intakes.WaitUntilReaches(250);
-  wait(0.5, sec);
+
+  // adjust back and wait min 0.5 sec
+  add(wait(0.5, sec));
+  add(ready());
+  team499::turnTo(team499::targetRot);
+
+  // continue when done
+  waitUntil(isReady);
   FlyWheel.Stop();
   isReady = false;
   isGuaranteed = false;
@@ -346,11 +322,27 @@ void shoot()
 
 void pickUpBall()
 {
+  // siderollers in
+  add(SideRollers.SpinMotorsAt(100));
+
+  // wait until vision detects red in intake
   add(waitUntilRed());
-  add(FlyWheel.SpinMotorsAt(30));
+
+  // start flywheel, move ball up, ready
+  add(FlyWheel.SpinMotorsAt(40));
   add(Intakes.SpinMotorsTo(100, 1200));
   add(Intakes.WaitUntilReaches(1200));
   add(ready());
+}
+
+void emptyOut()
+{
+  // wait until out of tower then empty
+  LeftWheel.ResetEncoders();
+  add(LeftWheel.WaitUntilReaches(-300));
+  add(Intakes.SpinMotorsTo(-100, -600));
+  add(SideRollers.SpinMotorsTo(-70, -1000));
+  add(wait(1, sec));
 }
 
 void ready()

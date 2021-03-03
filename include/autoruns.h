@@ -14,4 +14,6 @@ void pickUpBall();
 
 void shoot();
 
+void emptyOut();
+
 void ready();
