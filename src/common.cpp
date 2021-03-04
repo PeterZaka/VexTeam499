@@ -23,20 +23,14 @@ namespace team499 {
 
       if(Controller1.ButtonB.pressing())
       {
-        printOnController("left", driveLeft.temperature(fahrenheit));
-        printOnController("right", driveRight.temperature(fahrenheit));
+        printOnController("Battery", Brain.Battery.current());
       }
       else
       {
-        Vision1.takeSnapshot(SIG_RED);
-        if((Vision1.largestObject.width + Vision1.largestObject.height > 200) || isGuaranteed)
-        {
-          printOnController("yes");
-        }
-        else
-        {
-          printOnController("no", Vision1.objectCount);
-        }
+        printOnController("Encoder", (LeftWheelMotor->position(deg) + RightWheelMotor->position(deg)) / 2);
+        //printOnController("Rotation", rot);
+        printOnController("Velocity", fabs(LeftWheelMotor->velocity(pct)));
+        printOnController("Time", timeOnTarget);
       }
 
       wait(20, msec);

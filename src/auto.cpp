@@ -24,10 +24,8 @@ namespace team499 {
 
   void driveForward(double amount, unit units)
   {
-    printf("rotation: %.2lf\n", targetRot);
-    printf("driving: %.2lf\n\n", amount);
     resetAuto();
-    printf("updaterotation: %.2lf\n", targetRot);
+    
     double under = true;
     if(amount < 0)
     {

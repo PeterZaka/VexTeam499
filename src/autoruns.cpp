@@ -25,7 +25,7 @@ void autoSkills()
  
   vex::thread taskThread(runTasks);
  
-  //vex::thread printThread(runPrints);
+  vex::thread printThread(runPrints);
  
   // ---------- BOTTOM MIDDLE TOWER ----------
 
@@ -75,10 +75,10 @@ void autoSkills()
   pickUpBall();
  
   // drive to ball 1
-  driveForward(2600, degrees); // was 2675
+  driveForward(2675, degrees);
  
   // point to bottom left tower
-  turnTo(315); // was 225
+  turnTo(225);
   isGuaranteed = true;
  
   // drive to bottom left tower
@@ -98,18 +98,16 @@ void autoSkills()
   emptyOut();
  
   // drive out of bottom left tower / y-axis of ball 2
-  driveForward(-800, degrees); // was -600
+  driveForward(-600, degrees);
  
   // turn to ball 2
   turnTo(0);
  
   // pick up ball 2
   pickUpBall();
-  // don't descore because it accidentally descores red
-  add(SideRollers.SpinMotorsAt(0));
  
   // drive to ball 2 / x-axis of middle left tower
-  driveForward(2000, degrees); // was 2100
+  driveForward(2100, degrees);
   
   // point to middle left tower
   turnTo(270);
@@ -118,6 +116,9 @@ void autoSkills()
   // drive to middle left tower
   driveForward(500, degrees);
  
+  // descore once because it accidentally descores red
+  SideRollers.SpinMotorsTo(100, 2000);
+
   // score ball 2 at middle left tower
   shoot();
  
@@ -182,12 +183,13 @@ void autoSkills()
   // drive to top middle tower
   driveForward(1550, degrees);
  
+  // descore once because it accidentally descores red
+  SideRollers.SpinMotorsTo(100, 2000);
+
   // score ball 4 at top middle tower
   shoot();
  
   // ---------- TOP RIGHT TOWER ----------
- 
-  // TOP RIGHT TOWER IS THE SAME AS BOTTOM LEFT TOWER
  
   /*
       - Collect ball 5
@@ -232,18 +234,16 @@ void autoSkills()
   emptyOut();
  
   // drive out of top right tower / y-axis of ball 6
-  driveForward(-800, degrees);
+  driveForward(-600, degrees);  // was -800
  
   // turn to ball 6
   turnTo(180);
  
   // pick up ball 6
   pickUpBall();
-  // don't descore because it accidentally descores red
-  add(SideRollers.SpinMotorsAt(0));
  
   // drive to ball 6 / x-axis of middle right tower
-  driveForward(2000, degrees);
+  driveForward(2100, degrees); // was 2000
   
   // point to middle right tower
   turnTo(90);
@@ -252,6 +252,9 @@ void autoSkills()
   // drive to middle right tower
   driveForward(500, degrees);
  
+  // descore once because it accidentally descores red
+  SideRollers.SpinMotorsTo(100, 2000);
+
   // score ball 6 at middle right tower
   shoot();
  
