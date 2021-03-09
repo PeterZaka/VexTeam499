@@ -75,7 +75,7 @@ void autoSkills()
   pickUpBall();
  
   // drive to ball 1
-  driveForward(2675, degrees);
+  driveForward(2700, degrees);
  
   // point to bottom left tower
   turnTo(225);
@@ -142,7 +142,7 @@ void autoSkills()
   pickUpBall();
  
   // drive to ball 3
-  driveForward(1900, degrees);
+  driveForward(2000, degrees);
   
   // point to top left tower
   turnTo(305);
@@ -167,21 +167,23 @@ void autoSkills()
   // drive out of top left tower
   driveForward(-1500, degrees);
  
+  maxPower = 80;
   // turn to ball 4
   turnTo(125);
+  maxPower = 100;
  
   // pick up ball 4
   pickUpBall();
  
   // drive to ball 4 / y-axis of top middle tower
-  driveForward(1400, degrees);
+  driveForward(1600, degrees);
   
   // point to top middle tower
   turnTo(0);
   isGuaranteed = true;
  
   // drive to top middle tower
-  driveForward(1550, degrees);
+  driveForward(1600, degrees);
  
   // descore once because it accidentally descores red
   SideRollers.SpinMotorsTo(100, 2000);
@@ -312,7 +314,7 @@ void shoot()
   Intakes.WaitUntilReaches(250);
 
   // adjust back and wait min 0.5 sec
-  add(wait(0.5, sec));
+  add(wait(0.75, sec));
   add(ready());
   team499::turnTo(team499::targetRot);
 
