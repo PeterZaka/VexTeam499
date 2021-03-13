@@ -117,7 +117,8 @@ void autoSkills()
   driveForward(500, degrees);
  
   // descore once because it accidentally descores red
-  SideRollers.SpinMotorsTo(100, 2000);
+  SideRollers.SpinMotorsAt(0);
+  SideRollers.SpinMotorsTo(100, 2500);
 
   // score ball 2 at middle left tower
   shoot();
@@ -142,7 +143,7 @@ void autoSkills()
   pickUpBall();
  
   // drive to ball 3
-  driveForward(2000, degrees);
+  driveForward(1900, degrees);
   
   // point to top left tower
   turnTo(305);
@@ -169,7 +170,7 @@ void autoSkills()
  
   maxPower = 80;
   // turn to ball 4
-  turnTo(125);
+  turnTo(120);
   maxPower = 100;
  
   // pick up ball 4
@@ -186,7 +187,8 @@ void autoSkills()
   driveForward(1600, degrees);
  
   // descore once because it accidentally descores red
-  SideRollers.SpinMotorsTo(100, 2000);
+  SideRollers.SpinMotorsAt(0);
+  SideRollers.SpinMotorsTo(100, 2500);
 
   // score ball 4 at top middle tower
   shoot();
@@ -255,7 +257,8 @@ void autoSkills()
   driveForward(500, degrees);
  
   // descore once because it accidentally descores red
-  SideRollers.SpinMotorsTo(100, 2000);
+  SideRollers.SpinMotorsAt(0);
+  SideRollers.SpinMotorsTo(100, 2500);
 
   // score ball 6 at middle right tower
   shoot();
