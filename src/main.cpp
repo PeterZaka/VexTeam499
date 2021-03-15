@@ -77,10 +77,10 @@ void usercontrol(void)
     vex::thread inertailThread(updateInertialForever);
   }
 
-  vex::thread printThread(runPrints);
-
   while (1)
   {
+    Controller2.Screen.clearScreen();
+
     updateGearShift();
 
     axis3.Update();
@@ -91,11 +91,22 @@ void usercontrol(void)
     x.Update();
     a.Update();
 
+    if(detects(SIG_RED))
+    {
+      Intakes.m_currentPower = std::min(0.0, Intakes.m_currentPower);
+    }
+    if(Controller2.ButtonY.pressing())
+    {
+      Intakes.SpinMotorsTo(100, 500);
+    }
+
     UpdateAllMotors();
 
     // using inertial sensor
     driveStraight(&LeftWheel, &RightWheel);
     //turnToButton();
+
+    Controller2.Screen.print("Power: %.2lf", gearShiftPower);
 
     wait(20, msec);
   }
