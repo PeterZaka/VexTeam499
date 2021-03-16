@@ -12,7 +12,7 @@ O        O        O
  
 O 2   *  O  *   6 O
   
-*        *        *
+*        8        *
     1         7
 O        O #      O
  
@@ -297,10 +297,46 @@ void autoSkills()
   // score ball 7 at bottom right tower
   shoot();
  
-  // drive out and get rid of all
-  driveForward(-1000, degrees);
-  Intakes.SpinMotorsTo(-100, -1200);
-  SideRollers.SpinMotorsTo(-70, -3000);
+  // ---------- MIDDLE TOWER ----------
+ 
+  // MIDDLE TOWER IS SIMMILAR TO TOP MIDDLE TOWER
+ 
+  /*
+      - Collect ball 8
+      - Score ball 8 at middle tower
+  */
+  
+  // get rid of blue ball
+  emptyOut();
+ 
+  // drive out of bottom right tower
+  driveForward(-1500, degrees);
+ 
+  maxPower = 80;
+  // turn to ball 8
+  turnTo(310);
+  maxPower = 100;
+ 
+  // pick up ball 8
+  pickUpBall();
+ 
+  // drive to ball 8 / left sideroller of y-axis of middle tower
+  driveForward(1500, degrees);
+  
+  // point to middle tower
+  turnTo(0);
+  isGuaranteed = true;
+ 
+  // drive to middle tower and descore one
+  driveForward(1000, degrees);
+
+  driveForward(-500, degrees);
+  driveForward(400, degrees);
+
+  turnTo(340);
+
+  // score ball 8 at middle tower
+  shoot();
  
   taskThread.interrupt();
  
