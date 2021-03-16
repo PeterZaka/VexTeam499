@@ -25,13 +25,6 @@ namespace team499 {
       {
         printOnController("Battery", Brain.Battery.current());
       }
-      else
-      {
-        printOnController("Encoder", (LeftWheelMotor->position(deg) + RightWheelMotor->position(deg)) / 2);
-        //printOnController("Rotation", rot);
-        printOnController("Velocity", fabs(LeftWheelMotor->velocity(pct)));
-        printOnController("Time", timeOnTarget);
-      }
 
       wait(20, msec);
     }

@@ -38,8 +38,8 @@ input r2([]() {return Controller2.ButtonR2.pressing(); }, { &FlyWheel }); // tur
 input x([]() {return Controller2.ButtonX.pressing(); }, { &Intakes }, { &SideRollers }); // move up and descore
 input a([]() {return Controller2.ButtonA.pressing(); }, { &Intakes } ); // only move up
 
-motor* team499::LeftWheelMotor = &driveLeft;
-motor* team499::RightWheelMotor = &driveRight;
+motor* team499::LeftWheelMotor = &backDriveLeft;
+motor* team499::RightWheelMotor = &backDriveRight;
 
 PID team499::DrivePID = PID(0.29, 0, 0);
 PID team499::TurnPID = PID(1.1, 0, 0.1);

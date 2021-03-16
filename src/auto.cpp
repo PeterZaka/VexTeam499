@@ -45,19 +45,15 @@ namespace team499 {
       rightMotorPower = leftMotorPower;
 
       // update wheel power
-      LeftWheelMotor->spin(fwd,
-      leftMotorPower + leftMotorError,
-      pct);
-      RightWheelMotor->spin(fwd,
-      rightMotorPower + rightMotorError,
-      pct);
+      LeftWheel.SpinMotorsAt(leftMotorPower + leftMotorError);
+      RightWheel.SpinMotorsAt(rightMotorPower + rightMotorError);
 
       wait(20, msec);
     }
     targetThread.interrupt();
 
-    LeftWheelMotor->spin(fwd, 0, pct);
-    RightWheelMotor->spin(fwd, 0, pct);
+    LeftWheel.Stop();
+    RightWheel.Stop();
   }
 
   void turnTo(double amount)
@@ -81,15 +77,15 @@ namespace team499 {
       rightMotorPower = -leftMotorPower;
 
       // update wheel power
-      LeftWheelMotor->spin(fwd, leftMotorPower, pct);
-      RightWheelMotor->spin(fwd, rightMotorPower, pct);
+      LeftWheel.SpinMotorsAt(leftMotorPower);
+      RightWheel.SpinMotorsAt(rightMotorPower);
 
       wait(20, msec);
     }
     targetThread.interrupt();
 
-    LeftWheelMotor->spin(fwd, 0, pct);
-    RightWheelMotor->spin(fwd, 0, pct);
+    LeftWheel.Stop();
+    RightWheel.Stop();
   }
 
   void resetCloseEnoughs()

@@ -6,12 +6,12 @@ using namespace vex;
 brain Brain;
 
 // Motors
-motor driveLeft = motor(PORT1, ratio18_1, false);
-motor driveRight = motor(PORT2, ratio18_1, true);
-motor intakeLeft = motor(PORT5, ratio18_1, true);
-motor intakeRight = motor(PORT6, ratio18_1, false);
-motor flywheelLeft = motor(PORT10, ratio6_1, false);
-motor flywheelRight = motor(PORT13, ratio6_1, true);
+motor backDriveLeft = motor(PORT1, ratio18_1, false);
+motor backDriveRight = motor(PORT2, ratio18_1, true);
+motor topDriveLeft = motor(PORT5, ratio18_1, false);
+motor topDriveRight = motor(PORT9, ratio18_1, true);
+motor intake = motor(PORT6, ratio18_1, false);
+motor flywheel = motor(PORT10, ratio6_1, false); // or port 13
 motor sideRollerLeft = motor(PORT11, ratio18_1, false);
 motor sideRollerRight = motor(PORT14, ratio18_1, true);
 

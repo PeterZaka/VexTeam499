@@ -4,6 +4,7 @@
 #include "vex.h"
 #include "inertial.h"
 #include "pid.h"
+#include "motors.h"
 
 #define PI 3.14159265
 
