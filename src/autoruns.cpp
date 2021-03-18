@@ -17,6 +17,21 @@ O 2   *  O  *   6 O
 O        O #      O
  
 */
+
+void runPrints1()
+{
+  while(1)
+  {
+    team499::resetScreen();
+
+    team499::printOnController("All velocity", 
+      (backDriveLeft.velocity(pct) + topDriveLeft.velocity(pct) + backDriveRight.velocity(pct) + topDriveRight.velocity(pct)) / 4);
+    team499::printOnController("Top left", topDriveLeft.velocity(pct));
+    team499::printOnController("Back left", backDriveLeft.velocity(pct));
+
+    wait(20, msec);
+  }
+}
  
 void autoSkills()
 {
@@ -25,7 +40,7 @@ void autoSkills()
  
   vex::thread taskThread(runTasks);
  
-  vex::thread printThread(runPrints);
+  vex::thread printThread(runPrints1);
  
   // ---------- BOTTOM MIDDLE TOWER ----------
 
@@ -352,7 +367,12 @@ void shoot()
   Intakes.SpinMotorsTo(100, 250);
   Intakes.WaitUntilReaches(250);
 
-  // adjust back and wait min 0.5 sec
+  // wait until doesn't see red
+  Intakes.SpinMotorsAt(100);
+  waitUntil(!detects(SIG_RED));
+  Intakes.SpinMotorsAt(0);
+
+  // adjust back and wait min 0.75 sec
   add(wait(0.75, sec));
   add(ready());
   team499::turnTo(team499::targetRot);
@@ -376,6 +396,11 @@ void pickUpBall()
   add(FlyWheel.SpinMotorsAt(40));
   add(Intakes.SpinMotorsTo(100, 1200));
   add(Intakes.WaitUntilReaches(1200));
+
+  // keep spinning until at least sees red.
+  add(Intakes.SpinMotorsAt(100));
+  add(waitUntil(detects(SIG_RED)));
+  add(Intakes.SpinMotorsAt(0));
   add(ready());
 }
 

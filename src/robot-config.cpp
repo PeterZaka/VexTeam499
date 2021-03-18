@@ -22,6 +22,8 @@ inertial iSensor = inertial(PORT8);
 controller Controller1 = controller(primary);
 controller Controller2 = controller(partner);
 
+bumper Bumper = bumper(Brain.ThreeWirePort.H);
+
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
  *

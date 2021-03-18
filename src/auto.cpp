@@ -36,12 +36,15 @@ namespace team499 {
     target = amount;
     vex::thread targetThread(updateCloseEnoughDeg);
 
+    double averageEncoder;
+
     while (timeOnTarget < targetTime)
     {
       correctRobot();
 
       // calculate PID
-      leftMotorPower = DrivePID.update(LeftWheelMotor->position(deg), amount, under);
+      averageEncoder = (LeftWheel.AverageRotation() + RightWheel.AverageRotation()) / 2;
+      leftMotorPower = DrivePID.update(averageEncoder, amount, under);
       rightMotorPower = leftMotorPower;
 
       // update wheel power

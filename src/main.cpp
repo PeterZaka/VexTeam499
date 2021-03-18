@@ -36,7 +36,7 @@ input l1([]() {return Controller2.ButtonL1.pressing(); }, {}, { &Intakes,&SideRo
 input l2([]() {return Controller2.ButtonL2.pressing(); }, { &Intakes,&SideRollers }); // move up and intake
 input r2([]() {return Controller2.ButtonR2.pressing(); }, { &FlyWheel }); // turn on/off flywheel
 input x([]() {return Controller2.ButtonX.pressing(); }, { &Intakes }, { &SideRollers }); // move up and descore
-input a([]() {return Controller2.ButtonA.pressing(); }, { &Intakes } ); // only move up
+input a([]() {return Controller2.ButtonA.pressing(); }, { &SideRollers } ); // only move up
 
 motor* team499::LeftWheelMotor = &backDriveLeft;
 motor* team499::RightWheelMotor = &backDriveRight;
@@ -80,6 +80,7 @@ void usercontrol(void)
   while (1)
   {
     Controller2.Screen.clearScreen();
+    Controller2.Screen.setCursor(0, 0);
 
     updateGearShift();
 
@@ -91,16 +92,20 @@ void usercontrol(void)
     x.Update();
     a.Update();
 
+    UpdateAllMotors();
+
     if(detects(SIG_RED))
     {
-      Intakes.m_currentPower = std::min(0.0, Intakes.m_currentPower);
+      Intakes.SpinMotorsAt(std::min(0.0, Intakes.m_currentPower));
     }
     if(Controller2.ButtonY.pressing())
     {
-      Intakes.SpinMotorsTo(100, 500);
+      Intakes.SpinMotorsAt(100);
     }
-
-    UpdateAllMotors();
+    if(Bumper.pressing())
+    {
+      Intakes.SpinMotorsAt(100);
+    }
 
     // using inertial sensor
     driveStraight(&LeftWheel, &RightWheel);

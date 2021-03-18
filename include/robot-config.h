@@ -16,6 +16,8 @@ extern inertial iSensor;
 extern controller Controller1;
 extern controller Controller2;
 
+extern bumper Bumper;
+
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
  *
