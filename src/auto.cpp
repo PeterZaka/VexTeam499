@@ -55,8 +55,8 @@ namespace team499 {
     }
     targetThread.interrupt();
 
-    LeftWheel.Stop();
-    RightWheel.Stop();
+    LeftWheel.SpinMotorsAt(0);
+    RightWheel.SpinMotorsAt(0);
   }
 
   void turnTo(double amount)
@@ -87,8 +87,8 @@ namespace team499 {
     }
     targetThread.interrupt();
 
-    LeftWheel.Stop();
-    RightWheel.Stop();
+    LeftWheel.SpinMotorsAt(0);
+    RightWheel.SpinMotorsAt(0);
   }
 
   void resetCloseEnoughs()
@@ -104,7 +104,7 @@ namespace team499 {
     double averageEncoder;
     while(timeOnTarget < targetTime)
     {
-      averageEncoder = (LeftWheelMotor->position(deg) + RightWheelMotor->position(deg)) / 2;
+      averageEncoder = (LeftWheel.AverageRotation() + RightWheel.AverageRotation()) / 2;
       // check if on target
       if (fabs(averageEncoder - target) <= closeEnoughDeg)
       {
@@ -145,6 +145,10 @@ namespace team499 {
         timeOnTarget = 0;
       }
       prevTime = timer::system();
+      if(Bumper.pressing())
+      {
+        timeOnTarget = targetTime;
+      }
       wait(5, msec);
     }
   }
@@ -163,8 +167,8 @@ namespace team499 {
     DrivePID.reset();
     TurnPID.reset();
 
-    LeftWheelMotor->resetPosition();
-    RightWheelMotor->resetPosition();
+    LeftWheel.ResetEncoders();
+    RightWheel.ResetEncoders();
   }
   void correctRobot()
   {

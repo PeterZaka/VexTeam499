@@ -94,13 +94,14 @@ void usercontrol(void)
 
     UpdateAllMotors();
 
-    if(detects(SIG_RED))
+    if(detects(SIG_RED_TOP))
     {
       Intakes.SpinMotorsAt(std::min(0.0, Intakes.m_currentPower));
     }
     if(Controller2.ButtonY.pressing())
     {
       Intakes.SpinMotorsAt(100);
+      SideRollers.SpinMotorsAt(100);
     }
     if(Bumper.pressing())
     {
@@ -108,7 +109,7 @@ void usercontrol(void)
     }
 
     // using inertial sensor
-    driveStraight(&LeftWheel, &RightWheel);
+    //driveStraight(&LeftWheel, &RightWheel);
     //turnToButton();
 
     Controller2.Screen.print("Power: %.2lf", gearShiftPower);

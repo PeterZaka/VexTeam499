@@ -53,19 +53,19 @@ void autoSkills()
   add(Intakes.SpinMotorsTo(30, 400));
   add(SideRollers.SpinMotorsAt(100));
   add(Intakes.WaitUntilReaches(400));
-  add(Intakes.SpinMotorsTo(100, 800));
+  add(Intakes.SpinMotorsTo(100, 1000));
  
   // drive forward a little
   driveForward(500, degrees);
  
   // point towards bottom middle tower
+  add(FlyWheel.SpinMotorsAt(60));
   turnTo(225);
-  add(FlyWheel.SpinMotorsAt(50));
-  add(Intakes.WaitUntilReaches(800));
+  add(Intakes.WaitUntilReaches(1000));
   add(ready());
  
   // drive to bottom middle tower
-  driveForward(650, degrees);
+  driveForward(500, degrees);
  
   // score ball 0 at bottom middle tower
   shoot();
@@ -90,7 +90,7 @@ void autoSkills()
   pickUpBall();
  
   // drive to ball 1
-  driveForward(2700, degrees);
+  driveForward(2750, degrees);
  
   // point to bottom left tower
   turnTo(225);
@@ -122,7 +122,7 @@ void autoSkills()
   pickUpBall();
  
   // drive to ball 2 / x-axis of middle left tower
-  driveForward(2100, degrees);
+  driveForward(2000, degrees);
   
   // point to middle left tower
   turnTo(270);
@@ -158,7 +158,7 @@ void autoSkills()
   pickUpBall();
  
   // drive to ball 3
-  driveForward(1900, degrees);
+  driveForward(2100, degrees);
   
   // point to top left tower
   turnTo(305);
@@ -185,7 +185,7 @@ void autoSkills()
  
   maxPower = 80;
   // turn to ball 4
-  turnTo(120);
+  turnTo(125);
   maxPower = 100;
  
   // pick up ball 4
@@ -364,12 +364,13 @@ void shoot()
   isReady = false; 
 
   // shoot ball
-  Intakes.SpinMotorsTo(100, 250);
-  Intakes.WaitUntilReaches(250);
+  Intakes.SpinMotorsTo(100, 350);
+  Intakes.WaitUntilReaches(350);
 
   // wait until doesn't see red
   Intakes.SpinMotorsAt(100);
-  waitUntil(!detects(SIG_RED));
+  Intakes.ResetEncoders();
+  waitUntil(!detects(SIG_RED_TOP) || Intakes.AverageRotation() > 500);
   Intakes.SpinMotorsAt(0);
 
   // adjust back and wait min 0.75 sec
@@ -390,17 +391,18 @@ void pickUpBall()
   add(SideRollers.SpinMotorsAt(100));
 
   // wait until vision detects red in intake
+  add(FlyWheel.SpinMotorsAt(30));
   add(waitUntilRed());
 
   // start flywheel, move ball up, ready
-  add(FlyWheel.SpinMotorsAt(40));
-  add(Intakes.SpinMotorsTo(100, 1200));
-  add(Intakes.WaitUntilReaches(1200));
+  add(Intakes.SpinMotorsTo(100, 1250));
+  add(Intakes.WaitUntilReaches(1250));
 
   // keep spinning until at least sees red.
   add(Intakes.SpinMotorsAt(100));
-  add(waitUntil(detects(SIG_RED)));
+  add(waitUntil(detects(SIG_RED_TOP)));
   add(Intakes.SpinMotorsAt(0));
+
   add(ready());
 }
 
@@ -409,8 +411,8 @@ void emptyOut()
   // wait until out of tower then empty
   LeftWheel.ResetEncoders();
   add(LeftWheel.WaitUntilReaches(-300));
-  add(Intakes.SpinMotorsTo(-100, -600));
-  add(SideRollers.SpinMotorsTo(-70, -1000));
+  add(Intakes.SpinMotorsTo(-100, -1300));
+  add(SideRollers.SpinMotorsTo(-100, -1500));
   add(wait(1, sec));
 }
 
