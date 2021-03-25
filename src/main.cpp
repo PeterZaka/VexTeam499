@@ -20,6 +20,7 @@
 #include "autoruns.h"
 #include "drivehelp.h"
 #include "motors.h"
+#include "odom.h"
 #include <vector>
 
 competition Competition;
@@ -67,15 +68,32 @@ void autonomous(void)
   inertialThread.interrupt();
 }
 
+  void runPrints1()
+  {
+    while(1)
+    {
+      resetScreen();
+
+      printOnController("x", xPos);
+      printOnController("y", yPos);
+      printOnController("rot", rotInRadian * 180 / PI);
+
+      wait(50, msec);
+    }
+  }
+
 void usercontrol(void)
 {
-  canceledCalibration = true; // do not callibrate in usercontrol
+  //canceledCalibration = true; // do not callibrate in usercontrol
 
   waitUntil(isCalibrated || canceledCalibration);
   if(isCalibrated && !canceledCalibration)
   {
     vex::thread inertailThread(updateInertialForever);
   }
+
+  vex::thread printThread(runPrints1);
+  vex::thread odomThread(odomThreadFunc);
 
   while (1)
   {
@@ -94,7 +112,7 @@ void usercontrol(void)
 
     UpdateAllMotors();
 
-    if(detects(SIG_RED_TOP))
+    /*if(detects(SIG_RED_TOP))
     {
       Intakes.SpinMotorsAt(std::min(0.0, Intakes.m_currentPower));
     }
@@ -106,7 +124,7 @@ void usercontrol(void)
     if(Bumper.pressing())
     {
       Intakes.SpinMotorsAt(100);
-    }
+    }*/
 
     // using inertial sensor
     //driveStraight(&LeftWheel, &RightWheel);

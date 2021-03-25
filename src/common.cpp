@@ -21,10 +21,7 @@ namespace team499 {
     {
       resetScreen();
 
-      if(Controller1.ButtonB.pressing())
-      {
-        printOnController("Battery", Brain.Battery.current());
-      }
+      
 
       wait(20, msec);
     }

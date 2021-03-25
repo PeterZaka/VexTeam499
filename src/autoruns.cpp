@@ -17,21 +17,6 @@ O 2   *  O  *   6 O
 O        O #      O
  
 */
-
-void runPrints1()
-{
-  while(1)
-  {
-    team499::resetScreen();
-
-    team499::printOnController("All velocity", 
-      (backDriveLeft.velocity(pct) + topDriveLeft.velocity(pct) + backDriveRight.velocity(pct) + topDriveRight.velocity(pct)) / 4);
-    team499::printOnController("Top left", topDriveLeft.velocity(pct));
-    team499::printOnController("Back left", backDriveLeft.velocity(pct));
-
-    wait(20, msec);
-  }
-}
  
 void autoSkills()
 {
@@ -40,7 +25,7 @@ void autoSkills()
  
   vex::thread taskThread(runTasks);
  
-  vex::thread printThread(runPrints1);
+  //vex::thread printThread(runPrints);
  
   // ---------- BOTTOM MIDDLE TOWER ----------
 
