@@ -4,8 +4,8 @@
 
 static double prevLeft = 0;
 static double prevRight = 0;
-static double diameter = 2.75;
-static double wheeltrack = 1;
+static double diameter = 2.5;
+static double wheeltrack = 11.5;
 
 namespace team499{
 

@@ -47,6 +47,8 @@ namespace team499 {
 
   // only in inches
   void goTo(double x, double y);
+  void goToBackwards(double x, double y);
+  void driveTo(double x, double y);
 
   // definitely need better name
   void resetCloseEnoughs();

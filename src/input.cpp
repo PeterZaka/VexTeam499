@@ -30,7 +30,7 @@ namespace team499 {
 
   // Gearshift
 
-  double gearShiftPower = 30;
+  double gearShiftPower = 35;
   bool changedGearShift;
 
   double GetGearShiftPower()

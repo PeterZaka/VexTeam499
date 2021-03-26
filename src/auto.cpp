@@ -195,9 +195,65 @@ namespace team499 {
 
   void goTo(double x, double y)
   {
-    turnTo(atan2((y - yPos), (x - xPos)) * 180 / PI);
+    printf("x = %.2lf, y = %.2lf\n", (yPosWithRot), (xPosWithRot));
+    printf("x = %.2lf, y = %.2lf\n", (y - yPosWithRot), (x - xPosWithRot));
+    printf("%.2lf\n", std::fmod(-atan2((x - xPosWithRot), (y- yPosWithRot)) * 180 / PI + 90, 360));
+    
+    turnTo(std::fmod(-atan2((x - xPosWithRot), (y- yPosWithRot)) * 180 / PI + 90, 360));
 
-    double wantedDistance = pow(pow(x - xPos, 2) + pow(y - yPos, 2), 0.5);
-    driveForward(wantedDistance * 360 / 2.75 / PI, degrees);
+    driveTo(x, y);
+  }
+
+  void goToBackwards(double x, double y)
+  {
+    turnTo(std::fmod(-atan2((x - xPosWithRot), (y- yPosWithRot)) * 180 / PI + 90, 360) - 180);
+
+    double wantedDistance = -pow(pow(x - xPosWithRot, 2) + pow(y - yPosWithRot, 2), 0.5);
+    driveForward(wantedDistance * 360 / 2 / PI, degrees);
+  }
+
+  void driveTo(double x, double y)
+  {
+    resetAuto();
+
+    int prevTime = timer::system();
+
+    while (timeOnTarget < targetTime)
+    {
+      correctRobot();
+
+      // calculate PID
+      leftMotorPower = DrivePID.update(0, (fabs(x - xPosWithRot) + fabs(y - yPosWithRot)) * 10);
+      rightMotorPower = leftMotorPower;
+
+      // update wheel power
+      LeftWheel.SpinMotorsAt(leftMotorPower + leftMotorError);
+      RightWheel.SpinMotorsAt(rightMotorPower + rightMotorError);
+
+      // check if on target
+      if (fabs(x - xPosWithRot) + fabs(y - yPosWithRot) <= 2)
+      {
+        timeOnTarget += timer::system() - prevTime;
+      }
+      // check if stopped
+      else if(fabs(LeftWheelMotor->velocity(pct)) <= 1 && fabs(LeftWheel.AverageRotation()) > 50)
+      {
+        timeOnTarget += timer::system() - prevTime;
+      }
+      else
+      {
+        timeOnTarget = 0;
+      }
+      prevTime = timer::system();
+      if(Bumper.pressing())
+      {
+        timeOnTarget = targetTime;
+      }
+
+      wait(5, msec);
+    }
+
+    LeftWheel.SpinMotorsAt(0);
+    RightWheel.SpinMotorsAt(0);
   }
 }

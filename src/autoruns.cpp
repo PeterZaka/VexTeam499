@@ -24,9 +24,9 @@ void runPrints1()
   {
     team499::resetScreen();
 
-    team499::printOnController("x", team499::xPos);
-    team499::printOnController("y", team499::yPos);
-    team499::printOnController("rot", team499::rotInRadian * 180 / PI);
+    team499::printOnController("x", team499::xPosWithRot);
+    team499::printOnController("y", team499::yPosWithRot);
+    team499::printOnController("rot", team499::prevRotInRadian * 180 / PI);
 
     wait(50, msec);
   }
@@ -48,6 +48,22 @@ void autoSkills()
   /*
       - Set up robot
       - Score at ball 0 bottom middle tower
+  */
+
+  /*
+  goTo(12, 0);
+  wait(1, sec);
+
+  goTo(24, -12);
+  wait(1, sec);
+
+  goTo(12, 0);
+  wait(1, sec);
+
+  goTo(8, 0);
+  wait(1, sec);
+
+  return;
   */
 
   // Set up robot and put ball 0 to top
@@ -134,7 +150,7 @@ void autoSkills()
  
   // descore once because it accidentally descores red
   SideRollers.SpinMotorsAt(0);
-  SideRollers.SpinMotorsTo(100, 2500);
+  SideRollers.SpinMotorsTo(100, 1000);
 
   // score ball 2 at middle left tower
   shoot();
@@ -150,7 +166,7 @@ void autoSkills()
   emptyOut();
  
   // drive out of middle left tower / y-axis of ball 3
-  driveForward(-800, degrees);
+  driveForward(-900, degrees);
  
   // turn to ball 3
   turnTo(0);
@@ -159,7 +175,7 @@ void autoSkills()
   pickUpBall();
  
   // drive to ball 3
-  driveForward(2100, degrees);
+  driveForward(2150, degrees);
   
   // point to top left tower
   turnTo(305);
@@ -204,7 +220,7 @@ void autoSkills()
  
   // descore once because it accidentally descores red
   SideRollers.SpinMotorsAt(0);
-  SideRollers.SpinMotorsTo(100, 2500);
+  SideRollers.SpinMotorsTo(100, 1000);
 
   // score ball 4 at top middle tower
   shoot();
@@ -220,7 +236,7 @@ void autoSkills()
   emptyOut();
  
   // drive out of top middle tower / x-axis of ball 5
-  driveForward(-500, degrees);
+  driveForward(-600, degrees);
  
   // turn to ball 5
   turnTo(90);
@@ -254,7 +270,7 @@ void autoSkills()
   emptyOut();
  
   // drive out of top right tower / y-axis of ball 6
-  driveForward(-600, degrees);  // was -800
+  driveForward(-850, degrees);  // was -800
  
   // turn to ball 6
   turnTo(180);
@@ -264,6 +280,7 @@ void autoSkills()
  
   // drive to ball 6 / x-axis of middle right tower
   driveForward(2100, degrees); // was 2000
+  driveForward(-100, degrees);
   
   // point to middle right tower
   turnTo(90);
@@ -274,7 +291,7 @@ void autoSkills()
  
   // descore once because it accidentally descores red
   SideRollers.SpinMotorsAt(0);
-  SideRollers.SpinMotorsTo(100, 2500);
+  SideRollers.SpinMotorsTo(100, 1000);
 
   // score ball 6 at middle right tower
   shoot();
@@ -292,7 +309,7 @@ void autoSkills()
   emptyOut();
  
   // drive out of middle right tower / y-axis of ball 7
-  driveForward(-800, degrees);
+  driveForward(-900, degrees);
  
   // turn to ball 7
   turnTo(180);
@@ -392,7 +409,7 @@ void pickUpBall()
   add(SideRollers.SpinMotorsAt(100));
 
   // wait until vision detects red in intake
-  add(FlyWheel.SpinMotorsAt(30));
+  add(FlyWheel.SpinMotorsAt(35));
   add(waitUntilRed());
 
   // start flywheel, move ball up, ready
@@ -411,10 +428,10 @@ void emptyOut()
 {
   // wait until out of tower then empty
   LeftWheel.ResetEncoders();
-  add(LeftWheel.WaitUntilReaches(-300));
-  add(Intakes.SpinMotorsTo(-100, -1300));
-  add(SideRollers.SpinMotorsTo(-100, -1500));
-  add(wait(1, sec));
+  add(LeftWheel.WaitUntilReaches(-200));
+  add(Intakes.SpinMotorsTo(-100, -1700));
+  add(SideRollers.SpinMotorsTo(-100, -2000));
+  add(wait(1.5, sec));
 }
 
 void ready()
