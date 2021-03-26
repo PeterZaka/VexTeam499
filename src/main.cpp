@@ -68,20 +68,6 @@ void autonomous(void)
   inertialThread.interrupt();
 }
 
-  void runPrints1()
-  {
-    while(1)
-    {
-      resetScreen();
-
-      printOnController("x", xPos);
-      printOnController("y", yPos);
-      printOnController("rot", rotInRadian * 180 / PI);
-
-      wait(50, msec);
-    }
-  }
-
 void usercontrol(void)
 {
   //canceledCalibration = true; // do not callibrate in usercontrol

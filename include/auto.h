@@ -5,19 +5,14 @@
 #include "inertial.h"
 #include "pid.h"
 #include "motors.h"
+#include "odom.h"
 
 #define PI 3.14159265
 
 namespace team499 {
 
-  const double wheelDiameter = 1;
-  const double circumference = wheelDiameter * PI;
-  const double degreesToRadians = PI / 180;
-
   enum unit {
     degrees = 1,
-    inches = (int)(circumference * 360),
-    boxes = inches * 5
   };
 
   // editable
@@ -51,7 +46,7 @@ namespace team499 {
   void turnTo(double amount);
 
   // only in inches
-  void goTo(double x, double y, unit units=team499::degrees);
+  void goTo(double x, double y);
 
   // definitely need better name
   void resetCloseEnoughs();

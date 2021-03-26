@@ -192,4 +192,12 @@ namespace team499 {
     leftMotorError = clamp(leftMotorError * rotCorrection, -30, 30) * clamp(fabs(leftMotorPower) / 100, 0, 1);
     rightMotorError = clamp(rightMotorError * rotCorrection, -30, 30) * clamp(fabs(rightMotorPower) / 100, 0, 1);
   }
+
+  void goTo(double x, double y)
+  {
+    turnTo(atan2((y - yPos), (x - xPos)) * 180 / PI);
+
+    double wantedDistance = pow(pow(x - xPos, 2) + pow(y - yPos, 2), 0.5);
+    driveForward(wantedDistance * 360 / 2.75 / PI, degrees);
+  }
 }

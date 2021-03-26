@@ -26,10 +26,11 @@ namespace team499{
 
     xPos += deltaS * cos(rotInRadian + deltaA / 2);
     yPos += deltaS * sin(rotInRadian + deltaA / 2);
+    rotInRadian += deltaA;
 
     double rot = iSensor.rotation() * PI / 180;
-    xPosWithRot += deltaS * cos(prevRotInRadian + rot / 2);
-    yPosWithRot += deltaS * sin(prevRotInRadian + rot / 2);
+    xPosWithRot += deltaS * cos((prevRotInRadian + rot) / 2);
+    yPosWithRot += deltaS * sin((prevRotInRadian + rot) / 2);
     prevRotInRadian = rot;
 
     prevLeft = LeftWheel.AverageRotation();

@@ -17,6 +17,20 @@ O 2   *  O  *   6 O
 O        O #      O
  
 */
+
+void runPrints1()
+{
+  while(1)
+  {
+    team499::resetScreen();
+
+    team499::printOnController("x", team499::xPos);
+    team499::printOnController("y", team499::yPos);
+    team499::printOnController("rot", team499::rotInRadian * 180 / PI);
+
+    wait(50, msec);
+  }
+}
  
 void autoSkills()
 {
@@ -24,8 +38,10 @@ void autoSkills()
   using team499::degrees;
  
   vex::thread taskThread(runTasks);
+
+  vex::thread printThread(runPrints1);
  
-  //vex::thread printThread(runPrints);
+  vex::thread odomThread(odomThreadFunc);
  
   // ---------- BOTTOM MIDDLE TOWER ----------
 
