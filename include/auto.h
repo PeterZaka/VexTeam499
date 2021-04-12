@@ -1,5 +1,16 @@
 #pragma once
 
+/*
+
+- Smart pointers
+- Don't use global variables - make some local and some static
+- For checking if driveForward or turnTo is done, check
+if PID's error is below certain threshold or if one of the motor's
+velocity is below certain threshold - eliminates some variables,
+easier to read, less copy and paste code (updateCloseEnoughDeg, updateCloseEnoughRot)
+
+*/
+
 #include <cmath> // std::abs
 #include "vex.h"
 #include "inertial.h"

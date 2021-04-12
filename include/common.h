@@ -1,5 +1,13 @@
 #pragma once
 
+/*
+
+Split this file into multiple files
+- controller
+- math
+
+*/
+
 #include "vex.h"
 
 namespace team499 {

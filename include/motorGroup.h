@@ -1,5 +1,12 @@
 #pragma once
 
+/*
+
+- Use smart pointers from <memory>
+- Semi-useless class because vex has a motor_group class - read API first
+
+*/
+
 #include <vector>
 #include "vex.h"
 #include "common.h"

@@ -1,5 +1,12 @@
 #pragma once
 
+/*
+
+- Make error readable
+- Move DrivePID and TurnPID into a user-config file
+
+*/
+
 #include "auto.h"
 
 namespace team499{

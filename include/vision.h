@@ -1,5 +1,11 @@
 #pragma once
 
+/*
+
+- Use namespace
+
+*/
+
 #include "vex.h"
 
 extern vex::vision::signature SIG_RED;

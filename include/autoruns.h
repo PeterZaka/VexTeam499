@@ -1,5 +1,12 @@
 #pragma once
 
+/*
+
+- Put in namespace
+- make isReady to static variable because it's not used outside of this file
+
+*/
+
 #include "vex.h"
 #include "auto.h"
 #include "motors.h"
